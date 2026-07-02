@@ -8,17 +8,17 @@ class Solution:
         if len(nums) == 2:
             return [0, 1]
 
-        dic = {}
+        seen = {}
 
         # Loop through the nums array and for each number, calculate the difference between the target and the current number.
-        for i, n in enumerate(nums):
-            diff = target - n
+        for index, num in enumerate(nums):
+            complement = target - num
             
             # Check if the difference is already in the dictionary. 
             # If it is, return the current index and the index of the difference from the dictionary.
-            if (diff in dic):
-                return [i, dic[diff]]
+            if complement in seen:
+                return [index, seen[complement]]
 
-            dic[n] = i
+            seen[num] = index
 
-        return
+        return []

@@ -7,16 +7,16 @@ class Solution:
         if (len(s) != len(t)):
             return False
         
-        dic_t = {}
-        dic_s = {}
+        count_t = {}
+        count_s = {}
 
         # Loop through the characters in both strings and count their occurrences
         # they have got the same length, so it can be done in a single loop
-        for i in range(len(s)):
-            char_s = s[i]
-            char_t = t[i]
+        for index in range(len(s)):
+            char_s = s[index]
+            char_t = t[index]
 
-            dic_t[char_t] = dic_t.get(char_t, 0) + 1
-            dic_s[char_s] = dic_s.get(char_s, 0) + 1
+            count_t[char_t] = count_t.get(char_t, 0) + 1
+            count_s[char_s] = count_s.get(char_s, 0) + 1
         
-        return dic_t == dic_s
+        return count_t == count_s
