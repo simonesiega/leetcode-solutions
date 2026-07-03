@@ -8,7 +8,7 @@
   <p>
     <img src="https://img.shields.io/badge/LeetCode-solutions-orange" alt="LeetCode solutions" />
     <img src="https://img.shields.io/badge/Python-3-blue" alt="Python 3" />
-    <img src="https://img.shields.io/badge/Solved-5-brightgreen" alt="Solved problems: 5" />
+    <img src="https://img.shields.io/badge/Solved-6-brightgreen" alt="Solved problems: 6" />
     <img src="https://img.shields.io/badge/Current%20Roadmap-NeetCode%20150-purple" alt="Current Roadmap: NeetCode 150" />
   </p>
 </div>
@@ -26,7 +26,7 @@ This repository is updated regularly as I solve new problems. The progress table
 
 | Roadmap | Topic | Solved |
 |---|---|---:|
-| `neetcode-150` | Arrays & Hashing | 5 |
+| `neetcode-150` | Arrays & Hashing | 6 |
 
 Current solved problems:
 
@@ -36,6 +36,7 @@ Current solved problems:
 | 49 | Group Anagrams | `neetcode-150/arrays&hashing/49.py` | [Group Anagrams Link](https://leetcode.com/problems/group-anagrams/) |
 | 217 | Contains Duplicate | `neetcode-150/arrays&hashing/217.py` | [Contains Duplicate Link](https://leetcode.com/problems/contains-duplicate/) |
 | 242 | Valid Anagram | `neetcode-150/arrays&hashing/242.py` | [Valid Anagram Link](https://leetcode.com/problems/valid-anagram/) |
+| 271 | Encode and Decode Strings | `neetcode-150/arrays&hashing/271.py` | [Encode and Decode Strings Link](https://leetcode.com/problems/encode-and-decode-strings/) |
 | 347 | Top K Frequent Elements | `neetcode-150/arrays&hashing/347.py` | [Top K Frequent Elements Link](https://leetcode.com/problems/top-k-frequent-elements/) |
 
 ## Organization
