@@ -8,7 +8,7 @@
   <p>
     <img src="https://img.shields.io/badge/LeetCode-solutions-orange" alt="LeetCode solutions" />
     <img src="https://img.shields.io/badge/Python-3-blue" alt="Python 3" />
-    <img src="https://img.shields.io/badge/Solved-8-brightgreen" alt="Solved problems: 8" />
+    <img src="https://img.shields.io/badge/Solved-9-brightgreen" alt="Solved problems: 9" />
     <img src="https://img.shields.io/badge/Current%20Roadmap-NeetCode%20150-purple" alt="Current Roadmap: NeetCode 150" />
   </p>
 </div>
@@ -26,7 +26,7 @@ This repository is updated regularly as I solve new problems. The progress table
 
 | Roadmap | Topic | Solved |
 |---|---|---:|
-| `neetcode-150` | Arrays & Hashing | 8 |
+| `neetcode-150` | Arrays & Hashing | 9 |
 
 Current solved problems:
 
@@ -35,6 +35,7 @@ Current solved problems:
 | 1 | Two Sum | `neetcode-150/arrays&hashing/1.py` | [Two Sum Link](https://leetcode.com/problems/two-sum/) |
 | 36 | Valid Sudoku | `neetcode-150/arrays&hashing/36.py` | [Valid Sudoku Link](https://leetcode.com/problems/valid-sudoku/) |
 | 49 | Group Anagrams | `neetcode-150/arrays&hashing/49.py` | [Group Anagrams Link](https://leetcode.com/problems/group-anagrams/) |
+| 128 | Longest Consecutive Sequence | `neetcode-150/arrays&hashing/128.py` | [Longest Consecutive Sequence Link](https://leetcode.com/problems/longest-consecutive-sequence/) |
 | 217 | Contains Duplicate | `neetcode-150/arrays&hashing/217.py` | [Contains Duplicate Link](https://leetcode.com/problems/contains-duplicate/) |
 | 238 | Product of Array Except Self | `neetcode-150/arrays&hashing/238.py` | [Product of Array Except Self Link](https://leetcode.com/problems/product-of-array-except-self/) |
 | 242 | Valid Anagram | `neetcode-150/arrays&hashing/242.py` | [Valid Anagram Link](https://leetcode.com/problems/valid-anagram/) |
