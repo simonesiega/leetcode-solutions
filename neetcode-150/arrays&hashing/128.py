@@ -1,3 +1,6 @@
+# Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+# You must write an algorithm that runs in O(n) time.
+
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
         # Create a set from the input list to allow for O(1) lookups and eliminate duplicates.
