@@ -1,0 +1,69 @@
+name: Problem request
+description: Request a new LeetCode problem to be added to the current roadmap.
+title: "[Request] #"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to suggest a problem that should be added to the repository.
+
+  - type: input
+    id: problem-number
+    attributes:
+      label: LeetCode problem number
+      placeholder: "15"
+    validations:
+      required: true
+
+  - type: input
+    id: problem-title
+    attributes:
+      label: Problem title
+      placeholder: Three Sum
+    validations:
+      required: true
+
+  - type: input
+    id: leetcode-link
+    attributes:
+      label: LeetCode link
+      placeholder: https://leetcode.com/problems/3sum/
+    validations:
+      required: true
+
+  - type: dropdown
+    id: roadmap
+    attributes:
+      label: Roadmap
+      options:
+        - NeetCode 150
+        - Another roadmap
+    validations:
+      required: true
+
+  - type: input
+    id: topic
+    attributes:
+      label: Topic
+      description: Enter the roadmap topic where the problem belongs.
+      placeholder: Two Pointers
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why should this problem be added?
+      description: Explain why the problem is useful for the roadmap or for interview preparation.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I verified that this problem is not already present in the repository.
+          required: true
+        - label: I checked that a similar request is not already open.
+          required: true

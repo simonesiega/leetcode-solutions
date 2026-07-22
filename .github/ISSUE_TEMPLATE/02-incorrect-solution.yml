@@ -1,0 +1,85 @@
+name: Incorrect solution
+description: Report a solution that fails, produces the wrong result, or does not meet the problem requirements.
+title: "[Bug] #"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem with a solution.
+
+        Include a reproducible input and the expected output whenever possible.
+
+  - type: input
+    id: problem-number
+    attributes:
+      label: LeetCode problem number
+      placeholder: "125"
+    validations:
+      required: true
+
+  - type: input
+    id: problem-title
+    attributes:
+      label: Problem title
+      placeholder: Valid Palindrome
+    validations:
+      required: true
+
+  - type: input
+    id: solution-file
+    attributes:
+      label: Solution file
+      placeholder: neetcode-150/twopointers/125.py
+    validations:
+      required: true
+
+  - type: textarea
+    id: failing-input
+    attributes:
+      label: Failing input
+      description: Provide the smallest input that reproduces the problem.
+      render: text
+      placeholder: '"0P"'
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-output
+    attributes:
+      label: Current output
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-output
+    attributes:
+      label: Expected output
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: explanation
+    attributes:
+      label: What is wrong?
+      description: Explain why the current result is incorrect.
+    validations:
+      required: true
+
+  - type: textarea
+    id: leetcode-details
+    attributes:
+      label: LeetCode error or additional details
+      description: Paste the relevant error, failing test case, or submission details.
+      render: text
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I verified that the issue is reproducible with the current repository version.
+          required: true
+        - label: I checked that a similar issue is not already open.
+          required: true

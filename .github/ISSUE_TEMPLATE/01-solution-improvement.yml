@@ -1,0 +1,94 @@
+name: Solution improvement
+description: Propose a clearer, simpler, or more efficient solution to an existing problem.
+title: "[Improvement] #"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement.
+
+        Please explain the concrete advantage of the proposed solution so its trade-offs can be discussed before implementation.
+
+  - type: input
+    id: problem-number
+    attributes:
+      label: LeetCode problem number
+      description: Enter the numeric LeetCode problem ID.
+      placeholder: "125"
+    validations:
+      required: true
+
+  - type: input
+    id: problem-title
+    attributes:
+      label: Problem title
+      placeholder: Valid Palindrome
+    validations:
+      required: true
+
+  - type: input
+    id: current-file
+    attributes:
+      label: Current solution file
+      description: Provide the path of the existing solution.
+      placeholder: neetcode-150/twopointers/125.py
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-approach
+    attributes:
+      label: Proposed approach
+      description: Explain how your implementation works.
+      placeholder: Describe the algorithm step by step.
+    validations:
+      required: true
+
+  - type: textarea
+    id: improvement
+    attributes:
+      label: Why is this solution better?
+      description: Explain whether it is clearer, simpler, less abstract, faster, or more memory-efficient.
+      placeholder: |
+        This version removes...
+        It is easier to understand because...
+        Its complexity improves from...
+    validations:
+      required: true
+
+  - type: input
+    id: time-complexity
+    attributes:
+      label: Proposed time complexity
+      placeholder: O(n)
+    validations:
+      required: true
+
+  - type: input
+    id: space-complexity
+    attributes:
+      label: Proposed space complexity
+      placeholder: O(1)
+    validations:
+      required: true
+
+  - type: textarea
+    id: trade-offs
+    attributes:
+      label: Trade-offs
+      description: Describe any disadvantages or compromises introduced by the proposed solution.
+      placeholder: The solution uses less memory but...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I compared the proposal with the current repository solution.
+          required: true
+        - label: I can explain why the change provides meaningful educational value.
+          required: true
+        - label: I checked that a similar issue is not already open.
+          required: true
