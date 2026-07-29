@@ -13,12 +13,22 @@
   </p>
 </div>
 
+## Contents
+
+- [Overview](#overview)
+- [Current Progress](#current-progress)
+- [Organization](#organization)
+- [Solution Style](#solution-style)
+- [Contributing](#contributing)
+- [Contributors](#contributors)
+- [License](#license)
+
 ## Overview
 
 This repository is my personal LeetCode workspace, built to study data structures and algorithms in a structured way. 
 
 Instead of collecting solutions in one flat folder, problems are grouped by roadmap and topic.
-The current roadmap follows `neetcode-150`, based on the NeetCode roadmap: https://neetcode.io/roadmap.
+The current roadmap follows `neetcode-150`, based on the [NeetCode roadmap](https://neetcode.io/roadmap).
 
 ## Current Progress
 
@@ -31,19 +41,19 @@ This repository is updated regularly as I solve new problems. The progress table
 
 Current solved problems:
 
-| Problem | Title | File | Link |
-|---:|---|---|---|
-| 1 | Two Sum | `neetcode-150/arrays&hashing/1.py` | [Two Sum Link](https://leetcode.com/problems/two-sum/) |
-| 36 | Valid Sudoku | `neetcode-150/arrays&hashing/36.py` | [Valid Sudoku Link](https://leetcode.com/problems/valid-sudoku/) |
-| 49 | Group Anagrams | `neetcode-150/arrays&hashing/49.py` | [Group Anagrams Link](https://leetcode.com/problems/group-anagrams/) |
-| 125 | Valid Palindrome | `neetcode-150/twopointers/125.py` | [Valid Palindrome Link](https://leetcode.com/problems/valid-palindrome/) |
-| 167 | Two Sum II - Input Array Is Sorted | `neetcode-150/twopointers/167.py` | [Two Sum II - Input Array Is Sorted Link](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/) |
-| 128 | Longest Consecutive Sequence | `neetcode-150/arrays&hashing/128.py` | [Longest Consecutive Sequence Link](https://leetcode.com/problems/longest-consecutive-sequence/) |
-| 217 | Contains Duplicate | `neetcode-150/arrays&hashing/217.py` | [Contains Duplicate Link](https://leetcode.com/problems/contains-duplicate/) |
-| 238 | Product of Array Except Self | `neetcode-150/arrays&hashing/238.py` | [Product of Array Except Self Link](https://leetcode.com/problems/product-of-array-except-self/) |
-| 242 | Valid Anagram | `neetcode-150/arrays&hashing/242.py` | [Valid Anagram Link](https://leetcode.com/problems/valid-anagram/) |
-| 271 | Encode and Decode Strings | `neetcode-150/arrays&hashing/271.py` | [Encode and Decode Strings Link](https://leetcode.com/problems/encode-and-decode-strings/) |
-| 347 | Top K Frequent Elements | `neetcode-150/arrays&hashing/347.py` | [Top K Frequent Elements Link](https://leetcode.com/problems/top-k-frequent-elements/) |
+| Problem | Title | File |
+|---:|---|---|
+| 1 | [Two Sum](https://leetcode.com/problems/two-sum/) | `neetcode-150/arrays&hashing/1.py` |
+| 36 | [Valid Sudoku](https://leetcode.com/problems/valid-sudoku/) | `neetcode-150/arrays&hashing/36.py` |
+| 49 | [Group Anagrams](https://leetcode.com/problems/group-anagrams/) | `neetcode-150/arrays&hashing/49.py` |
+| 125 | [Valid Palindrome](https://leetcode.com/problems/valid-palindrome/) | `neetcode-150/twopointers/125.py` |
+| 128 | [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/) | `neetcode-150/arrays&hashing/128.py` |
+| 167 | [Two Sum II - Input Array Is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/) | `neetcode-150/twopointers/167.py` |
+| 217 | [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/) | `neetcode-150/arrays&hashing/217.py` |
+| 238 | [Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/) | `neetcode-150/arrays&hashing/238.py` |
+| 242 | [Valid Anagram](https://leetcode.com/problems/valid-anagram/) | `neetcode-150/arrays&hashing/242.py` |
+| 271 | [Encode and Decode Strings](https://leetcode.com/problems/encode-and-decode-strings/) | `neetcode-150/arrays&hashing/271.py` |
+| 347 | [Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/) | `neetcode-150/arrays&hashing/347.py` |
 
 ## Organization
 
@@ -69,6 +79,18 @@ The style is intentionally simple. These are interview-practice solutions, so th
 
 This repository is not a package, framework, or production library. It is a structured archive of solved problems and learning progress.
 
+## Contributing
+
+For information on how to contribute, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Contributors
+
+<p align="center">
+  <a href="https://github.com/simonesiega/leetcode-solutions/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=simonesiega/leetcode-solutions&max=24&columns=12" alt="Contributors" />
+  </a>
+</p>
+
 ## License
 
-This repository is licensed under the [MIT License](./LICENSE). 
+Licensed under the [MIT License](LICENSE).
