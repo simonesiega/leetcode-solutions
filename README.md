@@ -8,7 +8,7 @@
   <p>
     <img src="https://img.shields.io/badge/LeetCode-solutions-orange" alt="LeetCode solutions" />
     <img src="https://img.shields.io/badge/Python-3-blue" alt="Python 3" />
-    <img src="https://img.shields.io/badge/Solved-15-brightgreen" alt="Solved problems: 15" />
+    <img src="https://img.shields.io/badge/Solved-16-brightgreen" alt="Solved problems: 16" />
     <img src="https://img.shields.io/badge/Current%20Roadmap-NeetCode%20150-purple" alt="Current Roadmap: NeetCode 150" />
   </p>
 </div>
@@ -38,7 +38,7 @@ This repository is updated regularly as I solve new problems. The progress table
 |---|---|---:|
 | `neetcode-150` | Arrays & Hashing | 9 |
 | `neetcode-150` | Two Pointers | 5 |
-| `neetcode-150` | Stack | 1 |
+| `neetcode-150` | Stack | 2 |
 
 Current solved problems:
 
@@ -53,6 +53,7 @@ Current solved problems:
 | 49 | [Group Anagrams](https://leetcode.com/problems/group-anagrams/) | `neetcode-150/arrays&hashing/49.py` |
 | 125 | [Valid Palindrome](https://leetcode.com/problems/valid-palindrome/) | `neetcode-150/twopointers/125.py` |
 | 128 | [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/) | `neetcode-150/arrays&hashing/128.py` |
+| 155 | [Min Stack](https://leetcode.com/problems/min-stack/) | `neetcode-150/stack/155.py` |
 | 167 | [Two Sum II - Input Array Is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/) | `neetcode-150/twopointers/167.py` |
 | 217 | [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/) | `neetcode-150/arrays&hashing/217.py` |
 | 238 | [Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/) | `neetcode-150/arrays&hashing/238.py` |
