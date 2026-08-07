@@ -8,7 +8,7 @@
   <p>
     <img src="https://img.shields.io/badge/LeetCode-solutions-orange" alt="LeetCode solutions" />
     <img src="https://img.shields.io/badge/Python-3-blue" alt="Python 3" />
-    <img src="https://img.shields.io/badge/Solved-20-brightgreen" alt="Solved problems: 20" />
+    <img src="https://img.shields.io/badge/Solved-21-brightgreen" alt="Solved problems: 21" />
     <img src="https://img.shields.io/badge/Current%20Roadmap-NeetCode%20150-purple" alt="Current Roadmap: NeetCode 150" />
   </p>
 </div>
@@ -39,6 +39,7 @@ This repository is updated regularly as I solve new problems. The progress table
 | `neetcode-150` | Arrays & Hashing | 9 |
 | `neetcode-150` | Two Pointers | 5 |
 | `neetcode-150` | Stack | 6 |
+| `neetcode-150` | Sliding Window | 1 |
 
 Current solved problems:
 
@@ -52,6 +53,7 @@ Current solved problems:
 | 42 | [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/) | `neetcode-150/twopointers/42.py` |
 | 49 | [Group Anagrams](https://leetcode.com/problems/group-anagrams/) | `neetcode-150/arrays&hashing/49.py` |
 | 84 | [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/) | `neetcode-150/stack/84.py` |
+| 121 | [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/) | `neetcode-150/slidingwindow/121.py` |
 | 125 | [Valid Palindrome](https://leetcode.com/problems/valid-palindrome/) | `neetcode-150/twopointers/125.py` |
 | 128 | [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/) | `neetcode-150/arrays&hashing/128.py` |
 | 150 | [Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation/) | `neetcode-150/stack/150.py` |
