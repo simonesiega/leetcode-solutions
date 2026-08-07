@@ -8,7 +8,7 @@
   <p>
     <img src="https://img.shields.io/badge/LeetCode-solutions-orange" alt="LeetCode solutions" />
     <img src="https://img.shields.io/badge/Python-3-blue" alt="Python 3" />
-    <img src="https://img.shields.io/badge/Solved-21-brightgreen" alt="Solved problems: 21" />
+    <img src="https://img.shields.io/badge/Solved-22-brightgreen" alt="Solved problems: 22" />
     <img src="https://img.shields.io/badge/Current%20Roadmap-NeetCode%20150-purple" alt="Current Roadmap: NeetCode 150" />
   </p>
 </div>
@@ -39,13 +39,14 @@ This repository is updated regularly as I solve new problems. The progress table
 | `neetcode-150` | Arrays & Hashing | 9 |
 | `neetcode-150` | Two Pointers | 5 |
 | `neetcode-150` | Stack | 6 |
-| `neetcode-150` | Sliding Window | 1 |
+| `neetcode-150` | Sliding Window | 2 |
 
 Current solved problems:
 
 | Problem | Title | File |
 |---:|---|---|
 | 1 | [Two Sum](https://leetcode.com/problems/two-sum/) | `neetcode-150/arrays&hashing/1.py` |
+| 3 | [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/) | `neetcode-150/slidingwindow/3.py` |
 | 11 | [Container With Most Water](https://leetcode.com/problems/container-with-most-water/) | `neetcode-150/twopointers/11.py` |
 | 15 | [3Sum](https://leetcode.com/problems/3sum/) | `neetcode-150/twopointers/15.py` |
 | 20 | [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/) | `neetcode-150/stack/20.py` |
