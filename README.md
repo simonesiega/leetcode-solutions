@@ -8,7 +8,7 @@
   <p>
     <img src="https://img.shields.io/badge/LeetCode-solutions-orange" alt="LeetCode solutions" />
     <img src="https://img.shields.io/badge/Python-3-blue" alt="Python 3" />
-    <img src="https://img.shields.io/badge/Solved-22-brightgreen" alt="Solved problems: 22" />
+    <img src="https://img.shields.io/badge/Solved-23-brightgreen" alt="Solved problems: 23" />
     <img src="https://img.shields.io/badge/Current%20Roadmap-NeetCode%20150-purple" alt="Current Roadmap: NeetCode 150" />
   </p>
 </div>
@@ -39,7 +39,7 @@ This repository is updated regularly as I solve new problems. The progress table
 | `neetcode-150` | Arrays & Hashing | 9 |
 | `neetcode-150` | Two Pointers | 5 |
 | `neetcode-150` | Stack | 6 |
-| `neetcode-150` | Sliding Window | 2 |
+| `neetcode-150` | Sliding Window | 3 |
 
 Current solved problems:
 
@@ -65,6 +65,7 @@ Current solved problems:
 | 242 | [Valid Anagram](https://leetcode.com/problems/valid-anagram/) | `neetcode-150/arrays&hashing/242.py` |
 | 271 | [Encode and Decode Strings](https://leetcode.com/problems/encode-and-decode-strings/) | `neetcode-150/arrays&hashing/271.py` |
 | 347 | [Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/) | `neetcode-150/arrays&hashing/347.py` |
+| 424 | [Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement/) | `neetcode-150/slidingwindow/424.py` |
 | 739 | [Daily Temperatures](https://leetcode.com/problems/daily-temperatures/) | `neetcode-150/stack/739.py` |
 | 853 | [Car Fleet](https://leetcode.com/problems/car-fleet/) | `neetcode-150/stack/853.py` |
 
