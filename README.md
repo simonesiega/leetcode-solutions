@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/badge/LeetCode-solutions-orange" alt="LeetCode solutions" />
     <img src="https://img.shields.io/badge/Python-3-blue" alt="Python 3" />
     <!-- solved-count:start -->
-    <img src="https://img.shields.io/badge/Solved-25-brightgreen" alt="Solved problems: 25" />
+    <img src="https://img.shields.io/badge/Solved-26-brightgreen" alt="Solved problems: 26" />
     <!-- solved-count:end -->
     <img src="https://img.shields.io/badge/Current%20Roadmap-NeetCode%20150-purple" alt="Current Roadmap: NeetCode 150" />
   </p>
@@ -39,7 +39,7 @@ This repository is updated regularly as I solve new problems. The solved badge a
 | `neetcode-150` | Arrays & Hashing | 9 |
 | `neetcode-150` | Two Pointers | 5 |
 | `neetcode-150` | Stack | 6 |
-| `neetcode-150` | Sliding Window | 5 |
+| `neetcode-150` | Sliding Window | 6 |
 
 Current solved problems, including their solution files, complexities, and color-coded difficulties, are listed in [SOLUTIONS.md](SOLUTIONS.md).
 
@@ -47,10 +47,10 @@ Current solved problems, including their solution files, complexities, and color
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (25 Total)
+    title Solved Problems by Difficulty (26 Total)
     "Easy" : 6
     "Medium" : 16
-    "Hard" : 3
+    "Hard" : 4
 ```
 <!-- difficulty-chart:end -->
 
