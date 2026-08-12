@@ -1,6 +1,4 @@
 <div align="center">
-  <img src="assets/logo/logo.png" alt="LeetCode Solutions Logo" width="220" />
-
   <h1>LeetCode Solutions</h1>
 
   <p>Roadmap-based Python 3 solutions for data structures, algorithms, and technical interview preparation.</p>
