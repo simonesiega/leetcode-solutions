@@ -141,7 +141,15 @@ Before opening the pull request:
 3. name the file with the numeric LeetCode problem ID;
 4. follow the style of the surrounding solutions;
 5. confirm that the solution is accepted by LeetCode;
-6. update the progress information and solved-problem list in `README.md`.
+6. add the problem, file link, verified difficulty, and precise complexity analysis to `SOLUTIONS.md`;
+7. update the topic progress table in `README.md`;
+8. regenerate the solved badge and difficulty chart:
+
+   ```bash
+   node scripts/update-readme-stats.js
+   ```
+
+The script uses `SOLUTIONS.md` to calculate only the total solved count and difficulty chart. Topic progress remains manually maintained. CI runs the script in check mode and rejects generated statistics that are out of date.
 
 Keep one problem per pull request whenever possible.
 
@@ -202,7 +210,7 @@ Verify that:
 - [ ] time and space complexity are accurate;
 - [ ] the reason for the change is clearly explained;
 - [ ] the implementation avoids unnecessary abstraction;
-- [ ] documentation was updated when required;
+- [ ] `SOLUTIONS.md` and the README topic table were updated, then `node scripts/update-readme-stats.js` was run when a problem was added;
 - [ ] no unrelated changes are included.
 
 ## Review and discussion

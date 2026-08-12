@@ -40,7 +40,7 @@ Describe any readability, performance, memory, or maintainability trade-offs int
 - [ ] The solution uses Python 3.
 - [ ] Variable names and comments are clear.
 - [ ] The implementation avoids unnecessary abstraction.
-- [ ] `README.md` was updated if a new problem was added.
+- [ ] `SOLUTIONS.md` and the README topic table were updated, then `node scripts/update-readme-stats.js` was run if a new problem was added.
 - [ ] No unrelated files or formatting changes are included.
 
 ## Additional context

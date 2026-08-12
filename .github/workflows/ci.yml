@@ -14,6 +14,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  documentation:
+    name: Documentation statistics
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Check generated README statistics
+        run: node scripts/update-readme-stats.js --check
+
   test:
     name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest

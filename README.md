@@ -8,7 +8,9 @@
   <p>
     <img src="https://img.shields.io/badge/LeetCode-solutions-orange" alt="LeetCode solutions" />
     <img src="https://img.shields.io/badge/Python-3-blue" alt="Python 3" />
-    <img src="https://img.shields.io/badge/Solved-24-brightgreen" alt="Solved problems: 24" />
+    <!-- solved-count:start -->
+    <img src="https://img.shields.io/badge/Solved-25-brightgreen" alt="Solved problems: 25" />
+    <!-- solved-count:end -->
     <img src="https://img.shields.io/badge/Current%20Roadmap-NeetCode%20150-purple" alt="Current Roadmap: NeetCode 150" />
   </p>
 </div>
@@ -25,50 +27,34 @@
 
 ## Overview
 
-This repository is my personal LeetCode workspace, built to study data structures and algorithms in a structured way. 
+This repository is my personal LeetCode workspace, built to study data structures and algorithms in a structured way.
 
 Instead of collecting solutions in one flat folder, problems are grouped by roadmap and topic.
 The current roadmap follows `neetcode-150`, based on the [NeetCode roadmap](https://neetcode.io/roadmap).
 
 ## Current Progress
 
-This repository is updated regularly as I solve new problems. The progress table and solved-problem count are refreshed every few days.
+This repository is updated regularly as I solve new problems. The solved badge and difficulty chart are generated from the solution index in [SOLUTIONS.md](SOLUTIONS.md); topic progress is maintained manually.
 
 | Roadmap | Topic | Solved |
 |---|---|---:|
 | `neetcode-150` | Arrays & Hashing | 9 |
 | `neetcode-150` | Two Pointers | 5 |
 | `neetcode-150` | Stack | 6 |
-| `neetcode-150` | Sliding Window | 4 |
+| `neetcode-150` | Sliding Window | 5 |
 
-Current solved problems:
+Current solved problems, including their solution files, complexities, and color-coded difficulties, are listed in [SOLUTIONS.md](SOLUTIONS.md).
 
-| Problem | Title | File |
-|---:|---|---|
-| 1 | [Two Sum](https://leetcode.com/problems/two-sum/) | `neetcode-150/arrays&hashing/1.py` |
-| 3 | [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/) | `neetcode-150/slidingwindow/3.py` |
-| 11 | [Container With Most Water](https://leetcode.com/problems/container-with-most-water/) | `neetcode-150/twopointers/11.py` |
-| 15 | [3Sum](https://leetcode.com/problems/3sum/) | `neetcode-150/twopointers/15.py` |
-| 20 | [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/) | `neetcode-150/stack/20.py` |
-| 36 | [Valid Sudoku](https://leetcode.com/problems/valid-sudoku/) | `neetcode-150/arrays&hashing/36.py` |
-| 42 | [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/) | `neetcode-150/twopointers/42.py` |
-| 49 | [Group Anagrams](https://leetcode.com/problems/group-anagrams/) | `neetcode-150/arrays&hashing/49.py` |
-| 84 | [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/) | `neetcode-150/stack/84.py` |
-| 121 | [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/) | `neetcode-150/slidingwindow/121.py` |
-| 125 | [Valid Palindrome](https://leetcode.com/problems/valid-palindrome/) | `neetcode-150/twopointers/125.py` |
-| 128 | [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/) | `neetcode-150/arrays&hashing/128.py` |
-| 150 | [Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation/) | `neetcode-150/stack/150.py` |
-| 155 | [Min Stack](https://leetcode.com/problems/min-stack/) | `neetcode-150/stack/155.py` |
-| 167 | [Two Sum II - Input Array Is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/) | `neetcode-150/twopointers/167.py` |
-| 217 | [Contains Duplicate](https://leetcode.com/problems/contains-duplicate/) | `neetcode-150/arrays&hashing/217.py` |
-| 238 | [Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/) | `neetcode-150/arrays&hashing/238.py` |
-| 242 | [Valid Anagram](https://leetcode.com/problems/valid-anagram/) | `neetcode-150/arrays&hashing/242.py` |
-| 271 | [Encode and Decode Strings](https://leetcode.com/problems/encode-and-decode-strings/) | `neetcode-150/arrays&hashing/271.py` |
-| 347 | [Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/) | `neetcode-150/arrays&hashing/347.py` |
-| 424 | [Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement/) | `neetcode-150/slidingwindow/424.py` |
-| 567 | [Permutation in String](https://leetcode.com/problems/permutation-in-string/) | `neetcode-150/slidingwindow/567.py` |
-| 739 | [Daily Temperatures](https://leetcode.com/problems/daily-temperatures/) | `neetcode-150/stack/739.py` |
-| 853 | [Car Fleet](https://leetcode.com/problems/car-fleet/) | `neetcode-150/stack/853.py` |
+<!-- difficulty-chart:start -->
+```mermaid
+%%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
+pie showData
+    title Solved Problems by Difficulty (25 Total)
+    "Easy" : 6
+    "Medium" : 16
+    "Hard" : 3
+```
+<!-- difficulty-chart:end -->
 
 ## Organization
 
