@@ -45,4 +45,4 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Check Python syntax
-        run: python -m compileall -q neetcode-150
+        run: python -m compileall -q neetcode-all

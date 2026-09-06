@@ -1,6 +1,8 @@
-# There are n cars at given miles away from the starting mile 0, traveling to reach the mile target.
-# You are given two integer arrays position and speed, both of length n, where position[i] is the starting mile of the ith car and speed[i] is the speed of the ith car in miles per hour.
-# Return the number of car fleets that will arrive at the destination.
+# Given each car's position and speed on the way to target, return how many
+# fleets reach the target. Cars cannot pass; a car that catches another joins
+# its fleet and continues at the slower speed.
+
+from typing import List
 
 class Solution:
     def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:

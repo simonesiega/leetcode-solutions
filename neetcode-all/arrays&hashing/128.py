@@ -1,15 +1,17 @@
-# Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
-# You must write an algorithm that runs in O(n) time.
+# Given an unsorted integer array nums, return the length of its longest
+# consecutive sequence. The algorithm must run in O(n) time.
+
+from typing import List
 
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
-        # Create a set from the input list to allow for O(1) lookups and eliminate duplicates.
+        # A set removes duplicates and provides expected O(1) membership checks.
         numbers = set(nums)
         longest = 0
 
         for number in numbers:
 
-            # Only consider the number if it is the start of a sequence (i.e., number - 1 is not in the set).
+            # Only count from values that begin a consecutive sequence.
             if number - 1 not in numbers:
 
                 current = number + 1

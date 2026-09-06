@@ -31,7 +31,7 @@ body:
     attributes:
       label: Current solution file
       description: Provide the path of the existing solution.
-      placeholder: neetcode-150/twopointers/125.py
+      placeholder: neetcode-all/twopointers/125.py
     validations:
       required: true
 

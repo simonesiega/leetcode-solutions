@@ -1,6 +1,8 @@
 # You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
 # Find two lines that together with the x-axis form a container, such that the container contains the most water.
 
+from typing import List
+
 class Solution:
     def maxArea(self, height: List[int]) -> int:
         # If there are only two lines, the maximum area is simply the area formed by the smaller of the two heights multiplied by the distance between them (which is 1).

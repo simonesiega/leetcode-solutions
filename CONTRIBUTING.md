@@ -1,230 +1,90 @@
-<h1 align="center">
-  Contributing to LeetCode Solutions
-</h1>
+<div align="center">
+  <h1>Contributing</h1>
+</div>
 
-<p align="center">
-  Guidelines for contributing clear, direct, and educational Python solutions.
-</p>
+Thanks for wanting to help! This repo is a relaxed study project following the [NeetCode All roadmap](https://neetcode.io/roadmap). Clear fixes, useful alternative solutions, and new roadmap problems are all welcome.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3-blue?logo=python" alt="Python 3" />
-  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen" alt="Pull requests welcome" />
-  <img src="https://img.shields.io/github/license/simonesiega/leetcode-solutions" alt="License" />
-  <img src="https://img.shields.io/github/issues-pr/simonesiega/leetcode-solutions" alt="Open pull requests" />
-</p>
+## The short version
 
-## Contributions are welcome
+1. Fork the repo and branch from `main`.
+2. Make one focused change.
+3. Check that the solution works and is accepted by LeetCode.
+4. Update the docs if you added a problem.
+5. Open a pull request using the template.
 
-Contributions are welcome and appreciated.
+Small, obvious fixes can go straight to a pull request. For a big rewrite or a new approach with trade-offs, opening an [issue](https://github.com/simonesiega/leetcode-solutions/issues/new/choose) first is a good idea.
 
-This repository prioritizes solutions that are easy to understand, easy to explain, and useful for learning data structures and algorithms. Alternative implementations are welcome when they provide a meaningful improvement over the current solution.
+## What makes a good solution?
 
-A proposed solution should be at least one of the following:
+Please keep it:
 
-- easier to understand;
-- more clearly written;
-- less abstract or less overengineered;
-- more efficient in time or space complexity;
-- better at communicating the core algorithmic idea;
-- more reliable for valid edge cases.
+- compatible with Python 3 (unless the problem specifically requires another language);
+- in the method signature LeetCode expects;
+- direct and interview-friendly;
+- free of external dependencies;
+- correct for the required edge cases;
+- consistent with nearby files.
 
-A different implementation is not automatically a better implementation. A pull request may be declined when it changes the code without making the solution clearer, simpler, more educational, or more efficient.
+A new version should make something meaningfully better: clarity, naming, control flow, edge-case handling, or time/space complexity. Fewer lines alone are not always an improvement.
 
-## Ways to contribute
-
-You can contribute by:
-
-- improving an existing solution;
-- adding a problem from the current roadmap;
-- reporting an incorrect or incomplete solution;
-- improving comments or documentation;
-- proposing a clearer algorithmic approach.
-
-Before starting, read the [README](README.md) for the repository scope, current roadmap, organization, and solution style.
-
-## Use the issue forms
-
-The repository provides guided issue forms for:
-
-- proposing an improvement to an existing solution;
-- reporting an incorrect solution;
-- requesting a problem to be added.
-
-Use the [issue chooser](https://github.com/simonesiega/leetcode-solutions/issues/new/choose) when a change needs discussion, when you found a bug, or when you want to request a problem.
-
-For a small and straightforward contribution, you may open a pull request directly. For a substantial replacement of an existing solution, opening a solution-improvement issue first is recommended so the approach and trade-offs can be discussed.
-
-## Contribution workflow
-
-| Step | Action |
-| --- | --- |
-| 1 | Fork the repository. |
-| 2 | Create a branch from `main`. |
-| 3 | Make one focused contribution. |
-| 4 | Test the solution and confirm that LeetCode accepts it. |
-| 5 | Open a pull request and complete the provided template. |
-
-## Branch naming
-
-Use a short and descriptive branch name.
-
-| Contribution | Pattern | Example |
-| --- | --- | --- |
-| Improve a solution | `improve/<problem-number>-<name>` | `improve/125-valid-palindrome` |
-| Add a solution | `solve/<problem-number>-<name>` | `solve/15-three-sum` |
-| Fix a solution | `fix/<problem-number>-<name>` | `fix/36-valid-sudoku` |
-| Documentation | `docs/<description>` | `docs/update-contributing-guide` |
-
-## Solution requirements
-
-All contributed solutions must:
-
-- use Python 3;
-- follow the method signature required by LeetCode;
-- use clear and descriptive names;
-- focus on the main algorithmic idea;
-- avoid unnecessary abstraction, helper layers, and special cases;
-- avoid external dependencies;
-- handle the required edge cases;
-- be accepted by LeetCode;
-- match the style of nearby solution files.
-
-Keep implementations direct and interview-friendly. A reader should be able to understand the approach without having to navigate unnecessary indirection.
-
-## Comments
-
-Comments should explain the reasoning behind an algorithmic decision or clarify a non-obvious step. They should not simply translate each line of code into English.
-
-Prefer:
+Comments are useful when they explain **why** a step matters. They do not need to narrate code that is already obvious.
 
 ```python
-# Only count from values that begin a consecutive sequence.
+# Start counting only at the beginning of a sequence.
 if number - 1 not in numbers:
 ```
 
-Avoid:
+## Adding a problem
 
-```python
-# Check whether number minus one is not in numbers.
-if number - 1 not in numbers:
+Put each solution under its NeetCode All topic and use the numeric LeetCode ID as the filename:
+
+```text
+neetcode-all/topic/problem-number.py
 ```
-
-The first comment explains why the condition matters. The second only repeats what the code does.
-
-## Improving an existing solution
-
-Before replacing an existing solution, compare the two implementations carefully.
-
-Your issue or pull request must explain the concrete improvement. Useful reasons include:
-
-- fewer or simpler steps;
-- clearer control flow;
-- better variable names;
-- less duplicated logic;
-- fewer unnecessary special cases;
-- improved time or space complexity;
-- easier explanation during a technical interview;
-- better edge-case handling.
-
-Do not replace a straightforward implementation only because another version uses fewer lines. Shorter code can be harder to read, explain, or maintain.
-
-When performance changes, compare the time and space complexity of both solutions. When complexity remains the same, explain the readability or educational improvement instead.
-
-## Adding a new problem
-
-Only add problems that fit the repository's current roadmap and organization.
 
 Before opening the pull request:
 
-1. confirm that the problem is not already present;
-2. place the solution in the correct roadmap and topic;
-3. name the file with the numeric LeetCode problem ID;
-4. follow the style of the surrounding solutions;
-5. confirm that the solution is accepted by LeetCode;
-6. add the problem, file link, verified difficulty, and precise complexity analysis to `SOLUTIONS.md`;
-7. update the topic progress table in `README.md`;
-8. regenerate the solved badge and difficulty chart:
+1. make sure the problem is not already here;
+2. add the accepted solution to the right topic folder;
+3. add its link, difficulty, and complexity to `SOLUTIONS.md`;
+4. update the topic's solved count in `README.md`;
+5. regenerate the README stats:
 
    ```bash
    node scripts/update-readme-stats.js
    ```
 
-The script uses `SOLUTIONS.md` to calculate only the total solved count and difficulty chart. Topic progress remains manually maintained. CI runs the script in check mode and rejects generated statistics that are out of date.
+6. run the same quick checks as CI:
 
-Keep one problem per pull request whenever possible.
+   ```bash
+   node scripts/update-readme-stats.js --check
+   python -m compileall -q neetcode-all
+   ```
 
-## Pull requests
+The script updates the overall solved badge and difficulty chart. The topic table is kept manually because it also tracks unsolved roadmap topics and roadmap totals.
 
-The pull request template is loaded automatically. Complete every relevant section instead of deleting it.
+## Branches and pull requests
 
-The pull request title must include the LeetCode problem number.
+A short descriptive branch name is plenty:
 
-Examples:
+- `solve/15-three-sum`
+- `fix/36-valid-sudoku`
+- `improve/125-valid-palindrome`
+- `docs/update-progress`
 
-```text
-Improve #125: simplify the two-pointer solution
-```
+Include the problem number in solution pull request titles, for example `Solve #15: add Three Sum`.
 
-```text
-Solve #15: add Three Sum solution
-```
+In the pull request, briefly say what changed, why it is useful, what the complexity is, and how you tested it. Keep unrelated cleanup out so the review stays easy.
 
-```text
-Fix #36: handle duplicate values correctly
-```
+## Before you send it
 
-A good pull request explains:
+- [ ] The file is in the right `neetcode-all` topic folder.
+- [ ] The filename is the numeric LeetCode ID.
+- [ ] LeetCode accepts the solution.
+- [ ] Relevant edge cases were checked.
+- [ ] Complexity notes are accurate.
+- [ ] `SOLUTIONS.md` and the README progress table are current.
+- [ ] The generated README stats and syntax checks pass.
+- [ ] The pull request contains one focused change.
 
-- which problem and file are affected;
-- what changed;
-- why the contribution is better;
-- the previous and proposed complexity when applicable;
-- any trade-offs;
-- how the solution was validated.
-
-Be specific. Instead of writing:
-
-```text
-This solution is cleaner.
-```
-
-Explain the concrete difference:
-
-```text
-This version uses two pointers directly instead of building a filtered
-copy of the string. It keeps O(n) time complexity while reducing the
-additional space from O(n) to O(1).
-```
-
-## Before requesting review
-
-Verify that:
-
-- [ ] the contribution is focused on one problem or improvement;
-- [ ] the problem number appears in the pull request title;
-- [ ] the solution is in the correct location;
-- [ ] the filename matches the LeetCode problem number;
-- [ ] the solution uses Python 3;
-- [ ] LeetCode accepts the solution;
-- [ ] relevant edge cases were tested;
-- [ ] time and space complexity are accurate;
-- [ ] the reason for the change is clearly explained;
-- [ ] the implementation avoids unnecessary abstraction;
-- [ ] `SOLUTIONS.md` and the README topic table were updated, then `node scripts/update-readme-stats.js` was run when a problem was added;
-- [ ] no unrelated changes are included.
-
-## Review and discussion
-
-Algorithmic solutions often involve trade-offs. A solution may use less memory while being harder to explain, or it may be shorter while being less readable.
-
-Discussion is encouraged. Be prepared to explain your decisions, consider alternatives, and revise the contribution when feedback identifies a clearer approach.
-
-The goal is not to prove that one coding style is universally correct. The goal is to keep the repository clear, approachable, and educational.
-
-## Community guidelines
-
-Be respectful and constructive in issues, pull requests, and reviews.
-
-Feedback should focus on the implementation and its trade-offs, not on the contributor. Beginners are welcome, and questions asked in good faith are encouraged.
-
-Thanks for contributing to **LeetCode Solutions**.
+Be kind in issues and reviews. Beginners and questions are welcome—we are all here to get better at this stuff.

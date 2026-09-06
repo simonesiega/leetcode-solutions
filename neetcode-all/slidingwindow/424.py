@@ -8,7 +8,9 @@ class Solution:
 
         left = 0
 
-        # Initialize variables to keep track of the maximum frequency of a single character in the current window.
+        # Keep the largest character frequency seen while expanding the window.
+        # This value may be stale after shrinking, which is fine: it prevents us
+        # from shrinking a window that cannot improve the best length.
         max_frequency = 0
 
         # Initialize a variable to keep track of the maximum length of the substring found so far.

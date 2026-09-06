@@ -1,5 +1,7 @@
 # Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.
 
+from typing import List
+
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
         # A single bar forms a rectangle whose area is equal to its height.
@@ -17,7 +19,8 @@ class Solution:
             while stack and heights[stack[-1]] > heights[i]:
                 index = stack.pop()
 
-                # After the pop, the new top of the stack is the first smaller bar to the left. If the stack is empty, there is no smaller bar to the left, so use -1 as a virtual boundary.
+                # After the pop, the new top is the nearest bar no taller than
+                # this one. If there is none, use -1 as a virtual boundary.
                 left_boundary = stack[-1] if stack else -1
 
                 # The rectangle extends from left_boundary + 1 to i - 1.
@@ -33,7 +36,7 @@ class Solution:
         while stack:
             index = stack.pop()
 
-            # The new top is the first smaller bar to the left.
+            # The new top is the nearest bar no taller than this one.
             left_boundary = stack[-1] if stack else -1
 
             # The rectangle extends from left_boundary + 1 to n - 1.

@@ -1,5 +1,8 @@
 # Given an array of strings strs, group the anagrams together.
 
+from typing import List
+from collections import defaultdict
+
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         # If the length of strs is less than 2, return a list containing strs as the only group of anagrams
