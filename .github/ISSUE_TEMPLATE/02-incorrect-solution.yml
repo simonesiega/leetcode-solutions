@@ -1,6 +1,6 @@
 name: Incorrect solution
-description: Report a solution that fails, produces the wrong result, or does not meet the problem requirements.
-title: "[Bug] #"
+description: Report a roadmap or company solution that fails or does not meet its requirements.
+title: "[Bug] "
 body:
   - type: markdown
     attributes:
@@ -12,8 +12,9 @@ body:
   - type: input
     id: problem-number
     attributes:
-      label: LeetCode problem number
-      placeholder: "125"
+      label: Problem ID
+      description: Enter the numeric LeetCode ID or tracked OA problem ID.
+      placeholder: "125 or oa-pairs"
     validations:
       required: true
 
@@ -29,7 +30,7 @@ body:
     id: solution-file
     attributes:
       label: Solution file
-      placeholder: neetcode-all/twopointers/125.py
+      placeholder: neetcode-all/twopointers/125.py or companies/roblox/solutions/oa-pairs.py
     validations:
       required: true
 
@@ -82,4 +83,6 @@ body:
         - label: I verified that the issue is reproducible with the current repository version.
           required: true
         - label: I checked that a similar issue is not already open.
+          required: true
+        - label: I agree to follow the repository Code of Conduct.
           required: true

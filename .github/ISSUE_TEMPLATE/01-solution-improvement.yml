@@ -1,20 +1,20 @@
 name: Solution improvement
-description: Propose a clearer, simpler, or more efficient solution to an existing problem.
-title: "[Improvement] #"
+description: Propose a clearer, simpler, or more efficient roadmap or company solution.
+title: "[Improvement] "
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for suggesting an improvement.
 
-        Please explain the concrete advantage of the proposed solution so its trade-offs can be discussed before implementation.
+        A short explanation of what becomes clearer, safer, or faster is enough.
 
   - type: input
     id: problem-number
     attributes:
-      label: LeetCode problem number
-      description: Enter the numeric LeetCode problem ID.
-      placeholder: "125"
+      label: Problem ID
+      description: Enter the numeric LeetCode ID or tracked OA problem ID.
+      placeholder: "125 or oa-pairs"
     validations:
       required: true
 
@@ -31,7 +31,7 @@ body:
     attributes:
       label: Current solution file
       description: Provide the path of the existing solution.
-      placeholder: neetcode-all/twopointers/125.py
+      placeholder: neetcode-all/twopointers/125.py or companies/roblox/solutions/oa-pairs.py
     validations:
       required: true
 
@@ -75,11 +75,9 @@ body:
   - type: textarea
     id: trade-offs
     attributes:
-      label: Trade-offs
-      description: Describe any disadvantages or compromises introduced by the proposed solution.
+      label: Trade-offs (optional)
+      description: Mention any readability, speed, or memory compromise worth knowing about.
       placeholder: The solution uses less memory but...
-    validations:
-      required: true
 
   - type: checkboxes
     id: checks
@@ -88,7 +86,9 @@ body:
       options:
         - label: I compared the proposal with the current repository solution.
           required: true
-        - label: I can explain why the change provides meaningful educational value.
+        - label: I can explain why this change is useful.
           required: true
         - label: I checked that a similar issue is not already open.
+          required: true
+        - label: I agree to follow the repository Code of Conduct.
           required: true

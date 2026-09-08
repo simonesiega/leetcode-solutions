@@ -1,25 +1,37 @@
 <div align="center">
   <h1>LeetCode Solutions</h1>
 
-  <p>My Python solutions while I work through the NeetCode All roadmap.</p>
+  <p>My Python solutions for the NeetCode All roadmap and focused company interview preparation.</p>
 
   <p>
-    <img src="https://img.shields.io/badge/LeetCode-solutions-orange" alt="LeetCode solutions" />
+    <a href="#neetcode-all-roadmap-progress">NeetCode All roadmap progress</a> ·
+    <a href="#company-specific-preparation">Companies</a> ·
+    <a href="#want-to-contribute">Want to contribute?</a>
+  </p>
+
+  <p>
     <img src="https://img.shields.io/badge/Python-3-blue" alt="Python 3" />
     <!-- solved-count:start -->
     <img src="https://img.shields.io/badge/Solved-26-brightgreen" alt="Solved problems: 26" />
     <!-- solved-count:end -->
+    <!-- company-count:start -->
+    <img src="https://img.shields.io/badge/Companies-1-blue" alt="Companies covered: 1" />
+    <!-- company-count:end -->
     <img src="https://img.shields.io/badge/Roadmap-NeetCode%20All-purple" alt="Roadmap: NeetCode All" />
   </p>
 </div>
 
 ## What's this?
 
-Nothing fancy—this is where I keep the problems I solve while following the [NeetCode All roadmap](https://neetcode.io/roadmap). It gives me one place to track progress, revisit old patterns, and compare solutions without digging through a giant flat folder.
+Nothing fancy, this is where I keep the problems I solve while following the [NeetCode All roadmap](https://neetcode.io/roadmap), alongside focused preparation for company OAs and technical interviews.
 
-## Progress
+It gives me one place to track progress, revisit patterns, compare approaches, and keep my practice organized without relying on a single flat collection of solutions.
 
-The roadmap totals are a snapshot of NeetCode All and may grow as NeetCode adds problems. Solved counts come from the Python files currently in this repo.
+## NeetCode All roadmap progress
+
+The roadmap totals are a snapshot of NeetCode All and may change as NeetCode adds or reorganizes problems.
+
+Solved counts and difficulty statistics are generated from the completed entries in [SOLUTIONS.md](SOLUTIONS.md).
 
 | Topic | Solved | Total |
 |---|---:|---:|
@@ -44,8 +56,6 @@ The roadmap totals are a snapshot of NeetCode All and may grow as NeetCode adds 
 | JavaScript | 0 | 30 |
 | **All topics** | <!-- progress-total:start -->**26**<!-- progress-total:end --> | **973** |
 
-For links, difficulty, and complexity notes for each solved problem, check [SOLUTIONS.md](SOLUTIONS.md).
-
 <!-- difficulty-chart:start -->
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
@@ -57,29 +67,59 @@ pie showData
 ```
 <!-- difficulty-chart:end -->
 
+## Company-specific preparation
+
+Company preparation lives in [`companies/`](companies/README.md) and is tracked separately from the year-round roadmap.
+
+This keeps company-specific practice independent, so solving the same problem again for an OA or technical interview remains visible as a separate attempt.
+
+<!-- company-progress:start -->
+**1 company · 0 solved · 0 in progress · 0 planned**
+<!-- company-progress:end -->
+
+### Companies
+
+<!-- company-list:start -->
+| Company | Folder |
+|---|---|
+| Roblox | [`companies/roblox/`](companies/roblox/) |
+<!-- company-list:end -->
+
+The company tracker manages workspace creation, progress tables, and the `planned → in-progress → solved` workflow. It also validates that completed entries include a solution together with time and space complexity.
+
+See the [company preparation guide](companies/README.md) for the complete workflow.
+
 ## Folder layout
 
-Solutions are grouped by topic and named with the LeetCode problem number:
+Roadmap solutions are grouped by topic, while company preparation uses one tracked workspace per company:
 
 ```text
-neetcode-all / topic / problem-number.py
+# NeetCode All roadmap solutions
+neetcode-all/<topic>/<problem-number>.py
+
+# Company preparation solutions
+companies/<company-name>/solutions/<problem-id>.py
 ```
 
-For example:
+For example, a roadmap solution is [`neetcode-all/arrays&hashing/217.py`](neetcode-all/arrays%26hashing/217.py).
 
-```text
-neetcode-all / arrays&hashing / 217.py
-```
-
-It is a little more readable in an actual link: [`neetcode-all/arrays&hashing/217.py`](neetcode-all/arrays%26hashing/217.py).
+Company attempts follow the same direct Python style but remain inside their company-specific workspace.
 
 ## Solution style
 
-Everything is Python 3 unless a roadmap problem specifically requires another language. I try to keep solutions direct, readable, and easy to talk through in an interview. This is a study notebook, not a production package, so clear ideas beat clever abstractions.
+Everything is written in Python 3 unless a problem specifically requires another language.
+
+I keep solutions direct, readable, and easy to explain in an interview. This is a study repository rather than a production package, so clear reasoning and understandable implementations matter more than clever abstractions.
 
 ## Want to contribute?
 
-Nice! Have a look at [CONTRIBUTING.md](CONTRIBUTING.md). Fixes, clearer approaches, and new roadmap solutions are welcome.
+Nice! Have a look at [CONTRIBUTING.md](CONTRIBUTING.md). Fixes, clearer approaches, documentation improvements, and useful new roadmap or company-preparation solutions are all welcome.
+
+Please also follow the [Code of Conduct](CODE_OF_CONDUCT.md) when participating in the project.
+
+## License
+
+Licensed under the [MIT License](LICENSE).
 
 ## Contributors
 
@@ -88,7 +128,3 @@ Nice! Have a look at [CONTRIBUTING.md](CONTRIBUTING.md). Fixes, clearer approach
     <img src="https://contrib.rocks/image?repo=simonesiega/leetcode-solutions&max=24&columns=12" alt="Contributors" />
   </a>
 </p>
-
-## License
-
-Licensed under the [MIT License](LICENSE).

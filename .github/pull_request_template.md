@@ -1,48 +1,31 @@
 ## Problem
 
-- LeetCode number:
-- Problem title:
-- Solution file:
+- Collection: <!-- NeetCode All, company preparation, docs, or tooling -->
+- Problem ID and title (if applicable):
+- File (if applicable):
 
 ## What changed?
 
-Describe the solution or improvement introduced by this Pull Request.
-
-## Why is this solution better?
-
-Explain why this implementation is easier to understand, better written, less abstract, or more efficient than the current solution.
-
-Please describe the concrete improvement instead of only saying that the code is cleaner.
+Briefly describe the solution or fix and why it is useful.
 
 ## Complexity
 
-### Previous solution
+For solution changes; use `N/A` otherwise.
 
 - Time:
 - Space:
 
-### Proposed solution
+## Checks
 
-- Time:
-- Space:
+- [ ] The solution was accepted by the relevant platform or tested with representative cases.
+- [ ] Important edge cases were checked.
+- [ ] The file and ID are correct for the roadmap topic or company list.
+- [ ] Complexity notes are accurate where applicable.
+- [ ] Generated README information is current.
+- [ ] Tracker tests and Python syntax checks pass.
+- [ ] No unrelated changes are included.
+- [ ] I agree to follow the [Code of Conduct](https://github.com/simonesiega/leetcode-solutions/blob/main/CODE_OF_CONDUCT.md).
 
-## Trade-offs
+## Anything else?
 
-Describe any readability, performance, memory, or maintainability trade-offs introduced by this solution.
-
-## Validation
-
-- [ ] The solution was accepted by LeetCode.
-- [ ] Relevant edge cases were tested.
-- [ ] The problem number appears in the Pull Request title.
-- [ ] The file is in the correct roadmap and topic directory.
-- [ ] The filename matches the LeetCode problem number.
-- [ ] The solution uses Python 3.
-- [ ] Variable names and comments are clear.
-- [ ] The implementation avoids unnecessary abstraction.
-- [ ] `SOLUTIONS.md` and the README topic table were updated, then `node scripts/update-readme-stats.js` was run if a new problem was added.
-- [ ] No unrelated files or formatting changes are included.
-
-## Additional context
-
-Add any examples, comparisons, screenshots, or notes that may help with the review.
+Add examples, trade-offs, screenshots, or notes if they help with review.

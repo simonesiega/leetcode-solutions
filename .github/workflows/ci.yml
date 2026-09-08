@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   documentation:
-    name: Documentation statistics
+    name: Documentation and tracker
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -25,6 +25,12 @@ jobs:
 
       - name: Check generated README statistics
         run: node scripts/update-readme-stats.js --check
+
+      - name: Validate company preparation tracker
+        run: node scripts/company-tracker.js --check
+
+      - name: Test company preparation tracker
+        run: node --test scripts/company-tracker.test.js
 
   test:
     name: Python ${{ matrix.python-version }}
@@ -45,4 +51,4 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Check Python syntax
-        run: python -m compileall -q neetcode-all
+        run: python -m compileall -q neetcode-all companies

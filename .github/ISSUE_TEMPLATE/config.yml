@@ -3,3 +3,6 @@ contact_links:
   - name: Contribution guidelines
     url: https://github.com/simonesiega/leetcode-solutions/blob/main/CONTRIBUTING.md
     about: Read the repository contribution rules before opening an issue or Pull Request.
+  - name: Code of Conduct
+    url: https://github.com/simonesiega/leetcode-solutions/blob/main/CODE_OF_CONDUCT.md
+    about: Review the behavior expected in all repository interactions.

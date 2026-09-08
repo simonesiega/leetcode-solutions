@@ -1,6 +1,12 @@
-# Solutions
+# NeetCode All solutions
 
-Here is everything solved so far, with the file, LeetCode difficulty, and a quick complexity breakdown.
+[← Project README](README.md) · [Company preparation](companies/README.md) · [Contributing](CONTRIBUTING.md)
+
+Here are the NeetCode All problems I have finished so far, along with each solution, its difficulty, and a quick complexity breakdown.
+
+Company-specific attempts live separately in the [company preparation dashboard](companies/README.md), so this list stays focused on the main roadmap.
+
+## Solution catalog
 
 | Problem | Title | File | Time Complexity | Space Complexity | Difficulty |
 |---:|---|---|---|---|:---:|
