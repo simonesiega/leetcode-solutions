@@ -74,7 +74,7 @@ Company preparation lives in [`companies/`](companies/README.md) and is tracked 
 This keeps company-specific practice independent, so solving the same problem again for an OA or technical interview remains visible as a separate attempt.
 
 <!-- company-progress:start -->
-**1 company · 0 solved · 0 in progress · 0 planned**
+**1 company · 1 solved · 0 in progress · 0 planned**
 <!-- company-progress:end -->
 
 ### Companies

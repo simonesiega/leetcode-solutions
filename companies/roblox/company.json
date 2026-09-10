@@ -3,5 +3,16 @@
   "name": "Roblox",
   "focus": "America OA",
   "website": "",
-  "problems": []
+  "problems": [
+    {
+      "id": "723",
+      "title": "Candy Crush",
+      "url": "https://leetcode.com/problems/candy-crush/",
+      "difficulty": "Medium",
+      "status": "solved",
+      "time": "O(kmn), worst-case O((mn)^2)",
+      "space": "O(1)",
+      "notes": "k = number of crush rounds"
+    }
+  ]
 }
