@@ -10,9 +10,9 @@ Company-specific attempts stay separate from the year-round NeetCode roadmap, so
 
 | Company | Solved | In progress | Planned |
 |---|---:|---:|---:|
-| [Roblox](roblox/README.md) | 1 / 1 | 0 | 0 |
+| [Roblox](roblox/README.md) | 2 / 2 | 0 | 0 |
 
-**Total:** 1 solved, 0 in progress, and 0 planned across 1 company.
+**Total:** 2 solved, 0 in progress, and 0 planned across 1 company.
 
 ## Quick start
 

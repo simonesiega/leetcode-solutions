@@ -13,6 +13,16 @@
       "time": "O(kmn), worst-case O((mn)^2)",
       "space": "O(1)",
       "notes": "k = number of crush rounds"
+    },
+    {
+      "id": "767",
+      "title": "Reorganize String",
+      "url": "https://leetcode.com/problems/reorganize-string/",
+      "difficulty": "Medium",
+      "status": "solved",
+      "time": "O(n + k log k)",
+      "space": "O(n + k)",
+      "notes": "k = number of distinct characters"
     }
   ]
 }
