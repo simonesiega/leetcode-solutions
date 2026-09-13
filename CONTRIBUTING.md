@@ -1,37 +1,37 @@
-# Contributing to LeetCode Solutions
+# Contributing
 
 [← Project README](README.md) · [Solutions](SOLUTIONS.md) · [Companies](companies/README.md) · [Code of Conduct](CODE_OF_CONDUCT.md)
 
-Thanks for wanting to help! This is a personal study repository, so contributions should stay lightweight and focused. A clear fix, a better solution, a documentation improvement, or a useful new problem is enough.
+Thanks for checking this out! This is mostly my personal LeetCode workspace, so contributions don’t need to be anything huge. A bug fix, a cleaner solution, a small docs improvement, or a useful new problem is more than enough.
 
-## The short version
+## Quick version
 
-1. Check that the problem, fix, or improvement is not already present.
-2. Fork the repository and create a branch from `main`.
-3. Make one focused change.
-4. Confirm that the solution is accepted by the relevant platform or test it with representative cases.
-5. Update the matching progress information and metadata.
-6. Run the checks in [Before you send it](#before-you-send-it).
+1. Check that the problem or change isn’t already here.
+2. Fork the repo and create a branch from `main`.
+3. Keep the change focused.
+4. Make sure the solution is accepted, or test it with a few representative cases.
+5. Update the related progress info and metadata.
+6. Run the checks in [Before opening the PR](#before-opening-the-pr).
 7. Open a [Pull Request](https://github.com/simonesiega/leetcode-solutions/compare).
 
-Small, obvious fixes can go directly to a Pull Request. For a major rewrite or an approach with important trade-offs, open an [issue](https://github.com/simonesiega/leetcode-solutions/issues/new/choose) first.
+For small fixes, just open a Pull Request. If you want to change something bigger or replace an approach entirely, opening an [issue](https://github.com/simonesiega/leetcode-solutions/issues/new/choose) first is probably easier.
 
-## Where does a solution go?
+## Where should I put a solution?
 
 | Collection | Path | Purpose |
 |---|---|---|
-| NeetCode All | `neetcode-all/<topic>/<problem-number>.py` | The year-round roadmap and main structured practice collection. |
-| Company preparation | `companies/<company>/solutions/<problem-id>.py` | An independent attempt for a specific OA or technical interview. |
+| NeetCode All | `neetcode-all/<topic>/<problem-number>.py` | My main roadmap practice. |
+| Company prep | `companies/<company>/solutions/<problem-id>.py` | A separate attempt for a specific OA or interview. |
 
-A problem may appear in both collections or in several company workspaces. This is intentional: company attempts are separate practice sessions and do not count as duplicate roadmap progress.
+The same problem can show up in both places. That’s intentional — if I solve something again for an OA or interview, I like keeping that attempt separate from the roadmap version.
 
-Only add company-specific questions, notes, or materials that are public or that you are permitted to share.
+For company prep, only add questions, notes, or material that is public or that you’re allowed to share.
 
-Do not publish confidential assessment content, private recruiter or interviewer messages, personal application details belonging to someone else, or any interview information that should remain private.
+Please don’t add confidential assessment content, private recruiter/interviewer messages, someone else’s application details, or anything that clearly isn’t meant to be public.
 
-## What makes a good solution?
+## What I’m looking for in a solution
 
-Please keep it:
+Nothing too strict — just try to keep it:
 
 - compatible with Python 3 unless the problem explicitly requires another language;
 - in the method signature expected by the relevant platform;
@@ -40,16 +40,16 @@ Please keep it:
 - correct for the required edge cases; and
 - consistent with nearby files.
 
-A replacement should provide a meaningful improvement in correctness, clarity, naming, control flow, edge-case handling, or time and space complexity.
+If you’re replacing an existing solution, there should be a real reason for it — clearer code, better naming, simpler control flow, fixed edge cases, or better complexity are all good reasons.
 
-Comments are most useful when they explain **why** a step matters rather than narrating obvious code.
+For comments, I prefer explaining **why** something matters instead of describing code that already explains itself.
 
 ```python
 # Start counting only at the beginning of a sequence.
 if number - 1 not in numbers:
 ```
 
-## Adding a NeetCode All problem
+## Adding a NeetCode problem
 
 Use the numeric LeetCode ID as the filename:
 
@@ -57,22 +57,22 @@ Use the numeric LeetCode ID as the filename:
 neetcode-all/<topic>/<problem-number>.py
 ```
 
-Then:
+After that:
 
 1. confirm that the problem is not already listed in [`SOLUTIONS.md`](SOLUTIONS.md);
 2. add the accepted solution to the correct topic folder;
 3. add its title, link, difficulty, time complexity, and space complexity to [`SOLUTIONS.md`](SOLUTIONS.md);
-4. update the topic's solved count in [`README.md`](README.md); and
-5. regenerate the overall solved badge and difficulty chart:
+4. confirm that its topic and the current roadmap total are present in [`README.md`](README.md); and
+5. regenerate the solved counts, difficulty chart, and completed-topic chart:
    ```bash
    node scripts/update-readme-stats.js
    ```
 
-The topic progress table remains manual because it also tracks unsolved topics and roadmap totals, which may change as NeetCode updates the roadmap.
+The script handles the solved counts from `SOLUTIONS.md`. The roadmap totals stay manual since NeetCode can add or move problems around.
 
-## Adding company preparation
+## Adding company prep
 
-Use the company tracker instead of creating or synchronizing company files manually:
+For company prep, use the tracker instead of creating and syncing everything by hand:
 
 ```bash
 # Create the company workspace once.
@@ -88,19 +88,19 @@ node scripts/company-tracker.js start company-name 1
 node scripts/company-tracker.js solve company-name 1 --time "O(n)" --space "O(n)"
 ```
 
-`add-company` also accepts `--slug` and `--website`.
+`add-company` also supports `--slug` and `--website`.
 
-`add-problem` accepts `--url` for problems outside LeetCode and `--notes` for a short pattern, reminder, or review note. Problem IDs may contain letters, numbers, dots, underscores, and hyphens.
+`add-problem` supports `--url` for problems outside LeetCode and `--notes` for a quick pattern, reminder, or review note. Problem IDs can use letters, numbers, dots, underscores, and hyphens.
 
-Each company's `company.json` is the source of truth. The tracker uses it to generate the company dashboard, root company badge, folder links, and progress counts.
+Each company’s `company.json` is the source of truth. The tracker uses it to generate the dashboard, badge, folder links, and progress counts.
 
-Update the manifest through the tracker or the appropriate source data. Do not edit generated company README files directly.
+So if something needs changing, update it through the tracker or the source data instead of editing generated company READMEs directly.
 
-A solved company entry must include its solution file together with non-empty time and space complexity.
+A solved company problem should have its solution file plus time and space complexity.
 
-## Branches and Pull Requests
+## Branches and PRs
 
-Short branch names are enough:
+No need to overthink branch names:
 
 | Change | Example |
 |---|---|
@@ -110,7 +110,7 @@ Short branch names are enough:
 | Company preparation | `company/roblox-oa` |
 | Documentation | `docs/update-progress` |
 
-Include the problem ID in solution Pull Request titles when applicable.
+If the change is for a specific problem, include its ID in the PR title.
 
 For example:
 
@@ -120,24 +120,26 @@ Improve #125: simplify Valid Palindrome
 Solve Roblox OA Pairs
 ```
 
-In the Pull Request, briefly explain:
+In the PR, a short note is enough. Mention:
 - what changed;
 - why the change is useful;
 - the relevant time and space complexity for solution changes; and
 - how you validated the result.
 
-Keep unrelated cleanup out of the Pull Request so the change remains easy to understand and review.
+Try to keep unrelated cleanup out of the same PR so it stays easy to read.
 
-## Before you send it
+## Before opening the PR
 
-Run the complete validation pipeline before opening a Pull Request:
+Before opening a PR, run the checks below:
 
 ```bash
 node --check scripts/update-readme-stats.js
+node --check scripts/update-readme-stats.test.js
 node --check scripts/company-tracker.js
 node --check scripts/company-tracker.test.js
 
 node scripts/update-readme-stats.js --check
+node --test scripts/update-readme-stats.test.js
 node scripts/company-tracker.js --check
 node --test scripts/company-tracker.test.js
 
@@ -146,25 +148,25 @@ python -m compileall -q neetcode-all companies
 git diff --check
 ```
 
-Then make sure:
+And do one quick pass through this:
 
 - [ ] the solution is in the correct roadmap topic or company workspace;
 - [ ] the filename matches its LeetCode or tracked OA problem ID;
 - [ ] the solution was accepted by the relevant platform or tested with representative cases;
 - [ ] important edge cases and complexity notes are accurate;
-- [ ] `SOLUTIONS.md` and the README topic count are updated for roadmap additions;
+- [ ] `SOLUTIONS.md` and generated README statistics and charts are updated for roadmap additions;
 - [ ] `company.json` contains the correct metadata and status for company additions;
 - [ ] generated documentation is up to date; and
 - [ ] the Pull Request contains one focused change.
 
-## Community
+## One last thing
 
-Be respectful and constructive in issues, Pull Requests, and reviews. Beginners, questions, and good-faith discussion are welcome: we are all here to learn and improve.
+Just be respectful in issues, PRs, and reviews. Questions are welcome — this repo is here for learning, and nobody needs to know everything already.
 
-Every project interaction follows the [Code of Conduct](CODE_OF_CONDUCT.md).
+The usual [Code of Conduct](CODE_OF_CONDUCT.md) applies too.
 
-For contribution questions that do not fit an existing issue:
+If you have a question that doesn’t really need an issue:
 - GitHub: [@simonesiega](https://github.com/simonesiega)
 - Email: [simonesiega1@gmail.com](mailto:simonesiega1@gmail.com).
 
-Thanks for contributing to **LeetCode Solutions**!
+Thanks for helping out!

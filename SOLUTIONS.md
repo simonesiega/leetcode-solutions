@@ -2,9 +2,9 @@
 
 [← Project README](README.md) · [Company preparation](companies/README.md) · [Contributing](CONTRIBUTING.md)
 
-Here are the NeetCode All problems I have finished so far, along with each solution, its difficulty, and a quick complexity breakdown.
+Here are the NeetCode All problems I have finished so far, along with each solution, its difficulty, and a quick time and space complexity breakdown.
 
-Company-specific attempts live separately in the [company preparation dashboard](companies/README.md), so this list stays focused on the main roadmap.
+Company-specific attempts live separately in the [company preparation dashboard](companies/README.md), keeping this list focused on progress through the main NeetCode All roadmap.
 
 ## Solution catalog
 

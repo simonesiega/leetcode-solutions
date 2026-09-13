@@ -2,9 +2,9 @@
 
 [← Project README](README.md) · [Contributing](CONTRIBUTING.md) · [Companies](companies/README.md)
 
-This is a small personal study repository. The rule is simple: be respectful, helpful, and constructive.
+This is a small personal study repository. Please keep discussions respectful, helpful, and focused on the work.
 
-## What that looks like
+## Expectations
 
 | Do | Avoid |
 |---|---|
@@ -14,7 +14,7 @@ This is a small personal study repository. The rule is simple: be respectful, he
 | Accept corrections and learn from mistakes. | Repeatedly disrupting issues, Pull Requests, or reviews. |
 | Respect privacy and interview rules. | Sharing private information or confidential assessment content. |
 
-Different solutions, approaches, and coding styles are welcome when they are correct, relevant, and can be explained clearly.
+Different solutions, approaches, and coding styles are welcome when they are correct, relevant, and clearly explained.
 
 ## Scope
 
@@ -26,23 +26,23 @@ Do not post private recruiter or interviewer messages, another person's applicat
 
 ## Reporting a problem
 
-Report unacceptable behavior privately by emailing [simonesiega1@gmail.com](mailto:simonesiega1@gmail.com) with the subject `LeetCode Solutions conduct report`.
+If you need to report unacceptable behavior, email [simonesiega1@gmail.com](mailto:simonesiega1@gmail.com) with the subject `LeetCode Solutions conduct report`.
 
-Do not open a public issue for a private conduct report.
+Please do not open a public issue for a private conduct report.
 
-Include only the information needed to understand what happened, such as a short description, relevant links, and the approximate date.
+Include only the information needed to understand the situation, such as a short description, relevant links, and the approximate date.
 
-Reports will be reviewed fairly and kept as private as reasonably possible.
+Reports will be handled as privately and fairly as reasonably possible.
 
 If the concern involves the maintainer or cannot safely be reported by email, use GitHub's [Report Abuse form](https://support.github.com/contact/report-abuse).
 
 ## Enforcement
 
-Comments, commits, issues, Pull Requests, or other contributions that violate these rules may be edited, rejected, or removed.
+Content or contributions that violate these rules may be edited, rejected, or removed.
 
-Depending on the situation, a contributor may also receive a warning, temporary restriction, or permanent block from participating in the project.
+Depending on the situation, a contributor may receive a warning, temporary restriction, or permanent block from participating in the project.
 
-Enforcement decisions will consider the context, severity, and impact of the behavior.
+Any enforcement decision will consider the context, severity, and impact of the behavior.
 
 ## Attribution
 

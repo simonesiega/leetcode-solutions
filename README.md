@@ -1,11 +1,12 @@
 <div align="center">
   <h1>LeetCode Solutions</h1>
 
-  <p>My Python solutions for the NeetCode All roadmap and focused company interview preparation.</p>
+  <p>My LeetCode solutions in Python while I work through NeetCode and prepare for interviews.</p>
 
   <p>
-    <a href="#neetcode-all-roadmap-progress">NeetCode All roadmap progress</a> ·
-    <a href="#company-specific-preparation">Companies</a> ·
+    <a href="#neetcode-progress">NeetCode progress</a> ·
+    <a href="SOLUTIONS.md">Solutions</a> ·
+    <a href="#company-prep">Companies</a> ·
     <a href="#want-to-contribute">Want to contribute?</a>
   </p>
 
@@ -23,16 +24,45 @@
 
 ## What's this?
 
-Nothing fancy, this is where I keep the problems I solve while following the [NeetCode All roadmap](https://neetcode.io/roadmap), alongside focused preparation for company OAs and technical interviews.
+Nothing fancy, this is where I keep the LeetCode problems I solve while working through the [NeetCode All roadmap](https://neetcode.io/roadmap) and preparing for OAs and interviews.
 
-It gives me one place to track progress, revisit patterns, compare approaches, and keep my practice organized without relying on a single flat collection of solutions.
+Mostly here so I can keep track of what I’ve done, come back to old problems, and hopefully see myself getting better over time.
 
-## NeetCode All roadmap progress
+## NeetCode progress
 
 The roadmap totals are a snapshot of NeetCode All and may change as NeetCode adds or reorganizes problems.
 
-Solved counts and difficulty statistics are generated from the completed entries in [SOLUTIONS.md](SOLUTIONS.md).
+Solved counts, difficulty statistics, and the topic chart are generated from the completed entries in [SOLUTIONS.md](SOLUTIONS.md).
 
+<!-- difficulty-chart:start -->
+```mermaid
+%%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
+pie showData
+    title Solved Problems by Difficulty (26 Total)
+    "Easy" : 6
+    "Medium" : 16
+    "Hard" : 4
+```
+<!-- difficulty-chart:end -->
+
+<!-- topic-chart:start -->
+```mermaid
+%%{init: {"themeVariables":{"pie1":"#277ace","pie2":"#ce2748","pie3":"#27ce35","pie4":"#6727ce"},"themeCSS":".pieCircle:nth-of-type(1){fill:#277ace!important}.legend:nth-of-type(2) rect{fill:#277ace!important;stroke:#277ace!important}.pieCircle:nth-of-type(2){fill:#ce2748!important}.legend:nth-of-type(3) rect{fill:#ce2748!important;stroke:#ce2748!important}.pieCircle:nth-of-type(3){fill:#27ce35!important}.legend:nth-of-type(4) rect{fill:#27ce35!important;stroke:#27ce35!important}.pieCircle:nth-of-type(4){fill:#6727ce!important}.legend:nth-of-type(5) rect{fill:#6727ce!important;stroke:#6727ce!important}"}}%%
+pie showData
+    title Solved Problems by Topic (26 Total)
+    "Arrays & Hashing" : 9
+    "Two Pointers" : 5
+    "Sliding Window" : 6
+    "Stack" : 6
+```
+<!-- topic-chart:end -->
+
+### Progress by topic
+
+<details>
+<summary><strong>View detailed topic progress</strong></summary>
+
+<!-- topic-table:start -->
 | Topic | Solved | Total |
 |---|---:|---:|
 | Arrays & Hashing | 9 | 175 |
@@ -53,25 +83,16 @@ Solved counts and difficulty statistics are generated from the completed entries
 | Intervals | 0 | 21 |
 | Math & Geometry | 0 | 63 |
 | Bit Manipulation | 0 | 31 |
-| JavaScript | 0 | 30 |
 | **All topics** | <!-- progress-total:start -->**26**<!-- progress-total:end --> | **973** |
+<!-- topic-table:end -->
 
-<!-- difficulty-chart:start -->
-```mermaid
-%%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
-pie showData
-    title Solved Problems by Difficulty (26 Total)
-    "Easy" : 6
-    "Medium" : 16
-    "Hard" : 4
-```
-<!-- difficulty-chart:end -->
+</details>
 
-## Company-specific preparation
+## Company prep
 
-Company preparation lives in [`companies/`](companies/README.md) and is tracked separately from the year-round roadmap.
+I also keep some separate practice for specific companies in [`companies/`](companies/README.md).
 
-This keeps company-specific practice independent, so solving the same problem again for an OA or technical interview remains visible as a separate attempt.
+If I solve the same problem again while preparing for an OA or interview, I keep that attempt separate. I like being able to see how I approached the same problem at different times.
 
 <!-- company-progress:start -->
 **1 company · 2 solved · 0 in progress · 0 planned**
@@ -85,13 +106,13 @@ This keeps company-specific practice independent, so solving the same problem ag
 | Roblox | [`companies/roblox/`](companies/roblox/) |
 <!-- company-list:end -->
 
-The company tracker manages workspace creation, progress tables, and the `planned → in-progress → solved` workflow. It also validates that completed entries include a solution together with time and space complexity.
+There’s also a small tracker behind this so I don’t have to update everything by hand. It keeps track of `planned → in-progress → solved` problems and checks that solved ones include the solution, time complexity, and space complexity.
 
-See the [company preparation guide](companies/README.md) for the complete workflow.
+If you’re curious, the full setup is in the [company prep guide](companies/README.md).
 
 ## Folder layout
 
-Roadmap solutions are grouped by topic, while company preparation uses one tracked workspace per company:
+NeetCode solutions are grouped by topic, while company prep gets its own folder for each company:
 
 ```text
 # NeetCode All roadmap solutions
@@ -103,19 +124,17 @@ companies/<company-name>/solutions/<problem-id>.py
 
 For example, a roadmap solution is [`neetcode-all/arrays&hashing/217.py`](neetcode-all/arrays%26hashing/217.py).
 
-Company attempts follow the same direct Python style but remain inside their company-specific workspace.
+Company attempts use the same simple Python style, they just stay inside their own company folder.
 
-## Solution style
+## How I write my solutions
 
-Everything is written in Python 3 unless a problem specifically requires another language.
+Everything is Python 3 unless I have a reason to use something else.
 
-I keep solutions direct, readable, and easy to explain in an interview. This is a study repository rather than a production package, so clear reasoning and understandable implementations matter more than clever abstractions.
+I try to keep the solutions simple and readable — basically code I’d be comfortable explaining out loud in an interview. I’m not trying to write the cleverest one-liner possible.
 
 ## Want to contribute?
 
-Nice! Have a look at [CONTRIBUTING.md](CONTRIBUTING.md). Fixes, clearer approaches, documentation improvements, and useful new roadmap or company-preparation solutions are all welcome.
-
-Please also follow the [Code of Conduct](CODE_OF_CONDUCT.md) when participating in the project.
+Found a mistake or have a cleaner solution? Feel free to open a PR. Have a look at [CONTRIBUTING.md](CONTRIBUTING.md) first so everything stays consistent.
 
 ## License
 

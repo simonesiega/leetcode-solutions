@@ -23,8 +23,11 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
 
-      - name: Check generated README statistics
+      - name: Check generated roadmap documentation
         run: node scripts/update-readme-stats.js --check
+
+      - name: Test roadmap documentation automation
+        run: node --test scripts/update-readme-stats.test.js
 
       - name: Validate company preparation tracker
         run: node scripts/company-tracker.js --check
