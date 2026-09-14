@@ -31,6 +31,9 @@ for (const row of rows) {
   if (!id || id <= previousId) fail(`Solution IDs must be unique and numerically ordered: ${row}`);
   previousId = id;
 
+  const title = row.match(/^\|\s*\d+\s*\|\s*\[([^\]]+)\]\([^)]+\)\s*\|/)?.[1];
+  if (!title) fail(`Missing or invalid problem title: ${row}`);
+
   const difficulty = row.match(/!\[(Easy|Medium|Hard)\]/)?.[1];
   if (!difficulty) fail(`Missing or invalid difficulty: ${row}`);
   difficultyCounts[difficulty]++;
@@ -47,7 +50,9 @@ for (const row of rows) {
   } catch {
     fail(`Invalid URL encoding in NeetCode solution path: ${row}`);
   }
-  if (!fs.existsSync(path.join(root, solutionPath))) fail(`Missing solution file: ${solutionPath}`);
+  const absoluteSolutionPath = path.join(root, solutionPath);
+  if (!fs.existsSync(absoluteSolutionPath)) fail(`Missing solution file: ${solutionPath}`);
+  validateSolutionHeader(fs.readFileSync(absoluteSolutionPath, 'utf8'), title, id, solutionPath);
 
   const key = normalizeTopic(topic);
   topicCounts.set(key, (topicCounts.get(key) || 0) + 1);
@@ -99,6 +104,14 @@ if (checkOnly) {
 } else {
   fs.writeFileSync(readmePath, updated);
   console.log(`Updated roadmap documentation (${summary}).`);
+}
+
+function validateSolutionHeader(source, title, id, solutionPath) {
+  const [header, separator] = source.split(/\r?\n/);
+  const expected = `# ${title} - ${id}`;
+  if (header !== expected || separator !== '') {
+    fail(`${solutionPath} must begin with "${expected}" followed by a blank line.`);
+  }
 }
 
 /**

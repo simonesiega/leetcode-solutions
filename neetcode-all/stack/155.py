@@ -1,4 +1,4 @@
-# Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+# Min Stack - 155
 
 class MinStack:
 
@@ -28,11 +28,3 @@ class MinStack:
     def getMin(self) -> int:
         # Return the minimum value in the stack. If the stack is empty, return None.
         return self.stack[-1][1] if self.stack else None
-
-
-# Your MinStack object will be instantiated and called as such:
-# obj = MinStack()
-# obj.push(value)
-# obj.pop()
-# param_3 = obj.top()
-# param_4 = obj.getMin()

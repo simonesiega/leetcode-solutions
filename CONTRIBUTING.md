@@ -31,7 +31,7 @@ Please don’t add confidential assessment content, private recruiter/interviewe
 
 ## What I’m looking for in a solution
 
-Nothing too strict — just try to keep it:
+Nothing complicated — just try to keep it:
 
 - compatible with Python 3 unless the problem explicitly requires another language;
 - in the method signature expected by the relevant platform;
@@ -48,6 +48,8 @@ For comments, I prefer explaining **why** something matters instead of describin
 # Start counting only at the beginning of a sequence.
 if number - 1 not in numbers:
 ```
+
+Start every solution with `# <Problem title> - <ID>`, leave a blank line, and then write the solution. Keep the problem statement out of the file — just link to the official problem instead of copying or rewriting its description, examples, constraints, or editorial content.
 
 ## Adding a NeetCode problem
 
@@ -94,9 +96,9 @@ node scripts/company-tracker.js solve company-name 1 --time "O(n)" --space "O(n)
 
 Each company’s `company.json` is the source of truth. The tracker uses it to generate the dashboard, badge, folder links, and progress counts.
 
-So if something needs changing, update it through the tracker or the source data instead of editing generated company READMEs directly.
+If something needs changing, update it through the tracker or the source data instead of editing generated company READMEs directly.
 
-A solved company problem should have its solution file plus time and space complexity.
+A solved company problem should include its solution file along with its time and space complexity.
 
 ## Branches and PRs
 

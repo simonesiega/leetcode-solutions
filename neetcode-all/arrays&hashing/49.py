@@ -1,4 +1,4 @@
-# Given an array of strings strs, group the anagrams together.
+# Group Anagrams - 49
 
 from typing import List
 from collections import defaultdict

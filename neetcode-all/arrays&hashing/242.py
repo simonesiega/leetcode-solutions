@@ -1,4 +1,4 @@
-# Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+# Valid Anagram - 242
 
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:

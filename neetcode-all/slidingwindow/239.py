@@ -1,5 +1,4 @@
-# Given an integer array nums and a window of size k moving from left to right,
-# return the maximum value in every window.
+# Sliding Window Maximum - 239
 
 from typing import List
 from collections import deque

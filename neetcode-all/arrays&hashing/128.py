@@ -1,5 +1,4 @@
-# Given an unsorted integer array nums, return the length of its longest
-# consecutive sequence. The algorithm must run in O(n) time.
+# Longest Consecutive Sequence - 128
 
 from typing import List
 

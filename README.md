@@ -136,9 +136,13 @@ I try to keep the solutions simple and readable — basically code I’d be comf
 
 Found a mistake or have a cleaner solution? Feel free to open a PR. Have a look at [CONTRIBUTING.md](CONTRIBUTING.md) first so everything stays consistent.
 
+## Problem references
+
+Solution files identify each problem only by its title and ID. For the statement, examples, and constraints, follow the official link in [SOLUTIONS.md](SOLUTIONS.md) or the relevant company dashboard.
+
 ## License
 
-Licensed under the [MIT License](LICENSE).
+The repository’s original code and documentation are licensed under the [MIT License](LICENSE). Third-party problem statements, platform names, and trademarks remain the property of their respective owners.
 
 ## Contributors
 

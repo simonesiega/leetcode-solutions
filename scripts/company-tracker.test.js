@@ -33,11 +33,14 @@ test('tracks a company problem from planning through completion', () => {
 
   run(root, ['start', 'amazon', '1']);
   const solutionPath = path.join(root, 'companies/amazon/solutions/1.py');
-  assert.match(fs.readFileSync(solutionPath, 'utf8'), /TODO\(company-solution\)/);
+  assert.equal(
+    fs.readFileSync(solutionPath, 'utf8'),
+    '# Two Sum - 1\n\n# TODO(company-solution): implement the accepted solution, then remove this marker.\n',
+  );
   assert.equal(fs.existsSync(path.join(root, 'companies/amazon/solutions/.gitkeep')), false);
   assert.equal(readManifest(root, 'amazon').problems[0].status, 'in-progress');
 
-  fs.writeFileSync(solutionPath, 'class Solution:\n    pass\n');
+  fs.writeFileSync(solutionPath, '# Two Sum - 1\n\nclass Solution:\n    pass\n');
   run(root, ['solve', 'amazon', '1', '--time', 'O(n)', '--space', 'O(n)']);
   run(root, ['--check']);
 
@@ -100,12 +103,30 @@ test('will not count an empty or comment-only file as a solution', () => {
   run(root, ['add-company', 'Acme']);
   run(root, ['add-problem', 'acme', '1', 'Two Sum', 'Easy']);
   run(root, ['start', 'acme', '1']);
-  fs.writeFileSync(path.join(root, 'companies/acme/solutions/1.py'), '# Notes only.\n');
+  fs.writeFileSync(path.join(root, 'companies/acme/solutions/1.py'), '# Two Sum - 1\n\n# Notes only.\n');
 
   const result = run(root, ['solve', 'acme', '1', '--time', 'O(n)', '--space', 'O(n)'], false);
 
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /does not contain a Python solution/);
+  assert.equal(readManifest(root, 'acme').problems[0].status, 'in-progress');
+});
+
+test('will not solve a problem with an invalid title and ID header', () => {
+  const root = createRepository();
+
+  run(root, ['add-company', 'Acme']);
+  run(root, ['add-problem', 'acme', '1', 'Two Sum', 'Easy']);
+  run(root, ['start', 'acme', '1']);
+  fs.writeFileSync(
+    path.join(root, 'companies/acme/solutions/1.py'),
+    '# A copied problem statement\n\nclass Solution:\n    pass\n',
+  );
+
+  const result = run(root, ['solve', 'acme', '1', '--time', 'O(n)', '--space', 'O(n)'], false);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /must begin with "# Two Sum - 1" followed by a blank line/);
   assert.equal(readManifest(root, 'acme').problems[0].status, 'in-progress');
 });
 

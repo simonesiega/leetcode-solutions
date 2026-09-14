@@ -103,6 +103,19 @@ test('rejects a catalog entry without its solution file', () => {
   assert.match(result.stderr, /Missing solution file/);
 });
 
+test('rejects a solution without its title and ID header', () => {
+  const root = createRepository([0]);
+  fs.writeFileSync(
+    path.join(root, 'neetcode-all/arrays&hashing/1.py'),
+    '# A copied problem statement\n\nclass Solution:\n    pass\n',
+  );
+
+  const result = run(root, [], false);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /must begin with "# Problem 1 - 1" followed by a blank line/);
+});
+
 function createRepository(solutionTopics) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'readme-stats-'));
   fixtures.push(root);
@@ -138,7 +151,10 @@ function createRepository(solutionTopics) {
     const [, folder] = topicFixtures[topicIndex];
     const directory = path.join(root, 'neetcode-all', folder);
     fs.mkdirSync(directory, { recursive: true });
-    fs.writeFileSync(path.join(directory, `${index + 1}.py`), 'class Solution:\n    pass\n');
+    fs.writeFileSync(
+      path.join(directory, `${index + 1}.py`),
+      `# Problem ${index + 1} - ${index + 1}\n\nclass Solution:\n    pass\n`,
+    );
   });
 
   fs.writeFileSync(path.join(root, 'SOLUTIONS.md'), [

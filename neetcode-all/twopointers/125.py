@@ -1,5 +1,4 @@
-# Return whether s is a palindrome after ignoring non-alphanumeric characters
-# and letter casing.
+# Valid Palindrome - 125
 
 class Solution:
     def isPalindrome(self, s: str) -> bool:

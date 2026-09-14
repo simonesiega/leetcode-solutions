@@ -1,6 +1,4 @@
-# Given each car's position and speed on the way to target, return how many
-# fleets reach the target. Cars cannot pass; a car that catches another joins
-# its fleet and continues at the slower speed.
+# Car Fleet - 853
 
 from typing import List
 
