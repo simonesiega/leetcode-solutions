@@ -30,7 +30,7 @@ Use this skill when the user explicitly asks to commit, prepare a commit, or squ
 
 2. Include untracked files in the review. Read their contents directly; remember that `git diff` and `git diff --check` omit untracked files.
 3. Classify the change from its paths and content, not merely from the user's suggested title:
-   - roadmap solution: `neetcode-all/<topic>/<id>.py` plus its roadmap documentation;
+   - roadmap solution: `neetcode-all/<topic-slug>/<id>.py` plus `data/roadmap.json` and generated roadmap documentation;
    - company solution: `companies/<slug>/solutions/<id>.py` plus tracker metadata and generated documentation;
    - docs, CI, tooling, fixes, or maintenance: any other coherent diff.
 4. Confirm generated documentation is current and ensure no cache, bytecode, secret, editor, temporary, or unrelated file will be staged.

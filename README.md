@@ -32,7 +32,7 @@ Mostly here so I can keep track of what I’ve done, come back to old problems, 
 
 The roadmap totals are a snapshot of NeetCode All and may change as NeetCode adds or reorganizes problems.
 
-Solved counts, difficulty statistics, and the topic chart are generated from the completed entries in [SOLUTIONS.md](SOLUTIONS.md).
+[`data/roadmap.json`](data/roadmap.json) keeps the roadmap data in one place. The generator checks it against the solution files, then uses it to build [SOLUTIONS.md](SOLUTIONS.md), update the solved counts, and generate the README charts and topic table.
 
 <!-- difficulty-chart:start -->
 ```mermaid
@@ -58,6 +58,8 @@ pie showData
 <!-- topic-chart:end -->
 
 ### Progress by topic
+
+Open the table below to see solved and total problem counts for every roadmap topic.
 
 <details>
 <summary><strong>View detailed topic progress</strong></summary>
@@ -115,16 +117,19 @@ If you’re curious, the full setup is in the [company prep guide](companies/REA
 NeetCode solutions are grouped by topic, while company prep gets its own folder for each company:
 
 ```text
+# Roadmap metadata
+data/roadmap.json
+
 # NeetCode All roadmap solutions
-neetcode-all/<topic>/<problem-number>.py
+neetcode-all/<topic-slug>/<problem-number>.py
 
 # Company preparation solutions
 companies/<company-name>/solutions/<problem-id>.py
 ```
 
-For example, a roadmap solution is [`neetcode-all/arrays&hashing/217.py`](neetcode-all/arrays%26hashing/217.py).
+For example, a roadmap solution is [`neetcode-all/arrays-and-hashing/217.py`](neetcode-all/arrays-and-hashing/217.py).
 
-Company attempts use the same simple Python style, they just stay inside their own company folder.
+Company attempts use the same simple Python style, but they stay inside their own company folder.
 
 ## How I write my solutions
 
@@ -138,11 +143,11 @@ Found a mistake or have a cleaner solution? Feel free to open a PR. Have a look 
 
 ## Problem references
 
-Solution files identify each problem only by its title and ID. For the statement, examples, and constraints, follow the official link in [SOLUTIONS.md](SOLUTIONS.md) or the relevant company dashboard.
+Solution files identify each problem only by its title and ID. For the full statement, examples, and constraints, use the official link in [SOLUTIONS.md](SOLUTIONS.md) or the relevant company dashboard.
 
 ## License
 
-The repository’s original code and documentation are licensed under the [MIT License](LICENSE). Third-party problem statements, platform names, and trademarks remain the property of their respective owners.
+The repository’s original code and documentation are licensed under the [MIT License](LICENSE). Third-party content, platform names, and trademarks remain the property of their respective owners.
 
 ## Contributors
 

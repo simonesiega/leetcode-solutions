@@ -31,7 +31,7 @@ body:
     attributes:
       label: Current solution file
       description: Provide the path of the existing solution.
-      placeholder: neetcode-all/twopointers/125.py or companies/roblox/solutions/oa-pairs.py
+      placeholder: neetcode-all/two-pointers/125.py or companies/roblox/solutions/oa-pairs.py
     validations:
       required: true
 
@@ -85,8 +85,6 @@ body:
       label: Before submitting
       options:
         - label: I compared the proposal with the current repository solution.
-          required: true
-        - label: I can explain why this change is useful.
           required: true
         - label: I checked that a similar issue is not already open.
           required: true

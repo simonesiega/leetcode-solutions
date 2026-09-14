@@ -23,17 +23,25 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
 
-      - name: Check generated roadmap documentation
-        run: node scripts/update-readme-stats.js --check
+      - name: Validate roadmap data and generated documentation
+        run: |
+          node --check scripts/update-readme-stats.js
+          node scripts/update-readme-stats.js --check
 
-      - name: Test roadmap documentation automation
-        run: node --test scripts/update-readme-stats.test.js
+      - name: Test roadmap validation and generation
+        run: |
+          node --check scripts/update-readme-stats.test.js
+          node --test scripts/update-readme-stats.test.js
 
       - name: Validate company preparation tracker
-        run: node scripts/company-tracker.js --check
+        run: |
+          node --check scripts/company-tracker.js
+          node scripts/company-tracker.js --check
 
       - name: Test company preparation tracker
-        run: node --test scripts/company-tracker.test.js
+        run: |
+          node --check scripts/company-tracker.test.js
+          node --test scripts/company-tracker.test.js
 
   test:
     name: Python ${{ matrix.python-version }}

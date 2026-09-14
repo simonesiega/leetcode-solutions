@@ -20,7 +20,7 @@ For small fixes, just open a Pull Request. If you want to change something bigge
 
 | Collection | Path | Purpose |
 |---|---|---|
-| NeetCode All | `neetcode-all/<topic>/<problem-number>.py` | My main roadmap practice. |
+| NeetCode All | `neetcode-all/<topic-slug>/<problem-number>.py` | My main roadmap practice. |
 | Company prep | `companies/<company>/solutions/<problem-id>.py` | A separate attempt for a specific OA or interview. |
 
 The same problem can show up in both places. That’s intentional — if I solve something again for an OA or interview, I like keeping that attempt separate from the roadmap version.
@@ -53,24 +53,32 @@ Start every solution with `# <Problem title> - <ID>`, leave a blank line, and th
 
 ## Adding a NeetCode problem
 
-Use the numeric LeetCode ID as the filename:
+[`data/roadmap.json`](data/roadmap.json) is the source of truth for roadmap metadata, topic definitions, and the roadmap total. `SOLUTIONS.md` and the roadmap blocks in `README.md` are generated files, so don’t edit them directly.
 
-```text
-neetcode-all/<topic>/<problem-number>.py
-```
+To add the next accepted solution:
 
-After that:
-
-1. confirm that the problem is not already listed in [`SOLUTIONS.md`](SOLUTIONS.md);
-2. add the accepted solution to the correct topic folder;
-3. add its title, link, difficulty, time complexity, and space complexity to [`SOLUTIONS.md`](SOLUTIONS.md);
-4. confirm that its topic and the current roadmap total are present in [`README.md`](README.md); and
-5. regenerate the solved counts, difficulty chart, and completed-topic chart:
+1. confirm that its numeric ID is not already in `data/roadmap.json`;
+2. add the solution to `neetcode-all/<topic-slug>/<id>.py`, using one of the topic slugs already defined in the JSON file;
+3. add a numerically ordered problem object to `data/roadmap.json` with all of these fields:
+   ```json
+   {
+     "id": 217,
+     "title": "Contains Duplicate",
+     "url": "https://leetcode.com/problems/contains-duplicate/",
+     "topic": "arrays-and-hashing",
+     "difficulty": "Easy",
+     "status": "solved",
+     "timeComplexity": "Expected `O(n)`, where `n` is the number of values.",
+     "spaceComplexity": "`O(n)` for the set of input values."
+   }
+   ```
+4. run the generator from the repository root:
    ```bash
    node scripts/update-readme-stats.js
    ```
+5. review the generated changes to `SOLUTIONS.md` and `README.md`, then run the checks below.
 
-The script handles the solved counts from `SOLUTIONS.md`. The roadmap totals stay manual since NeetCode can add or move problems around.
+The generator validates the JSON schema, IDs, URLs, topics, difficulties, statuses, complexities, solution paths, solved implementations, and `# <Title> - <ID>` headers before writing Markdown. It supports `planned`, `in-progress`, and `solved`; only solved entries appear in the catalog and progress statistics. A planned entry must not have a solution file, while in-progress and solved entries must have one. Keep complexity strings empty until they are known for a planned or in-progress entry, and fill both before changing its status to `solved`.
 
 ## Adding company prep
 
@@ -156,9 +164,9 @@ And do one quick pass through this:
 - [ ] the filename matches its LeetCode or tracked OA problem ID;
 - [ ] the solution was accepted by the relevant platform or tested with representative cases;
 - [ ] important edge cases and complexity notes are accurate;
-- [ ] `SOLUTIONS.md` and generated README statistics and charts are updated for roadmap additions;
+- [ ] `data/roadmap.json` contains the correct roadmap metadata;
 - [ ] `company.json` contains the correct metadata and status for company additions;
-- [ ] generated documentation is up to date; and
+- [ ] generated `SOLUTIONS.md`, README blocks, and company dashboards are up to date; and
 - [ ] the Pull Request contains one focused change.
 
 ## One last thing

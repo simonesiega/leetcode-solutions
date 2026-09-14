@@ -45,8 +45,8 @@ body:
     id: destination
     attributes:
       label: Topic or company
-      description: Enter the NeetCode topic or company workspace where this problem belongs.
-      placeholder: Two Pointers or Roblox
+      description: Enter the registered NeetCode topic slug or company workspace where this problem belongs.
+      placeholder: two-pointers or roblox
     validations:
       required: true
 

@@ -30,7 +30,7 @@ body:
     id: solution-file
     attributes:
       label: Solution file
-      placeholder: neetcode-all/twopointers/125.py or companies/roblox/solutions/oa-pairs.py
+      placeholder: neetcode-all/two-pointers/125.py or companies/roblox/solutions/oa-pairs.py
     validations:
       required: true
 
