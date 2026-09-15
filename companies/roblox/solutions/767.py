@@ -1,6 +1,5 @@
 # Reorganize String - 767
 
-
 class Solution:
     def reorganizeString(self, s: str) -> str:
         freq_map = {}

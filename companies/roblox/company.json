@@ -33,6 +33,16 @@
       "time": "O(n + k log k)",
       "space": "O(n + k)",
       "notes": "k = number of distinct characters"
+    },
+    {
+      "id": "1434",
+      "title": "Number of Ways to Wear Different Hats to Each Other",
+      "url": "https://leetcode.com/problems/number-of-ways-to-wear-different-hats-to-each-other/",
+      "difficulty": "Hard",
+      "status": "solved",
+      "time": "O(Hp2^p)",
+      "space": "O(H2^p + Hp)",
+      "notes": "H = 40 possible hats; p = number of people; space includes memoization and the hat-to-people mapping"
     }
   ]
 }
