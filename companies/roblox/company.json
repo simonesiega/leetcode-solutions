@@ -5,6 +5,16 @@
   "website": "",
   "problems": [
     {
+      "id": "68",
+      "title": "Text Justification",
+      "url": "https://leetcode.com/problems/text-justification/",
+      "difficulty": "Hard",
+      "status": "solved",
+      "time": "O(nw)",
+      "space": "O(w)",
+      "notes": "n = number of characters in the returned output; w = maxWidth; auxiliary space excludes the returned output"
+    },
+    {
       "id": "723",
       "title": "Candy Crush",
       "url": "https://leetcode.com/problems/candy-crush/",
