@@ -2,6 +2,7 @@
 
 from typing import List
 
+
 class Solution:
     def candyCrush(self, board: List[List[int]]) -> List[List[int]]:
         rows, cols = len(board), len(board[0])

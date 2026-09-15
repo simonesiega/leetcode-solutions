@@ -77,7 +77,7 @@ updatedReadme = replaceBlock(
 
 // SOLUTIONS.md is fully generated; README.md retains prose outside its marker blocks.
 const expectedFiles = [
-  { path: solutionsPath, content: renderSolutions(solved) },
+  { path: solutionsPath, content: renderSolutions(roadmap.topics, solved) },
   { path: readmePath, content: updatedReadme },
 ];
 const stale = expectedFiles.filter((file) => (
@@ -222,10 +222,14 @@ function validateRoadmap(roadmap) {
 
 /**
  * Render the generated solution catalog.
+ * @param {object[]} topics - Ordered roadmap topic metadata.
  * @param {object[]} problems - Solved roadmap problems.
  * @returns {string}
  */
-function renderSolutions(problems) {
+function renderSolutions(topics, problems) {
+  const problemsByTopic = new Map(topics.map((topic) => [topic.slug, []]));
+  for (const problem of problems) problemsByTopic.get(problem.topic).push(problem);
+
   const lines = [
     '# NeetCode All solutions',
     '',
@@ -237,17 +241,34 @@ function renderSolutions(problems) {
     '',
     '<!-- Generated from data/roadmap.json by scripts/update-readme-stats.js. Do not edit directly. -->',
     '',
-    '## Solution catalog',
-    '',
-    '| Problem | Title | File | Time Complexity | Space Complexity | Difficulty | Personal Difficulty |',
-    '|---:|---|---|---|---|:---:|:---:|',
   ];
-  for (const problem of problems) {
-    const solutionPath = `neetcode-all/${problem.topic}/${problem.id}.py`;
-    const color = difficultyColors[problem.difficulty];
-    lines.push(`| ${problem.id} | [${problem.title}](${problem.url}) | [${problem.id}.py](${solutionPath}) | ${problem.timeComplexity} | ${problem.spaceComplexity} | ![${problem.difficulty}](https://img.shields.io/badge/${problem.difficulty}-${color}?style=flat-square) | ${problem.personalDifficulty ?? '—'} |`);
+
+  lines.push(
+    `**Topics:** ${topics.map((topic) => `[${topic.label}](#${topic.slug})`).join(' · ')}`,
+    '',
+  );
+
+  for (const topic of topics) {
+    const topicProblems = problemsByTopic.get(topic.slug);
+    lines.push(`<a id="${topic.slug}"></a>`, '', `## ${topic.label}`, '');
+
+    if (!topicProblems.length) {
+      lines.push('_No solved problems in this topic yet._', '');
+      continue;
+    }
+
+    lines.push(
+      '| Problem | Title | File | Time Complexity | Space Complexity | Difficulty | Personal Difficulty |',
+      '|---:|---|---|---|---|:---:|:---:|',
+    );
+    for (const problem of topicProblems) {
+      const solutionPath = `neetcode-all/${problem.topic}/${problem.id}.py`;
+      const color = difficultyColors[problem.difficulty];
+      lines.push(`| ${problem.id} | [${problem.title}](${problem.url}) | [${problem.id}.py](${solutionPath}) | ${problem.timeComplexity} | ${problem.spaceComplexity} | ![${problem.difficulty}](https://img.shields.io/badge/${problem.difficulty}-${color}?style=flat-square) | ${problem.personalDifficulty ?? '—'} |`);
+    }
+    lines.push('');
   }
-  return `${lines.join('\n')}\n`;
+  return `${lines.join('\n')}`;
 }
 
 /**
@@ -292,10 +313,10 @@ function renderTopicChart(topics, total) {
  */
 function renderTopicTable(topics, counts, solvedTotal, roadmapTotal) {
   return [
-    '| Topic | Solved | Total |',
-    '|---|---:|---:|',
-    ...topics.map((topic) => `| ${topic.label} | ${counts.get(topic.slug)} | ${topic.total} |`),
-    `| **All topics** | <!-- progress-total:start -->**${solvedTotal}**<!-- progress-total:end --> | **${roadmapTotal}** |`,
+    '| Topic | Solved | Total | Solutions |',
+    '|---|---:|---:|:---:|',
+    ...topics.map((topic) => `| ${topic.label} | ${counts.get(topic.slug)} | ${topic.total} | [View](SOLUTIONS.md#${topic.slug}) |`),
+    `| **All topics** | <!-- progress-total:start -->**${solvedTotal}**<!-- progress-total:end --> | **${roadmapTotal}** | [Browse all](SOLUTIONS.md) |`,
   ];
 }
 

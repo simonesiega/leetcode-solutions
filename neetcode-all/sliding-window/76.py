@@ -7,7 +7,7 @@ class Solution:
 
         # Count how many times each character is required.
         need = {}
-        
+
         for c in t:
             need[c] = 1 + need.get(c, 0)
 

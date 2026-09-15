@@ -2,6 +2,7 @@
 
 from typing import List
 
+
 class Solution:
 
     def encode(self, strs: List[str]) -> str:
@@ -14,14 +15,14 @@ class Solution:
         # Loop through each word in the input list of strings and encode it by appending its length, a delimiter "#", and the word itself to the encoded string
         for word in strs:
             encoded += str(len(word)) + "#" + word
-        
+
         return encoded
 
     def decode(self, s: str) -> List[str]:
         # If the input string is empty, return an empty list
         if (s == ""):
             return []
-        
+
         decoded, index = [], 0
 
         # Loop through the encoded string and decode it by extracting the length of each word, the delimiter "#", and the word itself

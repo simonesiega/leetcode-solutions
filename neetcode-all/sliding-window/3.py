@@ -16,7 +16,7 @@ class Solution:
                 # Remove the character at the left pointer from the set and move the left pointer to the right
                 seen.remove(s[left])
                 left += 1
-            
+
             # Add the current character to the set
             seen.add(c)
 

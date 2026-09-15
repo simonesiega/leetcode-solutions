@@ -2,6 +2,7 @@
 
 from typing import List
 
+
 class Solution:
     def maxArea(self, height: List[int]) -> int:
         # If there are only two lines, the maximum area is simply the area formed by the smaller of the two heights multiplied by the distance between them (which is 1).
@@ -22,7 +23,7 @@ class Solution:
 
             # Update the maximum area if the current area is larger.
             max_area = max(max_area, width * current_height)
-    
+
             # Move the pointer pointing to the shorter line inward, as moving the taller line would not increase the area.
             if height[left] < height[right]:
                 left += 1

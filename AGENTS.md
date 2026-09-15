@@ -102,6 +102,7 @@ node --test scripts/update-readme-stats.test.js
 node scripts/company-tracker.js --check
 node --test scripts/company-tracker.test.js
 
+ruff check neetcode-all companies
 python -m compileall -q neetcode-all companies
 
 git diff --check

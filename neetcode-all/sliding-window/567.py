@@ -5,7 +5,7 @@ class Solution:
         # If the length of s1 is greater than the length of s2, return False since s2 cannot contain a permutation of s1
         if len(s1) > len(s2):
             return False
-        
+
         # Initialize a dictionary to count the frequency of characters in s1
         need = {}
 

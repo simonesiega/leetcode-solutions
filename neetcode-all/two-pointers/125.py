@@ -4,11 +4,11 @@ class Solution:
     def isPalindrome(self, s: str) -> bool:
         if(len(s) == 1):
             return True
-        
+
         # Initialize two pointers, left and right, to the start and end of the string respectively.
         left = 0
         right = len(s)-1
-        
+
         # Use a while loop to compare characters from both ends of the string until the pointers meet.
         while left < right:
 

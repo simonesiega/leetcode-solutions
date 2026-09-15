@@ -12,9 +12,9 @@ class Solution:
             # Update the minimum price if the current price is lower than the previously recorded minimum
             if prices[i] < buy:
                 buy = prices[i]
-                
+
             # Update the profit if the current price minus the minimum price is greater than the previously recorded profit
             elif prices[i] - buy > profit:
                 profit = prices[i] - buy
-    
+
         return profit

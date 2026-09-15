@@ -2,6 +2,7 @@
 
 from typing import List
 
+
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
         # A single bar forms a rectangle whose area is equal to its height.

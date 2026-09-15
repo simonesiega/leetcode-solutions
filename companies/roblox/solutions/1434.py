@@ -3,6 +3,7 @@
 from typing import List
 from functools import lru_cache
 
+
 class Solution:
     def numberWays(self, hats: List[List[int]]) -> int:
         MOD = 1_000_000_007

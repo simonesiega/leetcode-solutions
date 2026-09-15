@@ -3,6 +3,7 @@
 from typing import List
 from collections import defaultdict
 
+
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         # If the length of strs is less than 2, return a list containing strs as the only group of anagrams
@@ -10,7 +11,7 @@ class Solution:
             return [strs]
 
         anagram_groups = defaultdict(list)
-        
+
         # Loop through each word in strs and create an array of size 26 to count the occurrences of each character in the word
         for word in strs:
             char_count = [0] * 26
@@ -25,5 +26,5 @@ class Solution:
             signature = tuple(char_count)
 
             anagram_groups[signature].append(word)
-        
+
         return list(anagram_groups.values())

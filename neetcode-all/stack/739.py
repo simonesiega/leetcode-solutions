@@ -2,6 +2,7 @@
 
 from typing import List
 
+
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
         # Initialize the result array with zeros, which will hold the number of days to wait for a warmer temperature for each day.
@@ -12,17 +13,17 @@ class Solution:
 
         # Iterate through the temperatures using their indices and values.
         for i, temp in enumerate(temperatures):
-            
+
             # While the stack is not empty and the current temperature is greater than the temperature at the index stored at the top of the stack, it means we have found a warmer day for the day represented by that index.
             while stack and temperatures[stack[-1]] < temp:
-                
+
                 # Pop the index from the stack, which represents a day for which we have found a warmer temperature.
                 index = stack.pop()
 
                 # Calculate the number of days to wait for a warmer temperature by subtracting the index of the day from the current index and store it in the result array.
                 res[index] = i - index
-            
+
             # Push the current index onto the stack to keep track of it for future comparisons.
             stack.append(i)
-        
+
         return res

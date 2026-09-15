@@ -2,11 +2,11 @@
 
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        # Check if the lengths of the two strings are different. 
+        # Check if the lengths of the two strings are different.
         # If they are, they cannot be anagrams, so return False
         if (len(s) != len(t)):
             return False
-        
+
         count_t = {}
         count_s = {}
 
@@ -18,5 +18,5 @@ class Solution:
 
             count_t[char_t] = count_t.get(char_t, 0) + 1
             count_s[char_s] = count_s.get(char_s, 0) + 1
-        
+
         return count_t == count_s

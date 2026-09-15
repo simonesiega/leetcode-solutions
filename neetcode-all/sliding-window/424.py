@@ -27,7 +27,7 @@ class Solution:
             # If the length of the current window minus the maximum frequency is greater than k
             while (right - left + 1) - max_frequency > k:
 
-                # Decrease the frequency count of the character at the left pointer in the dictionary 
+                # Decrease the frequency count of the character at the left pointer in the dictionary
                 count[s[left]] -= 1
 
                 # Move the left pointer to the right to shrink the window

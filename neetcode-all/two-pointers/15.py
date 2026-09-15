@@ -17,16 +17,16 @@ class Solution:
             # Skip duplicate elements to avoid duplicate triplets in the result.
             if i > 0 and first == nums[i - 1]:
                 continue
-            
+
             left, right = i + 1, len(nums) - 1
-            
+
             # Two Sum approach: Use two pointers to find pairs that, along with the first element, sum to zero.
             while left < right:
                 total = first + nums[left] + nums[right]
 
                 if total < 0:
                     left += 1
-                
+
                 elif total > 0:
                     right -= 1
 

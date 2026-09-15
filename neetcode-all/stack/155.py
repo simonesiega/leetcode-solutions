@@ -3,7 +3,7 @@
 class MinStack:
 
     def __init__(self):
-        # Initialize the stack as an empty list. 
+        # Initialize the stack as an empty list.
         # Each element in the stack will be a list containing two elements: the value and the minimum value at that point in the stack.
         self.stack = []
 
@@ -12,13 +12,13 @@ class MinStack:
         min_val = self.getMin()
 
         # If the current minimum value is None (meaning the stack is empty) or the new value is less than the current minimum, update min_val to be the new value.
-        if min_val == None or min_val > val:
+        if min_val is None or min_val > val:
             min_val = val
 
         self.stack.append([val, min_val])
 
     def pop(self) -> None:
-        # Remove the top element from the stack. 
+        # Remove the top element from the stack.
         self.stack.pop()
 
     def top(self) -> int:

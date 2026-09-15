@@ -41,18 +41,52 @@ test('generates the solution catalog, roadmap counts, and Mermaid topic chart fr
 
   const catalog = fs.readFileSync(path.join(root, 'SOLUTIONS.md'), 'utf8');
   assert.match(catalog, /Generated from data\/roadmap\.json/);
+  for (const [label, slug] of topicFixtures) {
+    assert.ok(catalog.includes(`[${label}](#${slug})`), `Missing ${label} navigation link`);
+    assert.ok(
+      catalog.includes(`<a id="${slug}"></a>\n\n## ${label}`),
+      `Missing ${label} catalog section`,
+    );
+  }
+  assert.match(catalog, /## Sliding Window\n\n_No solved problems in this topic yet\._/);
+  assert.equal([...catalog.matchAll(/^## /gm)].length, topicFixtures.length);
+  assert.equal(
+    [...catalog.matchAll(/\| Problem \| Title \| File \| Time Complexity \| Space Complexity \| Difficulty \| Personal Difficulty \|/g)].length,
+    2,
+  );
+
+  const arraysSection = catalog.indexOf('## Arrays & Hashing');
+  const firstProblem = catalog.indexOf('[Problem 1]');
+  const thirdProblem = catalog.indexOf('[Problem 3]');
+  const twoPointersSection = catalog.indexOf('## Two Pointers');
+  const secondProblem = catalog.indexOf('[Problem 2]');
+  assert.ok(arraysSection < firstProblem);
+  assert.ok(firstProblem < thirdProblem);
+  assert.ok(thirdProblem < twoPointersSection);
+  assert.ok(twoPointersSection < secondProblem);
+
   assert.match(catalog, /\[Problem 1\]\(https:\/\/leetcode\.com\/problems\/problem-1\/\)/);
   assert.match(catalog, /neetcode-all\/arrays-and-hashing\/1\.py/);
   assert.match(catalog, /`O\(n\)`, where `n` is the input size\./);
-  assert.match(catalog, /\| Difficulty \| Personal Difficulty \|/);
   assert.match(catalog, /flat-square\) \| 1 \|/);
 
   const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
   assert.match(readme, /NeetCode%20Solved-3-brightgreen/);
   assert.match(readme, /alt="NeetCode solved problems: 3"/);
   assert.match(readme, /title Solved Problems by Difficulty \(3 Total\)/);
-  assert.match(readme, /\| Arrays & Hashing \| 2 \| 175 \|/);
-  assert.match(readme, /\| Two Pointers \| 1 \| 43 \|/);
+  assert.match(readme, /\| Topic \| Solved \| Total \| Solutions \|/);
+  const expectedSolvedCounts = new Map([
+    ['arrays-and-hashing', 2],
+    ['two-pointers', 1],
+  ]);
+  for (const [label, slug, total] of topicFixtures) {
+    const count = expectedSolvedCounts.get(slug) ?? 0;
+    assert.ok(
+      readme.includes(`| ${label} | ${count} | ${total} | [View](SOLUTIONS.md#${slug}) |`),
+      `Missing ${label} topic table link`,
+    );
+  }
+  assert.match(readme, /\| \*\*All topics\*\* .* \[Browse all\]\(SOLUTIONS\.md\) \|/);
   assert.match(readme, /title Solved Problems by Topic \(3 Total\)/);
   assert.match(readme, /"Arrays & Hashing" : 2/);
   assert.match(readme, /"Two Pointers" : 1/);
@@ -98,7 +132,14 @@ test('renders an empty topic state when every tracked problem is planned', () =>
   const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
   assert.match(readme, /NeetCode%20Solved-0-brightgreen/);
   assert.match(readme, /_No solved roadmap problems yet\._/);
-  assert.doesNotMatch(fs.readFileSync(path.join(root, 'SOLUTIONS.md'), 'utf8'), /\[Problem 1\]/);
+  const catalog = fs.readFileSync(path.join(root, 'SOLUTIONS.md'), 'utf8');
+  assert.match(catalog, /\*\*Topics:\*\* \[Arrays & Hashing\]\(#arrays-and-hashing\)/);
+  assert.equal([...catalog.matchAll(/^## /gm)].length, topicFixtures.length);
+  assert.equal(
+    [...catalog.matchAll(/_No solved problems in this topic yet\._/g)].length,
+    topicFixtures.length,
+  );
+  assert.doesNotMatch(catalog, /\| Problem \||\[Problem 1\]/);
 });
 
 test('supports a unique configured color for every roadmap topic', () => {

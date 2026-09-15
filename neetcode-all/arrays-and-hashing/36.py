@@ -2,6 +2,7 @@
 
 from typing import List
 
+
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         rows = [set() for _ in range(9)]
@@ -26,4 +27,4 @@ class Solution:
                     cols[j].add(num)
                     boxes[box_index].add(num)
 
-        return True 
+        return True

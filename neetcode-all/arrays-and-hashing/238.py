@@ -2,12 +2,13 @@
 
 from typing import List
 
+
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         # If the length of nums is 2, return the reversed list since each element's product except itself is the other element
         if (len(nums) == 2):
             return [nums[1], nums[0]]
-        
+
         res = [1] * len(nums)
 
         prefix = 1
@@ -15,7 +16,7 @@ class Solution:
         for i in range(len(nums)):
             res[i] = prefix
             prefix *= nums[i]
-        
+
         postfix = 1
         # The postfix represents the product of all the elements to the right of the current index
         for i in range(len(nums) -1, -1, -1):

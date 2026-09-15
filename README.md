@@ -81,33 +81,33 @@ pie showData
 
 ### Progress by topic
 
-Open the table below to see solved and total problem counts for every roadmap topic.
+Open the table below to see solved and total problem counts for every roadmap topic and jump to its solution catalog section.
 
 <details>
 <summary><strong>View detailed topic progress</strong></summary>
 
 <!-- topic-table:start -->
-| Topic | Solved | Total |
-|---|---:|---:|
-| Arrays & Hashing | 9 | 175 |
-| Two Pointers | 5 | 43 |
-| Sliding Window | 6 | 41 |
-| Stack | 6 | 39 |
-| Binary Search | 0 | 43 |
-| Linked List | 0 | 40 |
-| Trees | 0 | 93 |
-| Heap / Priority Queue | 0 | 33 |
-| Backtracking | 0 | 36 |
-| Tries | 0 | 12 |
-| Graphs | 0 | 71 |
-| Advanced Graphs | 0 | 30 |
-| 1-D Dynamic Programming | 0 | 55 |
-| 2-D Dynamic Programming | 0 | 50 |
-| Greedy | 0 | 67 |
-| Intervals | 0 | 21 |
-| Math & Geometry | 0 | 63 |
-| Bit Manipulation | 0 | 31 |
-| **All topics** | <!-- progress-total:start -->**26**<!-- progress-total:end --> | **973** |
+| Topic | Solved | Total | Solutions |
+|---|---:|---:|:---:|
+| Arrays & Hashing | 9 | 175 | [View](SOLUTIONS.md#arrays-and-hashing) |
+| Two Pointers | 5 | 43 | [View](SOLUTIONS.md#two-pointers) |
+| Sliding Window | 6 | 41 | [View](SOLUTIONS.md#sliding-window) |
+| Stack | 6 | 39 | [View](SOLUTIONS.md#stack) |
+| Binary Search | 0 | 43 | [View](SOLUTIONS.md#binary-search) |
+| Linked List | 0 | 40 | [View](SOLUTIONS.md#linked-list) |
+| Trees | 0 | 93 | [View](SOLUTIONS.md#trees) |
+| Heap / Priority Queue | 0 | 33 | [View](SOLUTIONS.md#heap-priority-queue) |
+| Backtracking | 0 | 36 | [View](SOLUTIONS.md#backtracking) |
+| Tries | 0 | 12 | [View](SOLUTIONS.md#tries) |
+| Graphs | 0 | 71 | [View](SOLUTIONS.md#graphs) |
+| Advanced Graphs | 0 | 30 | [View](SOLUTIONS.md#advanced-graphs) |
+| 1-D Dynamic Programming | 0 | 55 | [View](SOLUTIONS.md#1d-dynamic-programming) |
+| 2-D Dynamic Programming | 0 | 50 | [View](SOLUTIONS.md#2d-dynamic-programming) |
+| Greedy | 0 | 67 | [View](SOLUTIONS.md#greedy) |
+| Intervals | 0 | 21 | [View](SOLUTIONS.md#intervals) |
+| Math & Geometry | 0 | 63 | [View](SOLUTIONS.md#math-and-geometry) |
+| Bit Manipulation | 0 | 31 | [View](SOLUTIONS.md#bit-manipulation) |
+| **All topics** | <!-- progress-total:start -->**26**<!-- progress-total:end --> | **973** | [Browse all](SOLUTIONS.md) |
 <!-- topic-table:end -->
 
 </details>

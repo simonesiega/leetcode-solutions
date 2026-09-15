@@ -2,6 +2,7 @@
 
 from typing import List
 
+
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
         # A set removes duplicates and provides expected O(1) membership checks.
@@ -19,7 +20,7 @@ class Solution:
                 while (current in numbers):
                     current += 1
                     counter += 1
-                
+
                 # Update the longest sequence length if the current sequence is longer than the previously recorded longest.
                 longest = max(longest, counter)
 
