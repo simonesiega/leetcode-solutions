@@ -67,6 +67,7 @@ To add the next accepted solution:
      "url": "https://leetcode.com/problems/contains-duplicate/",
      "topic": "arrays-and-hashing",
      "difficulty": "Easy",
+     "personalDifficulty": null,
      "status": "solved",
      "timeComplexity": "Expected `O(n)`, where `n` is the number of values.",
      "spaceComplexity": "`O(n)` for the set of input values."
@@ -78,7 +79,7 @@ To add the next accepted solution:
    ```
 5. review the generated changes to `SOLUTIONS.md` and `README.md`, then run the checks below.
 
-The generator validates the JSON schema, IDs, URLs, topics, difficulties, statuses, complexities, solution paths, solved implementations, and `# <Title> - <ID>` headers before writing Markdown. It supports `planned`, `in-progress`, and `solved`; only solved entries appear in the catalog and progress statistics. A planned entry must not have a solution file, while in-progress and solved entries must have one. Keep complexity strings empty until they are known for a planned or in-progress entry, and fill both before changing its status to `solved`.
+The generator validates the JSON schema, IDs, URLs, topics, difficulties, personal difficulty ratings, statuses, complexities, solution paths, solved implementations, and `# <Title> - <ID>` headers before writing Markdown. Personal difficulty is an optional integer from 1 to 10; use `null` until the problem has been rated. It supports `planned`, `in-progress`, and `solved`; only solved entries appear in the catalog and progress statistics. A planned entry must not have a solution file, while in-progress and solved entries must have one. Keep complexity strings empty until they are known for a planned or in-progress entry, and fill both before changing its status to `solved`.
 
 ## Adding company prep
 
@@ -89,24 +90,24 @@ For company prep, use the tracker instead of creating and syncing everything by 
 node scripts/company-tracker.js add-company "Company Name" --focus "Region or interview stage"
 
 # Add a problem to the preparation plan.
-node scripts/company-tracker.js add-problem company-name 1 "Two Sum" Easy
+node scripts/company-tracker.js add-problem company-name 1 "Two Sum" Easy --personal-difficulty 3
 
 # Create the solution file and mark the problem in progress.
 node scripts/company-tracker.js start company-name 1
 
 # After solving it, remove TODO(company-solution) and record the complexity.
-node scripts/company-tracker.js solve company-name 1 --time "O(n)" --space "O(n)"
+node scripts/company-tracker.js solve company-name 1 --time "O(n)" --space "O(n)" --personal-difficulty 3
 ```
 
 `add-company` also supports `--slug` and `--website`.
 
-`add-problem` supports `--url` for problems outside LeetCode and `--notes` for a quick pattern, reminder, or review note. Problem IDs can use letters, numbers, dots, underscores, and hyphens.
+`add-problem` supports `--personal-difficulty` for an optional rating from 1 to 10, `--url` for problems outside LeetCode, and `--notes` for a quick pattern, reminder, or review note. The `solve` command also accepts `--personal-difficulty`, so an unrated problem can be rated later. Problem IDs can use letters, numbers, dots, underscores, and hyphens.
 
 Each company’s `company.json` is the source of truth. The tracker uses it to generate the dashboard, badge, folder links, and progress counts.
 
 If something needs changing, update it through the tracker or the source data instead of editing generated company READMEs directly.
 
-A solved company problem should include its solution file along with its time and space complexity.
+A solved company problem should include its solution file along with its time and space complexity. Personal difficulty may remain unrated as `null` until the maintainer assigns a value.
 
 ## Branches and PRs
 

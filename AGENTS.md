@@ -9,7 +9,7 @@ Read `CONTRIBUTING.md` before making changes. Preserve the user's solution and a
 ## Repository structure and sources of truth
 
 - `neetcode-all/<topic-slug>/<problem-number>.py`: NeetCode All roadmap solutions.
-- `data/roadmap.json`: source of truth for roadmap topics, totals, problem metadata, status, and complexity.
+- `data/roadmap.json`: source of truth for roadmap topics, totals, problem metadata, personal difficulty, status, and complexity.
 - `SOLUTIONS.md`: generated roadmap catalog; do not edit it directly.
 - `README.md`: manual prose plus generated roadmap and company summary blocks.
 - `companies/<company>/company.json`: source of truth for a company workspace.
@@ -26,7 +26,7 @@ Use this workflow when asked to add or finish a roadmap problem.
 1. Inspect `git status`, the current diff, nearby solutions, `data/roadmap.json`, `README.md`, and `SOLUTIONS.md`. Confirm that the problem is not already cataloged.
 2. Identify the numeric LeetCode ID, exact title, canonical URL, difficulty, and correct registered topic slug. Ask instead of guessing when the topic or metadata is uncertain.
 3. Put the accepted solution at `neetcode-all/<topic-slug>/<id>.py`. Keep the LeetCode method signature and local Python style. Check required edge cases and explain any correctness concern before changing the user's algorithm.
-4. Add a numerically ordered problem object to `data/roadmap.json` with status `solved` and accurate time and auxiliary-space complexity. Define every symbol such as `n`, `k`, or `a`, and distinguish auxiliary space from returned output when useful.
+4. Add a numerically ordered problem object to `data/roadmap.json` with status `solved`, `personalDifficulty` set to the user's 1–10 rating or `null` when unrated, and accurate time and auxiliary-space complexity. Never infer a personal rating. Define every complexity symbol such as `n`, `k`, or `a`, and distinguish auxiliary space from returned output when useful.
 5. Do not manually edit `SOLUTIONS.md` or generated README marker blocks.
 6. Run `node scripts/update-readme-stats.js` to validate the source data and solution files and regenerate the catalog, solved badge, counts, charts, and topic table.
 7. Review links, counts, filename, final newline, whitespace, and the complete diff. Test representative normal and boundary cases when possible.
@@ -38,14 +38,14 @@ Use this workflow when asked to add or finish a roadmap problem.
 Use this workflow when the requested company name matches a folder slug under `companies/`, for example `roblox`.
 
 1. Inspect the working tree and read the company's `company.json` and generated README. Confirm the problem is not already registered.
-2. Collect the ID, exact title, URL, difficulty, time complexity, space complexity, and optional notes. Notes must define complexity variables where needed, for example `k = number of distinct characters`.
+2. Collect the ID, exact title, URL, platform difficulty, optional 1–10 personal difficulty, time complexity, space complexity, and optional notes. Use `null` when the personal difficulty is unrated; never infer it. Notes must define complexity variables where needed, for example `k = number of distinct characters`.
 3. Use the tracker from the repository root; do not manually synchronize generated README files:
 
    ```bash
-   node scripts/company-tracker.js add-problem <company-slug> <id> "<title>" <Easy|Medium|Hard> [--url URL] [--notes TEXT]
+   node scripts/company-tracker.js add-problem <company-slug> <id> "<title>" <Easy|Medium|Hard> [--personal-difficulty 1-10] [--url URL] [--notes TEXT]
    node scripts/company-tracker.js start <company-slug> <id>
    # Finish the generated solution and remove TODO(company-solution).
-   node scripts/company-tracker.js solve <company-slug> <id> --time "O(...)" --space "O(...)" [--notes TEXT]
+   node scripts/company-tracker.js solve <company-slug> <id> --time "O(...)" --space "O(...)" [--personal-difficulty 1-10] [--notes TEXT]
    ```
 
 4. If the user already created `companies/<company>/solutions/<id>.py`, preserve it. Temporarily move it outside the solution path if necessary, run `add-problem` and `start`, then restore the original solution before `solve`. Never let the generated template replace user work.
@@ -78,7 +78,7 @@ Treat review as a blocking quality gate, not as a summary exercise.
 
 1. Inspect `git status --short`, unstaged changes, staged changes, and every untracked file intended for the commit.
 2. Confirm scope: one coherent change, no caches or editor artifacts, no accidental deletions, and no unrelated user work.
-3. Review solution correctness, edge cases, method signatures, complexity claims, metadata, links, generated files, and documentation counts.
+3. Review solution correctness, edge cases, method signatures, complexity claims, personal difficulty metadata, links, generated files, and documentation counts.
 4. Run all available checks. Report any command that cannot run; never describe an unavailable check as passed.
 5. Check whitespace for tracked and untracked files. Before committing, stage only intended paths and run `git diff --cached --check` plus `git diff --cached`.
 6. Use `.agents/skill/commit/SKILL.md` when the user asks to commit. After committing, show the resulting subject and remaining working-tree status.

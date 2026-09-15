@@ -44,9 +44,12 @@ test('generates the solution catalog, roadmap counts, and Mermaid topic chart fr
   assert.match(catalog, /\[Problem 1\]\(https:\/\/leetcode\.com\/problems\/problem-1\/\)/);
   assert.match(catalog, /neetcode-all\/arrays-and-hashing\/1\.py/);
   assert.match(catalog, /`O\(n\)`, where `n` is the input size\./);
+  assert.match(catalog, /\| Difficulty \| Personal Difficulty \|/);
+  assert.match(catalog, /flat-square\) \| 1 \|/);
 
   const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
-  assert.match(readme, /Solved-3-brightgreen/);
+  assert.match(readme, /NeetCode%20Solved-3-brightgreen/);
+  assert.match(readme, /alt="NeetCode solved problems: 3"/);
   assert.match(readme, /title Solved Problems by Difficulty \(3 Total\)/);
   assert.match(readme, /\| Arrays & Hashing \| 2 \| 175 \|/);
   assert.match(readme, /\| Two Pointers \| 1 \| 43 \|/);
@@ -78,7 +81,7 @@ test('counts and catalogs only solved roadmap entries', () => {
   const catalog = fs.readFileSync(path.join(root, 'SOLUTIONS.md'), 'utf8');
   assert.match(catalog, /\[Problem 1\]/);
   assert.doesNotMatch(catalog, /\[Problem [23]\]/);
-  assert.match(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /Solved-1-brightgreen/);
+  assert.match(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /NeetCode%20Solved-1-brightgreen/);
 });
 
 test('renders an empty topic state when every tracked problem is planned', () => {
@@ -93,7 +96,7 @@ test('renders an empty topic state when every tracked problem is planned', () =>
   run(root, []);
 
   const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
-  assert.match(readme, /Solved-0-brightgreen/);
+  assert.match(readme, /NeetCode%20Solved-0-brightgreen/);
   assert.match(readme, /_No solved roadmap problems yet\._/);
   assert.doesNotMatch(fs.readFileSync(path.join(root, 'SOLUTIONS.md'), 'utf8'), /\[Problem 1\]/);
 });
@@ -201,6 +204,32 @@ test('rejects invalid topics, difficulties, and statuses', async (t) => {
     assert.notEqual(result.status, 0);
     assert.match(result.stderr, /Problem 1 has invalid status "done"/);
   });
+});
+
+test('accepts an unrated problem and rejects personal difficulty outside 1 to 10', async (t) => {
+  await t.test('null renders as unrated', () => {
+    const root = createRepository([0]);
+    const roadmap = readRoadmap(root);
+    roadmap.problems[0].personalDifficulty = null;
+    writeRoadmap(root, roadmap);
+
+    run(root, []);
+
+    assert.match(fs.readFileSync(path.join(root, 'SOLUTIONS.md'), 'utf8'), /flat-square\) \| — \|/);
+  });
+
+  for (const value of [0, 11, 1.5, '5']) {
+    await t.test(`rejects ${JSON.stringify(value)}`, () => {
+      const root = createRepository([0]);
+      const roadmap = readRoadmap(root);
+      roadmap.problems[0].personalDifficulty = value;
+      writeRoadmap(root, roadmap);
+
+      const result = run(root, [], false);
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, /personalDifficulty must be null or an integer from 1 to 10/);
+    });
+  }
 });
 
 test('rejects a solved entry without both complexities', () => {
@@ -322,13 +351,14 @@ function createRepository(solutionTopics) {
       url: `https://leetcode.com/problems/problem-${id}/`,
       topic,
       difficulty: ['Easy', 'Medium', 'Hard'][index % 3],
+      personalDifficulty: (index % 10) + 1,
       status: 'solved',
       timeComplexity: '`O(n)`, where `n` is the input size.',
       spaceComplexity: '`O(n)` auxiliary space.',
     };
   });
   writeRoadmap(root, {
-    schemaVersion: 1,
+    schemaVersion: 2,
     name: 'NeetCode All',
     total: 973,
     topics: topicFixtures.map(([label, slug, total]) => ({ slug, label, total })),

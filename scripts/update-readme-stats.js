@@ -48,7 +48,7 @@ const roadmapTotal = roadmap.total;
 const originalReadme = readRequiredFile(readmePath);
 const eol = originalReadme.includes('\r\n') ? '\r\n' : '\n';
 let updatedReadme = replaceBlock(originalReadme, 'solved-count', [
-  `    <img src="https://img.shields.io/badge/Solved-${solved.length}-brightgreen" alt="Solved problems: ${solved.length}" />`,
+  `    <img src="https://img.shields.io/badge/NeetCode%20Solved-${solved.length}-brightgreen" alt="NeetCode solved problems: ${solved.length}" />`,
 ], '    ', eol);
 updatedReadme = replaceBlock(updatedReadme, 'difficulty-chart', [
   '```mermaid',
@@ -116,7 +116,7 @@ function readRoadmap() {
 function validateRoadmap(roadmap) {
   assertObject(roadmap, 'data/roadmap.json');
   assertKeys(roadmap, ['schemaVersion', 'name', 'total', 'topics', 'problems'], 'data/roadmap.json');
-  if (roadmap.schemaVersion !== 1) fail('data/roadmap.json schemaVersion must be 1.');
+  if (roadmap.schemaVersion !== 2) fail('data/roadmap.json schemaVersion must be 2.');
   assertNonemptyText(roadmap.name, 'Roadmap name');
   if (!Number.isInteger(roadmap.total) || roadmap.total < 0) {
     fail('data/roadmap.json total must be a non-negative integer.');
@@ -155,7 +155,8 @@ function validateRoadmap(roadmap) {
     const context = `Problem at index ${index}`;
     assertObject(problem, context);
     assertKeys(problem, [
-      'id', 'title', 'url', 'topic', 'difficulty', 'status', 'timeComplexity', 'spaceComplexity',
+      'id', 'title', 'url', 'topic', 'difficulty', 'personalDifficulty', 'status',
+      'timeComplexity', 'spaceComplexity',
     ], context);
     if (!Number.isInteger(problem.id) || problem.id <= 0) fail(`${context} ID must be a positive integer.`);
     if (ids.has(problem.id)) fail(`Duplicate roadmap problem ID: ${problem.id}`);
@@ -170,6 +171,7 @@ function validateRoadmap(roadmap) {
     if (!validDifficulties.has(problem.difficulty)) {
       fail(`Problem ${problem.id} has invalid difficulty "${problem.difficulty}"; expected Easy, Medium, or Hard.`);
     }
+    assertPersonalDifficulty(problem.personalDifficulty, `Problem ${problem.id}`);
     if (!validStatuses.has(problem.status)) {
       fail(`Problem ${problem.id} has invalid status "${problem.status}"; expected planned, in-progress, or solved.`);
     }
@@ -229,7 +231,7 @@ function renderSolutions(problems) {
     '',
     '[← Project README](README.md) · [Company preparation](companies/README.md) · [Contributing](CONTRIBUTING.md)',
     '',
-    'Here are the NeetCode All problems I have finished so far, along with each solution, its difficulty, and a quick time and space complexity breakdown.',
+    'Here are the NeetCode All problems I have finished so far, along with each solution, its official and personal difficulty, and a quick time and space complexity breakdown.',
     '',
     'Company-specific attempts live separately in the [company preparation dashboard](companies/README.md), keeping this list focused on progress through the main NeetCode All roadmap.',
     '',
@@ -237,13 +239,13 @@ function renderSolutions(problems) {
     '',
     '## Solution catalog',
     '',
-    '| Problem | Title | File | Time Complexity | Space Complexity | Difficulty |',
-    '|---:|---|---|---|---|:---:|',
+    '| Problem | Title | File | Time Complexity | Space Complexity | Difficulty | Personal Difficulty |',
+    '|---:|---|---|---|---|:---:|:---:|',
   ];
   for (const problem of problems) {
     const solutionPath = `neetcode-all/${problem.topic}/${problem.id}.py`;
     const color = difficultyColors[problem.difficulty];
-    lines.push(`| ${problem.id} | [${problem.title}](${problem.url}) | [${problem.id}.py](${solutionPath}) | ${problem.timeComplexity} | ${problem.spaceComplexity} | ![${problem.difficulty}](https://img.shields.io/badge/${problem.difficulty}-${color}?style=flat-square) |`);
+    lines.push(`| ${problem.id} | [${problem.title}](${problem.url}) | [${problem.id}.py](${solutionPath}) | ${problem.timeComplexity} | ${problem.spaceComplexity} | ![${problem.difficulty}](https://img.shields.io/badge/${problem.difficulty}-${color}?style=flat-square) | ${problem.personalDifficulty ?? '—'} |`);
   }
   return `${lines.join('\n')}\n`;
 }
@@ -363,6 +365,17 @@ function validateProblemUrl(value, id) {
     || !/^\/problems\/[a-z0-9-]+\/$/.test(url.pathname)
   ) {
     fail(`Problem ${id} URL must be a canonical https://leetcode.com/problems/<slug>/ URL.`);
+  }
+}
+
+/**
+ * Validate a personal difficulty rating.
+ * @param {unknown} value - Personal difficulty value.
+ * @param {string} context - Human-readable problem identifier.
+ */
+function assertPersonalDifficulty(value, context) {
+  if (value !== null && (!Number.isInteger(value) || value < 1 || value > 10)) {
+    fail(`${context} personalDifficulty must be null or an integer from 1 to 10.`);
   }
 }
 

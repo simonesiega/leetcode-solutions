@@ -24,14 +24,14 @@ node scripts/company-tracker.js add-company "Amazon"
 
 # Add a problem to the preparation plan.
 # Numeric IDs default to the corresponding LeetCode problem URL.
-node scripts/company-tracker.js add-problem amazon 1 "Two Sum" Easy
+node scripts/company-tracker.js add-problem amazon 1 "Two Sum" Easy --personal-difficulty 3
 
 # Create companies/amazon/solutions/1.py and mark the problem in progress.
 node scripts/company-tracker.js start amazon 1
 
 # After implementing the solution and removing TODO(company-solution),
 # record its time and space complexity.
-node scripts/company-tracker.js solve amazon 1 --time "O(n)" --space "O(n)"
+node scripts/company-tracker.js solve amazon 1 --time "O(n)" --space "O(n)" --personal-difficulty 3
 ```
 
 Use `--focus` when the workspace targets a particular region, assessment, or interview stage:
@@ -40,7 +40,7 @@ Use `--focus` when the workspace targets a particular region, assessment, or int
 node scripts/company-tracker.js add-company "Roblox" --focus "US OA"
 ```
 
-Use `add-problem --url` when the problem is not from LeetCode, and `--notes` for a short pattern, reminder, or review note.
+Use `--personal-difficulty` to record a personal rating from 1 to 10, `add-problem --url` when the problem is not from LeetCode, and `--notes` for a short pattern, reminder, or review note.
 
 Run the following command to see all available options:
 
@@ -63,7 +63,7 @@ companies/
 
 `company.json` is the source of truth for each workspace.
 
-Statuses follow `planned → in-progress → solved`. A solved entry must include its Python solution together with time and space complexity. The manifest, generated dashboard, and solutions are committed so preparation progress remains visible over time.
+Statuses follow `planned → in-progress → solved`. Personal difficulty is an optional rating from 1 to 10 and is separate from the platform difficulty. A solved entry must include its Python solution together with time and space complexity. The manifest, generated dashboard, and solutions are committed so preparation progress remains visible over time.
 
 > [!IMPORTANT]
 > Company README files are generated. Do not edit them directly.

@@ -23,11 +23,16 @@ test('tracks a company problem from planning through completion', () => {
   const initialReadme = fs.readFileSync(path.join(root, 'companies/amazon/README.md'), 'utf8');
   assert.match(initialReadme, /title Solved Problems by Difficulty \(0 Total\)/);
   assert.match(initialReadme, /"Easy" : 0/);
-  run(root, ['add-problem', 'amazon', '1', 'Two Sum', 'Easy', '--notes', 'Hash map']);
+  run(root, [
+    'add-problem', 'amazon', '1', 'Two Sum', 'Easy',
+    '--personal-difficulty', '3', '--notes', 'Hash map',
+  ]);
 
   let manifest = readManifest(root, 'amazon');
   assert.equal(manifest.focus, 'Americas OA');
+  assert.equal(manifest.problems[0].personalDifficulty, 3);
   assert.equal(manifest.problems[0].status, 'planned');
+  assert.match(fs.readFileSync(path.join(root, 'companies/amazon/README.md'), 'utf8'), /\| 3 \| Planned \|/);
   assert.equal(manifest.problems[0].url, 'https://leetcode.com/problems/two-sum/');
   assert.equal(fs.existsSync(path.join(root, 'companies/amazon/solutions/1.py')), false);
 
@@ -39,17 +44,23 @@ test('tracks a company problem from planning through completion', () => {
   );
   assert.equal(fs.existsSync(path.join(root, 'companies/amazon/solutions/.gitkeep')), false);
   assert.equal(readManifest(root, 'amazon').problems[0].status, 'in-progress');
+  assert.match(fs.readFileSync(path.join(root, 'companies/amazon/README.md'), 'utf8'), /\| 3 \| In progress \|/);
 
   fs.writeFileSync(solutionPath, '# Two Sum - 1\n\nclass Solution:\n    pass\n');
-  run(root, ['solve', 'amazon', '1', '--time', 'O(n)', '--space', 'O(n)']);
+  run(root, [
+    'solve', 'amazon', '1', '--time', 'O(n)', '--space', 'O(n)',
+    '--personal-difficulty', '4',
+  ]);
   run(root, ['--check']);
 
   manifest = readManifest(root, 'amazon');
   assert.equal(manifest.problems[0].status, 'solved');
   assert.equal(manifest.problems[0].time, 'O(n)');
+  assert.equal(manifest.problems[0].personalDifficulty, 4);
   const companyReadme = fs.readFileSync(path.join(root, 'companies/amazon/README.md'), 'utf8');
   assert.match(companyReadme, /\*\*Focus:\*\* Americas OA/);
-  assert.match(companyReadme, /✅ Solved/);
+  assert.match(companyReadme, /\| Difficulty \| Personal Difficulty \| Status \|/);
+  assert.match(companyReadme, /\| 4 \| Solved \|/);
   assert.match(companyReadme, /title Solved Problems by Difficulty \(1 Total\)/);
   assert.match(companyReadme, /"Easy" : 1/);
   assert.match(companyReadme, /"Medium" : 0/);
@@ -74,12 +85,55 @@ test('supports named OA problems and detects stale generated documentation', () 
   const manifest = readManifest(root, 'example-labs');
   assert.equal(manifest.problems[0].id, 'oa-pairs');
   assert.equal(manifest.problems[0].url, 'https://example.com/oa/pairs');
+  assert.equal(manifest.problems[0].personalDifficulty, null);
+  assert.match(
+    fs.readFileSync(path.join(root, 'companies/example-labs/README.md'), 'utf8'),
+    /\| Medium \| — \| Planned \|/,
+  );
 
   // Check mode must report drift without silently overwriting a manually changed dashboard.
   fs.appendFileSync(path.join(root, 'companies/README.md'), '\nstale\n');
   const result = run(root, ['--check'], false);
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /documentation is outdated/);
+});
+
+test('rejects personal difficulty outside 1 to 10', () => {
+  const root = createRepository();
+
+  run(root, ['add-company', 'Acme']);
+  for (const value of ['0', '11', '1.5', 'hard']) {
+    const result = run(root, [
+      'add-problem', 'acme', value.replace('.', '-'), 'Problem', 'Easy',
+      '--personal-difficulty', value,
+    ], false);
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /Personal difficulty must be an integer from 1 to 10/);
+  }
+  assert.deepEqual(readManifest(root, 'acme').problems, []);
+});
+
+test('validates personal difficulty stored in company manifests', async (t) => {
+  for (const [name, mutate] of [
+    ['missing value', (problem) => delete problem.personalDifficulty],
+    ['out-of-range value', (problem) => { problem.personalDifficulty = 11; }],
+  ]) {
+    await t.test(name, () => {
+      const root = createRepository();
+      run(root, ['add-company', 'Acme']);
+      run(root, ['add-problem', 'acme', '1', 'Two Sum', 'Easy']);
+      const manifest = readManifest(root, 'acme');
+      mutate(manifest.problems[0]);
+      fs.writeFileSync(
+        path.join(root, 'companies/acme/company.json'),
+        `${JSON.stringify(manifest, null, 2)}\n`,
+      );
+
+      const result = run(root, ['--check'], false);
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, /requires personalDifficulty|personalDifficulty must be null or an integer from 1 to 10/);
+    });
+  }
 });
 
 test('will not mark an unfinished template as solved', () => {

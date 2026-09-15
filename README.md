@@ -4,6 +4,7 @@
   <p>My LeetCode solutions in Python while I work through NeetCode and prepare for interviews.</p>
 
   <p>
+    <a href="#personal-difficulty-rating">Difficulty rating</a> ·
     <a href="#neetcode-progress">NeetCode progress</a> ·
     <a href="SOLUTIONS.md">Solutions</a> ·
     <a href="#company-prep">Companies</a> ·
@@ -13,7 +14,7 @@
   <p>
     <img src="https://img.shields.io/badge/Python-3-blue" alt="Python 3" />
     <!-- solved-count:start -->
-    <img src="https://img.shields.io/badge/Solved-26-brightgreen" alt="Solved problems: 26" />
+    <img src="https://img.shields.io/badge/NeetCode%20Solved-26-brightgreen" alt="NeetCode solved problems: 26" />
     <!-- solved-count:end -->
     <!-- company-count:start -->
     <img src="https://img.shields.io/badge/Companies-1-blue" alt="Companies covered: 1" />
@@ -27,6 +28,27 @@
 Nothing fancy, this is where I keep the LeetCode problems I solve while working through the [NeetCode All roadmap](https://neetcode.io/roadmap) and preparing for OAs and interviews.
 
 Mostly here so I can keep track of what I’ve done, come back to old problems, and hopefully see myself getting better over time.
+
+## Personal difficulty rating
+
+For both **NeetCode roadmap problems** and **company-specific practice**, I optionally assign a personal difficulty score from **1 to 10**.
+
+The score represents how difficult it felt to derive a correct and reasonably optimal solution from scratch, not how difficult the implementation looks after the solution is known. It is separate from LeetCode's official Easy / Medium / Hard classification and is meant to track how my own problem-solving ability changes over time.
+
+| Rating | Level | Meaning |
+|---:|---|---|
+| **1** | Immediate | I see the solution almost instantly. The right data structure or algorithm is obvious, with almost no real reasoning required. |
+| **2** | Easy | I need a little thought, but the approach appears naturally. There may be small implementation details or edge cases, but no important hidden insight. |
+| **3** | Comfortable | I need to recognize a known pattern, but once I identify it, the solution follows naturally. I can usually derive it independently without getting stuck. |
+| **4** | Moderate | The solution is not immediately obvious. I need to explore the problem, identify the right pattern, or make one useful observation before the approach becomes clear. |
+| **5** | Significant insight | The problem depends on one important idea that I may not discover immediately. I may spend a meaningful amount of time exploring before finding the key insight. |
+| **6** | Difficult | The problem requires a non-obvious insight, several coordinated steps, or tricky implementation. Deriving the full solution from scratch in an interview would be uncertain. |
+| **7** | Very difficult | The optimal solution relies on a technique or invariant that I am unlikely to discover quickly. Even recognizing the general category may not be enough to reach the full algorithm. |
+| **8** | Major non-obvious insight | The solution requires changing how I initially view the problem or combining several important deductions. Missing one of them can prevent me from reaching the intended approach. |
+| **9** | Extremely hard to derive | I would probably not reach the intended optimal solution from scratch under interview pressure and would likely need a substantial hint. |
+| **10** | No realistic path from scratch | I would have essentially no path to the intended solution without seeing a major part of the idea first. The required technique or transformation is outside my current problem-solving instincts. |
+
+Because the rating is personal, it can change as I become more familiar with a pattern. A LeetCode **Hard** can receive a relatively low score if its core idea feels natural to me, while a **Medium** can receive a higher score if its main insight is difficult to discover.
 
 ## NeetCode progress
 

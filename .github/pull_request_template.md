@@ -21,6 +21,7 @@ For solution changes; use `N/A` otherwise.
 - [ ] Important edge cases were checked.
 - [ ] The file and ID are correct for the roadmap topic or company list.
 - [ ] Complexity notes are accurate where applicable.
+- [ ] Personal difficulty metadata is a rating from 1 to 10 or is left unrated.
 - [ ] Generated roadmap and company documentation is current.
 - [ ] Roadmap automation tests, company tracker tests, and Python syntax checks pass.
 - [ ] No unrelated changes are included.

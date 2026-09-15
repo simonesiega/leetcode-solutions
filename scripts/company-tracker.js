@@ -69,7 +69,7 @@ function addCompany(args) {
   fs.mkdirSync(solutionsDirectory, { recursive: true });
   fs.writeFileSync(path.join(solutionsDirectory, '.gitkeep'), '');
   writeJson(path.join(directory, 'company.json'), {
-    schemaVersion: 1,
+    schemaVersion: 2,
     name,
     focus: options.focus || '',
     website: options.website || '',
@@ -84,15 +84,18 @@ function addCompany(args) {
  * @param {string[]} args - Command arguments after `add-problem`.
  */
 function addProblem(args) {
-  const { positionals, options } = parseArguments(args, new Set(['url', 'notes']));
+  const { positionals, options } = parseArguments(args, new Set(['url', 'notes', 'personal-difficulty']));
   if (positionals.length !== 4) {
-    fail('Usage: node scripts/company-tracker.js add-problem <company> <id> "Title" <Easy|Medium|Hard> [--url URL] [--notes TEXT]');
+    fail('Usage: node scripts/company-tracker.js add-problem <company> <id> "Title" <Easy|Medium|Hard> [--personal-difficulty 1-10] [--url URL] [--notes TEXT]');
   }
 
   const [slug, id, title, difficulty] = positionals;
   validateProblemId(id);
   if (!title.trim()) fail('The problem title cannot be empty.');
   if (!validDifficulties.has(difficulty)) fail('Difficulty must be Easy, Medium, or Hard.');
+  const personalDifficulty = options['personal-difficulty'] === undefined
+    ? null
+    : parsePersonalDifficulty(options['personal-difficulty']);
 
   const company = readCompany(slug);
   if (company.data.problems.some((problem) => problem.id === id)) {
@@ -104,6 +107,7 @@ function addProblem(args) {
     title: title.trim(),
     url: options.url || defaultProblemUrl(id, title),
     difficulty,
+    personalDifficulty,
     status: 'planned',
     time: '',
     space: '',
@@ -148,10 +152,13 @@ function startProblem(args) {
  * @param {string[]} args - Command arguments after `solve`.
  */
 function solveProblem(args) {
-  const { positionals, options } = parseArguments(args, new Set(['time', 'space', 'notes']));
+  const { positionals, options } = parseArguments(args, new Set(['time', 'space', 'notes', 'personal-difficulty']));
   if (positionals.length !== 2 || !options.time || !options.space) {
-    fail('Usage: node scripts/company-tracker.js solve <company> <problem-id> --time "O(...)" --space "O(...)" [--notes TEXT]');
+    fail('Usage: node scripts/company-tracker.js solve <company> <problem-id> --time "O(...)" --space "O(...)" [--personal-difficulty 1-10] [--notes TEXT]');
   }
+  const personalDifficulty = options['personal-difficulty'] === undefined
+    ? undefined
+    : parsePersonalDifficulty(options['personal-difficulty']);
 
   const [slug, id] = positionals;
   const company = readCompany(slug);
@@ -172,6 +179,7 @@ function solveProblem(args) {
   problem.status = 'solved';
   problem.time = options.time;
   problem.space = options.space;
+  if (personalDifficulty !== undefined) problem.personalDifficulty = personalDifficulty;
   if (options.notes !== undefined) problem.notes = options.notes;
   writeJson(company.manifestPath, company.data);
   updateDocumentation(false);
@@ -266,7 +274,7 @@ function validateCompany(company) {
   const { data, slug, directory, manifestPath } = company;
   const location = relativePath(manifestPath);
   if (!data || typeof data !== 'object' || Array.isArray(data)) fail(`${location} must contain a JSON object.`);
-  if (data.schemaVersion !== 1) fail(`${location} must use schemaVersion 1.`);
+  if (data.schemaVersion !== 2) fail(`${location} must use schemaVersion 2.`);
   if (typeof data.name !== 'string' || !data.name.trim()) fail(`${location} requires a non-empty name.`);
   if (data.focus !== undefined && typeof data.focus !== 'string') fail(`${location} focus must be a string when provided.`);
   if (typeof data.website !== 'string') fail(`${location} website must be a string.`);
@@ -281,6 +289,10 @@ function validateCompany(company) {
     if (typeof problem.title !== 'string' || !problem.title.trim()) fail(`${location}: problem ${problem.id} requires a title.`);
     if (typeof problem.url !== 'string') fail(`${location}: problem ${problem.id} url must be a string.`);
     if (!validDifficulties.has(problem.difficulty)) fail(`${location}: problem ${problem.id} has invalid difficulty.`);
+    if (!Object.prototype.hasOwnProperty.call(problem, 'personalDifficulty')) {
+      fail(`${location}: problem ${problem.id} requires personalDifficulty.`);
+    }
+    validatePersonalDifficulty(problem.personalDifficulty, `${location}: problem ${problem.id}`);
     if (!validStatuses.has(problem.status)) fail(`${location}: problem ${problem.id} has invalid status.`);
     for (const field of ['time', 'space', 'notes']) {
       if (typeof problem[field] !== 'string') fail(`${location}: problem ${problem.id} ${field} must be a string.`);
@@ -383,14 +395,14 @@ node scripts/company-tracker.js add-company "Amazon"
 
 # Add a problem to the preparation plan.
 # Numeric IDs default to the corresponding LeetCode problem URL.
-node scripts/company-tracker.js add-problem amazon 1 "Two Sum" Easy
+node scripts/company-tracker.js add-problem amazon 1 "Two Sum" Easy --personal-difficulty 3
 
 # Create companies/amazon/solutions/1.py and mark the problem in progress.
 node scripts/company-tracker.js start amazon 1
 
 # After implementing the solution and removing TODO(company-solution),
 # record its time and space complexity.
-node scripts/company-tracker.js solve amazon 1 --time "O(n)" --space "O(n)"
+node scripts/company-tracker.js solve amazon 1 --time "O(n)" --space "O(n)" --personal-difficulty 3
 \`\`\`
 
 Use \`--focus\` when the workspace targets a particular region, assessment, or interview stage:
@@ -399,7 +411,7 @@ Use \`--focus\` when the workspace targets a particular region, assessment, or i
 node scripts/company-tracker.js add-company "Roblox" --focus "US OA"
 \`\`\`
 
-Use \`add-problem --url\` when the problem is not from LeetCode, and \`--notes\` for a short pattern, reminder, or review note.
+Use \`--personal-difficulty\` to record a personal rating from 1 to 10, \`add-problem --url\` when the problem is not from LeetCode, and \`--notes\` for a short pattern, reminder, or review note.
 
 Run the following command to see all available options:
 
@@ -422,7 +434,7 @@ companies/
 
 \`company.json\` is the source of truth for each workspace.
 
-Statuses follow \`planned → in-progress → solved\`. A solved entry must include its Python solution together with time and space complexity. The manifest, generated dashboard, and solutions are committed so preparation progress remains visible over time.
+Statuses follow \`planned → in-progress → solved\`. Personal difficulty is an optional rating from 1 to 10 and is separate from the platform difficulty. A solved entry must include its Python solution together with time and space complexity. The manifest, generated dashboard, and solutions are committed so preparation progress remains visible over time.
 
 > [!IMPORTANT]
 > Company README files are generated. Do not edit them directly.
@@ -450,9 +462,9 @@ function renderCompanyReadme(company) {
     ? data.problems.map((problem) => {
       const title = problem.url ? `[${escapeTable(problem.title)}](${problem.url})` : escapeTable(problem.title);
       const solution = problem.status === 'planned' ? '—' : `[${problem.id}.py](${encodePath(`solutions/${problem.id}.py`)})`;
-      return `| ${escapeTable(problem.id)} | ${title} | ${problem.difficulty} | ${formatStatus(problem.status)} | ${solution} | ${escapeTable(problem.time || '—')} | ${escapeTable(problem.space || '—')} | ${escapeTable(problem.notes || '—')} |`;
+      return `| ${escapeTable(problem.id)} | ${title} | ${problem.difficulty} | ${problem.personalDifficulty ?? '—'} | ${formatStatus(problem.status)} | ${solution} | ${escapeTable(problem.time || '—')} | ${escapeTable(problem.space || '—')} | ${escapeTable(problem.notes || '—')} |`;
     }).join('\n')
-    : '| — | _No problems tracked yet_ | — | — | — | — | — | — |';
+    : '| — | _No problems tracked yet_ | — | — | — | — | — | — | — |';
 
   return `# ${heading}
 
@@ -475,16 +487,16 @@ pie showData
     "Hard" : ${difficulties.Hard}
 \`\`\`
 
-| ID | Problem | Difficulty | Status | Solution | Time | Space | Notes |
-|---|---|:---:|:---:|---|---|---|---|
+| ID | Problem | Difficulty | Personal Difficulty | Status | Solution | Time | Space | Notes |
+|---|---|:---:|:---:|:---:|---|---|---|---|
 ${rows}
 
 ## Commands
 
 \`\`\`bash
-node scripts/company-tracker.js add-problem ${slug} <id> "<title>" <Easy|Medium|Hard> [--url URL]
+node scripts/company-tracker.js add-problem ${slug} <id> "<title>" <Easy|Medium|Hard> [--personal-difficulty 1-10] [--url URL]
 node scripts/company-tracker.js start ${slug} <id>
-node scripts/company-tracker.js solve ${slug} <id> --time "O(...)" --space "O(...)"
+node scripts/company-tracker.js solve ${slug} <id> --time "O(...)" --space "O(...)" [--personal-difficulty 1-10]
 \`\`\`
 `;
 }
@@ -668,6 +680,29 @@ function parseArguments(args, allowedOptions) {
 }
 
 /**
+ * Parse a personal difficulty CLI option.
+ * @param {string} value - Raw option value.
+ * @returns {number}
+ */
+function parsePersonalDifficulty(value) {
+  if (!/^(?:[1-9]|10)$/.test(value)) {
+    fail('Personal difficulty must be an integer from 1 to 10.');
+  }
+  return Number(value);
+}
+
+/**
+ * Validate a personal difficulty manifest value.
+ * @param {unknown} value - Candidate rating.
+ * @param {string} context - Human-readable problem identifier.
+ */
+function validatePersonalDifficulty(value, context) {
+  if (value !== null && (!Number.isInteger(value) || value < 1 || value > 10)) {
+    fail(`${context} personalDifficulty must be null or an integer from 1 to 10.`);
+  }
+}
+
+/**
  * Replace a marker-delimited block while preserving indentation and EOL style.
  * @param {string} content - Original file contents.
  * @param {string} name - Marker name.
@@ -733,9 +768,9 @@ function defaultProblemUrl(id, title) {
  * @returns {string}
  */
 function formatStatus(status) {
-  if (status === 'solved') return '✅ Solved';
-  if (status === 'in-progress') return '🟡 In progress';
-  return '⬜ Planned';
+  if (status === 'solved') return 'Solved';
+  if (status === 'in-progress') return 'In progress';
+  return 'Planned';
 }
 
 /**
@@ -815,9 +850,9 @@ Usage:
   node scripts/company-tracker.js
   node scripts/company-tracker.js --check
   node scripts/company-tracker.js add-company "Company Name" [--slug slug] [--website URL] [--focus TEXT]
-  node scripts/company-tracker.js add-problem <company> <id> "Title" <Easy|Medium|Hard> [--url URL] [--notes TEXT]
+  node scripts/company-tracker.js add-problem <company> <id> "Title" <Easy|Medium|Hard> [--personal-difficulty 1-10] [--url URL] [--notes TEXT]
   node scripts/company-tracker.js start <company> <problem-id>
-  node scripts/company-tracker.js solve <company> <problem-id> --time "O(...)" --space "O(...)" [--notes TEXT]
+  node scripts/company-tracker.js solve <company> <problem-id> --time "O(...)" --space "O(...)" [--personal-difficulty 1-10] [--notes TEXT]
 
 The default command regenerates company dashboards. The check command validates manifests,
 solution files, and generated documentation without changing files.`);

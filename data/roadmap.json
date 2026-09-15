@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "name": "NeetCode All",
   "total": 973,
   "topics": [
@@ -101,6 +101,7 @@
       "url": "https://leetcode.com/problems/two-sum/",
       "topic": "arrays-and-hashing",
       "difficulty": "Easy",
+      "personalDifficulty": 1,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of values in `nums`; the array is scanned once.",
       "spaceComplexity": "`O(n)` for at most `n` entries in `seen`."
@@ -111,6 +112,7 @@
       "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
       "topic": "sliding-window",
       "difficulty": "Medium",
+      "personalDifficulty": 3,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the length of `s`; each character enters and leaves the sliding window at most once.",
       "spaceComplexity": "`O(min(n, a))`, where `a` is the number of distinct characters possible in the input alphabet."
@@ -121,6 +123,7 @@
       "url": "https://leetcode.com/problems/container-with-most-water/",
       "topic": "two-pointers",
       "difficulty": "Medium",
+      "personalDifficulty": 3,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of heights; one pointer moves on every iteration.",
       "spaceComplexity": "`O(1)`; only two pointers and scalar values are stored."
@@ -131,6 +134,7 @@
       "url": "https://leetcode.com/problems/3sum/",
       "topic": "two-pointers",
       "difficulty": "Medium",
+      "personalDifficulty": 4,
       "status": "solved",
       "timeComplexity": "`O(n²)`, where `n` is the number of values: sorting costs `O(n log n)` and the two-pointer searches cost `O(n²)`.",
       "spaceComplexity": "`O(n)` worst-case auxiliary space for Python's Timsort. The returned output uses `O(r)`, where `r` is the number of triplets."
@@ -141,6 +145,7 @@
       "url": "https://leetcode.com/problems/valid-parentheses/",
       "topic": "stack",
       "difficulty": "Easy",
+      "personalDifficulty": 2,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of brackets in `s`; each bracket is processed once.",
       "spaceComplexity": "`O(n)` in the worst case when every bracket is an opening bracket."
@@ -151,6 +156,7 @@
       "url": "https://leetcode.com/problems/valid-sudoku/",
       "topic": "arrays-and-hashing",
       "difficulty": "Medium",
+      "personalDifficulty": 4,
       "status": "solved",
       "timeComplexity": "`O(9 × 9) = O(1)` because the implementation always inspects the board's fixed 81 cells.",
       "spaceComplexity": "`O(27 × 9) = O(1)` because the 27 row, column, and box sets each hold at most 9 digits."
@@ -161,6 +167,7 @@
       "url": "https://leetcode.com/problems/trapping-rain-water/",
       "topic": "two-pointers",
       "difficulty": "Hard",
+      "personalDifficulty": 6,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of heights; the two pointers traverse the array once.",
       "spaceComplexity": "`O(1)`; only pointers, maxima, and the accumulated result are stored."
@@ -171,6 +178,7 @@
       "url": "https://leetcode.com/problems/group-anagrams/",
       "topic": "arrays-and-hashing",
       "difficulty": "Medium",
+      "personalDifficulty": 3,
       "status": "solved",
       "timeComplexity": "`O(C + 26w) = O(C + w)`, where `w` is the number of words and `C` is their total character count; each word also creates a fixed 26-count signature.",
       "spaceComplexity": "`O(w)` for signatures, dictionary entries, and grouped string references; the input strings themselves are not copied."
@@ -181,6 +189,7 @@
       "url": "https://leetcode.com/problems/minimum-window-substring/",
       "topic": "sliding-window",
       "difficulty": "Hard",
+      "personalDifficulty": 5,
       "status": "solved",
       "timeComplexity": "`O(m + n)`, where `m = len(s)` and `n = len(t)`; each pointer crosses `s` at most once after `t` is counted.",
       "spaceComplexity": "`O(a)` for the two count dictionaries, where `a` is the number of distinct characters across `s` and `t`. The returned substring uses `O(ℓ)` for its length `ℓ`."
@@ -191,6 +200,7 @@
       "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/",
       "topic": "stack",
       "difficulty": "Hard",
+      "personalDifficulty": 7,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of bars; every index is pushed and popped at most once.",
       "spaceComplexity": "`O(n)` for the monotonic stack in the worst case."
@@ -201,6 +211,7 @@
       "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
       "topic": "sliding-window",
       "difficulty": "Easy",
+      "personalDifficulty": 2,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of prices; prices are scanned once.",
       "spaceComplexity": "`O(1)`; only the minimum buy price and maximum profit are stored."
@@ -211,6 +222,7 @@
       "url": "https://leetcode.com/problems/valid-palindrome/",
       "topic": "two-pointers",
       "difficulty": "Easy",
+      "personalDifficulty": 2,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the length of `s`; the pointers inspect each character at most once.",
       "spaceComplexity": "`O(1)`; the implementation compares characters in place instead of building a normalized string."
@@ -221,6 +233,7 @@
       "url": "https://leetcode.com/problems/longest-consecutive-sequence/",
       "topic": "arrays-and-hashing",
       "difficulty": "Medium",
+      "personalDifficulty": 3,
       "status": "solved",
       "timeComplexity": "Expected `O(n)`, where `n` is the number of values; each unique value participates in at most one sequence scan.",
       "spaceComplexity": "`O(n)` for the set of input values."
@@ -231,6 +244,7 @@
       "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/",
       "topic": "stack",
       "difficulty": "Medium",
+      "personalDifficulty": 3,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of tokens; every token is processed once.",
       "spaceComplexity": "`O(n)` for the operand stack in the worst case."
@@ -241,6 +255,7 @@
       "url": "https://leetcode.com/problems/min-stack/",
       "topic": "stack",
       "difficulty": "Medium",
+      "personalDifficulty": 3,
       "status": "solved",
       "timeComplexity": "`O(1)` per `push`, `pop`, `top`, or `getMin` operation.",
       "spaceComplexity": "`O(n)` after `n` pushes because each entry stores its value and the minimum at that depth."
@@ -251,6 +266,7 @@
       "url": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/",
       "topic": "two-pointers",
       "difficulty": "Medium",
+      "personalDifficulty": 2,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of values; one of the two pointers moves each iteration.",
       "spaceComplexity": "`O(1)`; only two pointers and the current sum are stored."
@@ -261,6 +277,7 @@
       "url": "https://leetcode.com/problems/contains-duplicate/",
       "topic": "arrays-and-hashing",
       "difficulty": "Easy",
+      "personalDifficulty": 1,
       "status": "solved",
       "timeComplexity": "Expected `O(n)`, where `n` is the number of values, to construct the set.",
       "spaceComplexity": "`O(n)` for the set in the all-distinct case."
@@ -271,6 +288,7 @@
       "url": "https://leetcode.com/problems/product-of-array-except-self/",
       "topic": "arrays-and-hashing",
       "difficulty": "Medium",
+      "personalDifficulty": 6,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of values; one prefix pass and one postfix pass are performed.",
       "spaceComplexity": "`O(1)` auxiliary space when the required `O(n)` result array is excluded."
@@ -281,6 +299,7 @@
       "url": "https://leetcode.com/problems/sliding-window-maximum/",
       "topic": "sliding-window",
       "difficulty": "Hard",
+      "personalDifficulty": 6,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of values in `nums`; every index is added to the monotonic deque once and removed at most once.",
       "spaceComplexity": "`O(k)` auxiliary space for the deque, where `k` is the window size. The returned array uses `O(n - k + 1)` space."
@@ -291,6 +310,7 @@
       "url": "https://leetcode.com/problems/valid-anagram/",
       "topic": "arrays-and-hashing",
       "difficulty": "Easy",
+      "personalDifficulty": 1,
       "status": "solved",
       "timeComplexity": "`O(m + n)`, where `m = len(s)` and `n = len(t)`; when the lengths match, both strings are counted in one lockstep pass.",
       "spaceComplexity": "`O(a)`, where `a` is the number of distinct characters across `s` and `t`."
@@ -301,6 +321,7 @@
       "url": "https://leetcode.com/problems/encode-and-decode-strings/",
       "topic": "arrays-and-hashing",
       "difficulty": "Medium",
+      "personalDifficulty": 4,
       "status": "solved",
       "timeComplexity": "Encode: `O(p²)` worst case because repeated `+=` may copy the growing immutable string. Decode: `O(p)`. Here `p` is the encoded string length, including characters, length-prefix digits, and delimiters.",
       "spaceComplexity": "Encode: `O(p)` peak space for the encoded string. Decode: `O(C + w)` for the returned list and copied strings, where `C` is the decoded character count and `w` is the number of strings."
@@ -311,6 +332,7 @@
       "url": "https://leetcode.com/problems/top-k-frequent-elements/",
       "topic": "arrays-and-hashing",
       "difficulty": "Medium",
+      "personalDifficulty": 4,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of values; counting, bucket creation, and bucket traversal are each linear.",
       "spaceComplexity": "`O(n)` for the frequency map and `n + 1` buckets."
@@ -321,6 +343,7 @@
       "url": "https://leetcode.com/problems/longest-repeating-character-replacement/",
       "topic": "sliding-window",
       "difficulty": "Medium",
+      "personalDifficulty": 5,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the length of `s`; each character enters once and leaves the window at most once.",
       "spaceComplexity": "`O(a)` for character counts, where `a ≤ 26` for the uppercase-English input constraint, so constrained space is `O(1)`."
@@ -331,6 +354,7 @@
       "url": "https://leetcode.com/problems/permutation-in-string/",
       "topic": "sliding-window",
       "difficulty": "Medium",
+      "personalDifficulty": 4,
       "status": "solved",
       "timeComplexity": "`O(m + n × a)`, where `m = len(s1)`, `n = len(s2)`, and `a` is the number of dictionary keys compared per window. Since `a ≤ 26` for lowercase English letters, this reduces to `O(m + n)`.",
       "spaceComplexity": "`O(a)` for the `need` and `window` dictionaries; `a ≤ 26`, so constrained space is `O(1)`."
@@ -341,6 +365,7 @@
       "url": "https://leetcode.com/problems/daily-temperatures/",
       "topic": "stack",
       "difficulty": "Medium",
+      "personalDifficulty": 4,
       "status": "solved",
       "timeComplexity": "`O(n)`, where `n` is the number of temperatures; every index is pushed and popped at most once.",
       "spaceComplexity": "`O(n)` auxiliary space for the monotonic stack; the returned array also uses `O(n)`."
@@ -351,6 +376,7 @@
       "url": "https://leetcode.com/problems/car-fleet/",
       "topic": "stack",
       "difficulty": "Medium",
+      "personalDifficulty": 5,
       "status": "solved",
       "timeComplexity": "`O(n log n)`, where `n` is the number of cars, due to sorting; the subsequent stack pass is `O(n)`.",
       "spaceComplexity": "`O(n)` for the sorted `(position, speed)` pairs and fleet-time stack."

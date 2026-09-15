@@ -53,7 +53,8 @@ body:
   - type: dropdown
     id: difficulty
     attributes:
-      label: Difficulty
+      label: Platform difficulty
+      description: Select the official difficulty from the problem source; personal difficulty is rated separately by the maintainer.
       options:
         - Easy
         - Medium
