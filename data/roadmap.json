@@ -382,6 +382,17 @@
       "spaceComplexity": "`O(n)` for the sorted `(position, speed)` pairs and fleet-time stack."
     },
     {
+      "id": 1299,
+      "title": "Replace Elements with Greatest Element on Right Side",
+      "url": "https://leetcode.com/problems/replace-elements-with-greatest-element-on-right-side/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "timeComplexity": "`O(n)`, where `n` is the number of values in `arr`; the array is scanned once from right to left.",
+      "spaceComplexity": "`O(1)` auxiliary space because the input array is updated in place and returned."
+    },
+    {
       "id": 1929,
       "title": "Concatenation of Array",
       "url": "https://leetcode.com/problems/concatenation-of-array/",
