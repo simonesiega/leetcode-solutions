@@ -338,6 +338,17 @@
       "spaceComplexity": "`O(n)` for the frequency map and `n + 1` buckets."
     },
     {
+      "id": 392,
+      "title": "Is Subsequence",
+      "url": "https://leetcode.com/problems/is-subsequence/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "timeComplexity": "`O(n)`, where `n = len(t)`; the implementation scans `t` once.",
+      "spaceComplexity": "`O(1)`; only the current index in `s` is stored."
+    },
+    {
       "id": 424,
       "title": "Longest Repeating Character Replacement",
       "url": "https://leetcode.com/problems/longest-repeating-character-replacement/",
