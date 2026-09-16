@@ -380,6 +380,17 @@
       "status": "solved",
       "timeComplexity": "`O(n log n)`, where `n` is the number of cars, due to sorting; the subsequent stack pass is `O(n)`.",
       "spaceComplexity": "`O(n)` for the sorted `(position, speed)` pairs and fleet-time stack."
+    },
+    {
+      "id": 1929,
+      "title": "Concatenation of Array",
+      "url": "https://leetcode.com/problems/concatenation-of-array/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 1,
+      "status": "solved",
+      "timeComplexity": "`O(n)`, where `n` is the number of values in `nums`; each value is copied twice.",
+      "spaceComplexity": "`O(1)` auxiliary space beyond the required `O(n)` returned array."
     }
   ]
 }

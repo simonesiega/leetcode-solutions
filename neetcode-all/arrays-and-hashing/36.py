@@ -9,20 +9,17 @@ class Solution:
         cols = [set() for _ in range(9)]
         boxes = [set() for _ in range(9)]
 
-        # Loop through each cell in the 9x9 board
         for i in range(9):
             for j in range(9):
                 num = board[i][j]
 
-                # If the cell is not empty (represented by '.'), check if the number has already been seen in the current row, column, or 3x3 box.
                 if num != '.':
+                    # flatten the box coordinates into one index.
                     box_index = (i // 3) * 3 + (j // 3)
 
-                    # If the number is already present in the current row, column, or box, return False as it violates Sudoku rules.
                     if (num in rows[i]) or (num in cols[j]) or (num in boxes[box_index]):
                         return False
 
-                    # If the number is not present, add it to the corresponding row, column, and box sets for future reference.
                     rows[i].add(num)
                     cols[j].add(num)
                     boxes[box_index].add(num)

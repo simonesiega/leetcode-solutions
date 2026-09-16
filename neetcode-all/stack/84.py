@@ -5,42 +5,36 @@ from typing import List
 
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
-        # A single bar forms a rectangle whose area is equal to its height.
         if len(heights) == 1:
             return heights[0]
 
         n = len(heights)
         max_area = 0
 
-        # Store the indices of bars in non-decreasing height order. Each bar remains in the stack until a shorter bar is found.
+        # keep indices in non-decreasing height order.
         stack = []
 
         for i in range(n):
-            # The current bar is shorter than the bar at the top of the stack. Therefore, index i is the first smaller bar to its right.
+            # a shorter bar fixes the right boundary for taller bars.
             while stack and heights[stack[-1]] > heights[i]:
                 index = stack.pop()
 
-                # After the pop, the new top is the nearest bar no taller than
-                # this one. If there is none, use -1 as a virtual boundary.
+                # after the pop, the new top gives the left boundary; use -1 when empty.
                 left_boundary = stack[-1] if stack else -1
 
-                # The rectangle extends from left_boundary + 1 to i - 1.
                 width = i - left_boundary - 1
                 area = heights[index] * width
 
                 max_area = max(max_area, area)
 
-            # This bar has not found a smaller bar to its right yet.
             stack.append(i)
 
-        # Bars still in the stack have no smaller bar to their right, so their rectangles can extend to the end of the histogram.
+        # remaining bars can extend to the end of the histogram.
         while stack:
             index = stack.pop()
 
-            # The new top is the nearest bar no taller than this one.
             left_boundary = stack[-1] if stack else -1
 
-            # The rectangle extends from left_boundary + 1 to n - 1.
             width = n - left_boundary - 1
             area = heights[index] * width
 

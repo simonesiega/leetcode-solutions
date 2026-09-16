@@ -10,15 +10,13 @@ class Solution:
         letters_count = 0
 
         for word in words:
-            # Minimum required length if the current word is added:
+
             # letters already in the line + current word + one space between each pair of words.
             if letters_count + len(word) + len(current_line) > maxWidth:
-                # Number of gaps where spaces can be distributed.
-                # Use 1 for single-word lines to avoid modulo by zero.
+                # use one gap for single-word lines to avoid modulo by zero.
                 gaps = max(1, len(current_line) - 1)
 
-                # Distribute all required spaces from left to right in round-robin order.
-                # This automatically gives extra spaces to the leftmost gaps.
+                # distribute all required spaces from left to right in round-robin order.
                 spaces_needed = maxWidth - letters_count
 
                 for i in range(spaces_needed):
@@ -33,8 +31,7 @@ class Solution:
             current_line.append(word)
             letters_count += len(word)
 
-        # The last line is left-justified with one space between words
-        # and padded with spaces on the right.
+        # the last line is left-justified with one space between words.
         result.append(" ".join(current_line).ljust(maxWidth))
 
         return result

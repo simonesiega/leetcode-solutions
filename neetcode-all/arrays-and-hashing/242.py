@@ -2,16 +2,13 @@
 
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        # Check if the lengths of the two strings are different.
-        # If they are, they cannot be anagrams, so return False
+        # strings of different lengths cannot be anagrams.
         if (len(s) != len(t)):
             return False
 
         count_t = {}
         count_s = {}
 
-        # Loop through the characters in both strings and count their occurrences
-        # they have got the same length, so it can be done in a single loop
         for index in range(len(s)):
             char_s = s[index]
             char_t = t[index]
