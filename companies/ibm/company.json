@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 2,
+  "name": "IBM",
+  "focus": "",
+  "website": "",
+  "problems": [
+    {
+      "id": "412",
+      "title": "Fizz Buzz",
+      "url": "https://leetcode.com/problems/fizz-buzz/",
+      "difficulty": "Easy",
+      "personalDifficulty": 1,
+      "status": "solved",
+      "time": "O(n)",
+      "space": "O(1) auxiliary; O(n) including the output",
+      "notes": "n = the input integer and number of generated entries"
+    }
+  ]
+}

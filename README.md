@@ -17,7 +17,7 @@
     <img src="https://img.shields.io/badge/NeetCode%20Solved-29-brightgreen" alt="NeetCode solved problems: 29" />
     <!-- solved-count:end -->
     <!-- company-count:start -->
-    <img src="https://img.shields.io/badge/Companies-1-blue" alt="Companies covered: 1" />
+    <img src="https://img.shields.io/badge/Companies-2-blue" alt="Companies covered: 2" />
     <!-- company-count:end -->
     <img src="https://img.shields.io/badge/Roadmap-NeetCode%20All-purple" alt="Roadmap: NeetCode All" />
   </p>
@@ -119,7 +119,7 @@ I also keep some separate practice for specific companies in [`companies/`](comp
 If I solve the same problem again while preparing for an OA or interview, I keep that attempt separate. I like being able to see how I approached the same problem at different times.
 
 <!-- company-progress:start -->
-**1 company · 4 solved · 0 in progress · 0 planned**
+**2 companies · 5 solved · 0 in progress · 0 planned**
 <!-- company-progress:end -->
 
 ### Companies
@@ -127,6 +127,7 @@ If I solve the same problem again while preparing for an OA or interview, I keep
 <!-- company-list:start -->
 | Company | Folder |
 |---|---|
+| IBM | [`companies/ibm/`](companies/ibm/) |
 | Roblox | [`companies/roblox/`](companies/roblox/) |
 <!-- company-list:end -->
 
