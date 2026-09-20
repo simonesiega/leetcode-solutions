@@ -6,21 +6,22 @@
 
 ## Progress
 
-- **Solved:** 5 / 5
+- **Solved:** 6 / 6
 - **In progress:** 0
 - **Planned:** 0
 
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (5 Total)
-    "Easy" : 2
+    title Solved Problems by Difficulty (6 Total)
+    "Easy" : 3
     "Medium" : 3
     "Hard" : 0
 ```
 
 | ID | Problem | Difficulty | Personal Difficulty | Status | Solution | Time | Space | Notes |
 |---|---|:---:|:---:|:---:|---|---|---|---|
+| 1 | [Two Sum](https://leetcode.com/problems/two-sum/) | Easy | 1 | Solved | [1.py](solutions/1.py) | O(n), where n is the number of values | O(n) for the value-to-index map | n = the number of input values |
 | 3 | [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/) | Medium | 3 | Solved | [3.py](solutions/3.py) | O(n), where n is the string length | O(min(n, a)) for the sliding-window set | n = the string length; a = the character-set size |
 | 12 | [Integer to Roman](https://leetcode.com/problems/integer-to-roman/) | Medium | 3 | Solved | [12.py](solutions/12.py) | O(1) because the input is bounded by 3999 | O(1) auxiliary space | The Roman numeral symbol table and maximum output length are bounded by the problem constraints |
 | 56 | [Merge Intervals](https://leetcode.com/problems/merge-intervals/) | Medium | 3 | Solved | [56.py](solutions/56.py) | O(n log n), where n is the number of intervals | O(n) for the returned merged intervals | n = the number of intervals |

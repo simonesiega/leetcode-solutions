@@ -5,6 +5,17 @@
   "website": "",
   "problems": [
     {
+      "id": "1",
+      "title": "Two Sum",
+      "url": "https://leetcode.com/problems/two-sum/",
+      "difficulty": "Easy",
+      "personalDifficulty": 1,
+      "status": "solved",
+      "time": "O(n), where n is the number of values",
+      "space": "O(n) for the value-to-index map",
+      "notes": "n = the number of input values"
+    },
+    {
       "id": "3",
       "title": "Longest Substring Without Repeating Characters",
       "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
