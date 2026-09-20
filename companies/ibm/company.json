@@ -38,6 +38,17 @@
       "notes": "The Roman numeral symbol table and maximum output length are bounded by the problem constraints"
     },
     {
+      "id": "13",
+      "title": "Roman to Integer",
+      "url": "https://leetcode.com/problems/roman-to-integer/",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "time": "O(n), where n is the Roman numeral length",
+      "space": "O(1) auxiliary space",
+      "notes": "n = the number of Roman numeral characters"
+    },
+    {
       "id": "56",
       "title": "Merge Intervals",
       "url": "https://leetcode.com/problems/merge-intervals/",
