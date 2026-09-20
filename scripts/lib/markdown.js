@@ -12,13 +12,27 @@
 function replaceBlock(content, name, lines) {
   const start = `<!-- ${name}:start -->`;
   const end = `<!-- ${name}:end -->`;
-  const pattern = new RegExp(`^([ \\t]*)${start}[\\s\\S]*?^[ \\t]*${end}`, 'm');
+  const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const markerPattern = (marker) => new RegExp(`^[ \\t]*${escapeRegExp(marker)}[ \\t]*\\r?$`, 'gm');
+  const startMatches = [...content.matchAll(markerPattern(start))];
+  const endMatches = [...content.matchAll(markerPattern(end))];
+  if (!startMatches.length || !endMatches.length) {
+    throw new Error(`Missing README.md markers for "${name}".`);
+  }
+  if (startMatches.length !== 1 || endMatches.length !== 1 || startMatches[0].index > endMatches[0].index) {
+    throw new Error(`README.md markers for "${name}" must form exactly one ordered pair.`);
+  }
+
+  const pattern = new RegExp(
+    `^([ \\t]*)${escapeRegExp(start)}[ \\t]*\\r?$[\\s\\S]*?^[ \\t]*${escapeRegExp(end)}[ \\t]*\\r?$`,
+    'm',
+  );
   const match = content.match(pattern);
-  if (!match) throw new Error(`Missing README.md markers for "${name}".`);
   const eol = content.includes('\r\n') ? '\r\n' : '\n';
   const indent = match[1];
   const replacement = [start, ...lines, end].map((line) => `${indent}${line}`).join(eol);
-  return content.replace(pattern, replacement);
+  // Slice instead of String.replace so generated `$&`-style text is always treated literally.
+  return content.slice(0, match.index) + replacement + content.slice(match.index + match[0].length);
 }
 
 /**
@@ -67,6 +81,12 @@ function escapeTable(value) {
   return escapeMarkdown(value).replace(/\|/g, '\\|').replace(/\r?\n/g, '<br>');
 }
 
+/** Encode URL characters that would otherwise terminate a Markdown link destination. */
+function escapeLinkDestination(value) {
+  const encoded = { '(': '%28', ')': '%29', '<': '%3C', '>': '%3E' };
+  return String(value).replace(/[()<>]/g, (character) => encoded[character]);
+}
+
 /**
  * URL-encode each segment of a slash-delimited repository path.
  * @param {string} value - Repository-relative path.
@@ -74,6 +94,16 @@ function escapeTable(value) {
  */
 function encodePath(value) {
   return value.split('/').map(encodeURIComponent).join('/');
+}
+
+/** Format a validated YYYY-MM-DD date for prose without depending on the local timezone. */
+function formatDateOnly(value) {
+  const [year, month, day] = value.split('-').map(Number);
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December',
+  ];
+  return `${months[month - 1]} ${day}, ${year}`;
 }
 
 /**
@@ -89,9 +119,11 @@ function pluralize(count, singular, plural) {
 
 module.exports = {
   encodePath,
+  escapeLinkDestination,
   escapeMarkdown,
   escapeMermaidLabel,
   escapeTable,
+  formatDateOnly,
   pluralize,
   renderDifficultyChart,
   replaceBlock,

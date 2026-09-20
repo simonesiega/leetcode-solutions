@@ -50,28 +50,18 @@ function assertNoExtraArguments(argv, maxLength, usage) {
 }
 
 /**
- * Build the conventional LeetCode URL for a numeric company problem ID.
- * Non-numeric IDs may represent another platform and therefore have no default URL.
- * @param {string} id - Company problem identifier.
- * @param {string} title - Problem title used for the URL slug.
- * @returns {string}
+ * Run a CLI entry point and convert synchronous or asynchronous failures to concise errors.
+ * @param {() => void|Promise<void>} main - Command dispatcher.
  */
-function defaultProblemUrl(id, title) {
-  if (!/^\d+$/.test(id)) return '';
-  return `https://leetcode.com/problems/${slugify(title)}/`;
-}
-
-/**
- * Run a synchronous CLI entry point and convert expected exceptions to concise errors.
- * @param {() => void} main - Command dispatcher.
- */
-function runCli(main) {
+async function runCli(main) {
   try {
-    main();
+    await main();
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    // Preserve concise CLI output even if a dependency rejects with a non-Error value.
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`Error: ${message}`);
     process.exitCode = 1;
   }
 }
 
-module.exports = { assertNoExtraArguments, defaultProblemUrl, parseArguments, runCli, slugify };
+module.exports = { assertNoExtraArguments, parseArguments, runCli, slugify };

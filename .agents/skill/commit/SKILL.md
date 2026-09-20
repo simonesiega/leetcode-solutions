@@ -32,6 +32,7 @@ Use this skill when the user explicitly asks to commit, prepare a commit, or squ
 3. Classify the change from its paths and content, not merely from the user's suggested title:
    - roadmap solution: `neetcode-all/<topic-slug>/<id>.py` plus `data/roadmap.json` and generated roadmap documentation;
    - company solution: `companies/<slug>/solutions/<id>.py` plus tracker metadata and generated documentation;
+   - company source refresh: provenance, rank, or frequency updates without a newly solved implementation;
    - docs, CI, tooling, fixes, or maintenance: any other coherent diff.
 4. Confirm generated documentation is current and ensure no cache, bytecode, secret, editor, temporary, or unrelated file will be staged.
 5. Run the complete validation block from `AGENTS.md` and any focused tests appropriate to the diff.
@@ -48,6 +49,8 @@ The company slug must match the folder under `companies/` exactly. For example:
 ```text
 solve leetcode #767 @ roblox
 ```
+
+For a company source refresh or source-data-only update, use an imperative data subject such as `Refresh company problem source snapshot`. Do not use a `solve leetcode #...` subject unless the commit actually adds a solved solution.
 
 For documentation, CI, tooling, review fixes, or general maintenance, derive a concise imperative subject from the final diff. Prefer a specific description such as `Document agent workflows and commit conventions` or `Validate generated company dashboards in CI`. Keep the subject focused and normally at most 72 characters. Do not add issue-closing text unless requested.
 
@@ -83,7 +86,7 @@ Report the commit hash, subject, checks run, and any remaining unstaged or untra
 
 ## Squash a Dependabot pull request
 
-The goal is one dependency-update commit on the base branch—never both a Dependabot commit and a separate `Merge pull request #<number>` commit. This repository is configured on GitHub to allow squash merges only; do not re-enable merge commits or rebase merges.
+The goal is one dependency-update commit on the base branch, never both a Dependabot commit and a separate `Merge pull request #<number>` commit. This repository is configured on GitHub to allow squash merges only; do not re-enable merge commits or rebase merges.
 
 1. Require the PR number and a clean working tree. Do not hide local work to perform the merge.
 2. Inspect the PR before merging:

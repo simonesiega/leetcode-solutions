@@ -1,55 +1,35 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "name": "IBM",
   "focus": "",
   "website": "",
+  "source": {
+    "repository": "liquidslr/leetcode-company-wise-problems",
+    "commit": "03850eb5d16892514491cf1381c32ec0330a2719",
+    "snapshotDate": "2026-08-16",
+    "window": "all",
+    "path": "IBM/5. All.csv"
+  },
   "problems": [
     {
-      "id": "1",
-      "title": "Two Sum",
-      "url": "https://leetcode.com/problems/two-sum/",
+      "id": "412",
+      "sourceKey": "fizz-buzz",
+      "sourceRank": 1,
+      "frequency": 100,
+      "title": "Fizz Buzz",
+      "url": "https://leetcode.com/problems/fizz-buzz/",
       "difficulty": "Easy",
       "personalDifficulty": 1,
       "status": "solved",
-      "time": "O(n), where n is the number of values",
-      "space": "O(n) for the value-to-index map",
-      "notes": "n = the number of input values"
-    },
-    {
-      "id": "3",
-      "title": "Longest Substring Without Repeating Characters",
-      "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
-      "difficulty": "Medium",
-      "personalDifficulty": 3,
-      "status": "solved",
-      "time": "O(n), where n is the string length",
-      "space": "O(min(n, a)) for the sliding-window set",
-      "notes": "n = the string length; a = the character-set size"
-    },
-    {
-      "id": "12",
-      "title": "Integer to Roman",
-      "url": "https://leetcode.com/problems/integer-to-roman/",
-      "difficulty": "Medium",
-      "personalDifficulty": 3,
-      "status": "solved",
-      "time": "O(1) because the input is bounded by 3999",
-      "space": "O(1) auxiliary space",
-      "notes": "The Roman numeral symbol table and maximum output length are bounded by the problem constraints"
-    },
-    {
-      "id": "13",
-      "title": "Roman to Integer",
-      "url": "https://leetcode.com/problems/roman-to-integer/",
-      "difficulty": "Easy",
-      "personalDifficulty": 2,
-      "status": "solved",
-      "time": "O(n), where n is the Roman numeral length",
-      "space": "O(1) auxiliary space",
-      "notes": "n = the number of Roman numeral characters"
+      "time": "O(n)",
+      "space": "O(1) auxiliary; O(n) including the output",
+      "notes": "n = the input integer and number of generated entries"
     },
     {
       "id": "56",
+      "sourceKey": "merge-intervals",
+      "sourceRank": 2,
+      "frequency": 93.8,
       "title": "Merge Intervals",
       "url": "https://leetcode.com/problems/merge-intervals/",
       "difficulty": "Medium",
@@ -60,7 +40,38 @@
       "notes": "n = the number of intervals"
     },
     {
+      "id": "12",
+      "sourceKey": "integer-to-roman",
+      "sourceRank": 3,
+      "frequency": 91.3,
+      "title": "Integer to Roman",
+      "url": "https://leetcode.com/problems/integer-to-roman/",
+      "difficulty": "Medium",
+      "personalDifficulty": 3,
+      "status": "solved",
+      "time": "O(1) because the input is bounded by 3999",
+      "space": "O(1) auxiliary space",
+      "notes": "The Roman numeral symbol table and maximum output length are bounded by the problem constraints"
+    },
+    {
+      "id": "3",
+      "sourceKey": "longest-substring-without-repeating-characters",
+      "sourceRank": 4,
+      "frequency": 87.5,
+      "title": "Longest Substring Without Repeating Characters",
+      "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+      "difficulty": "Medium",
+      "personalDifficulty": 3,
+      "status": "solved",
+      "time": "O(n), where n is the string length",
+      "space": "O(min(n, a)) for the sliding-window set",
+      "notes": "n = the string length; a = the character-set size"
+    },
+    {
       "id": "121",
+      "sourceKey": "best-time-to-buy-and-sell-stock",
+      "sourceRank": 5,
+      "frequency": 86.5,
       "title": "Best Time to Buy and Sell Stock",
       "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
       "difficulty": "Easy",
@@ -71,15 +82,32 @@
       "notes": "n = the number of daily stock prices"
     },
     {
-      "id": "412",
-      "title": "Fizz Buzz",
-      "url": "https://leetcode.com/problems/fizz-buzz/",
+      "id": "1",
+      "sourceKey": "two-sum",
+      "sourceRank": 6,
+      "frequency": 85.4,
+      "title": "Two Sum",
+      "url": "https://leetcode.com/problems/two-sum/",
       "difficulty": "Easy",
       "personalDifficulty": 1,
       "status": "solved",
-      "time": "O(n)",
-      "space": "O(1) auxiliary; O(n) including the output",
-      "notes": "n = the input integer and number of generated entries"
+      "time": "O(n), where n is the number of values",
+      "space": "O(n) for the value-to-index map",
+      "notes": "n = the number of input values"
+    },
+    {
+      "id": "13",
+      "sourceKey": "roman-to-integer",
+      "sourceRank": 7,
+      "frequency": 82.9,
+      "title": "Roman to Integer",
+      "url": "https://leetcode.com/problems/roman-to-integer/",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "time": "O(n), where n is the Roman numeral length",
+      "space": "O(1) auxiliary space",
+      "notes": "n = the number of Roman numeral characters"
     }
   ]
 }

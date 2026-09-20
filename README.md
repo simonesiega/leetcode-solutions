@@ -27,16 +27,16 @@
 
 Nothing fancy. This is where I keep the LeetCode problems I solve while working through the [NeetCode All roadmap](https://neetcode.io/roadmap) and preparing for OAs and interviews.
 
-The repo keeps the boring stuff in sync for me: progress, complexity notes, personal difficulty, and company-specific practice. That way, I can mostly focus on solving problems and come back later to see how I’ve improved.
+The repo keeps progress, complexity notes, solve dates, personal difficulty, and company-specific practice in sync so I can mostly focus on solving problems and come back later to see how I’ve improved.
 
 ## Personal difficulty rating
 
-For both **NeetCode roadmap problems** and **company-specific practice**, I optionally assign a personal difficulty score from **1 to 10**.
+For both **NeetCode roadmap problems** and **company-specific practice**, I can assign an optional personal difficulty score from **1 to 10**.
 
-The score represents how difficult it felt to derive a correct and reasonably optimal solution from scratch, not how difficult the implementation looks after the solution is known. It is separate from LeetCode's official Easy / Medium / Hard classification and is meant to track how my own problem-solving ability changes over time.
+It represents how difficult it felt to derive a correct and reasonably optimal solution from scratch, not how difficult the implementation looks after the solution is known.
 
 <details>
-<summary><strong>View personal difficulty rating scale</strong></summary>
+<summary><strong>View the rating scale</strong></summary>
 
 | Rating | Level | Meaning |
 |---:|---|---|
@@ -57,9 +57,11 @@ Because the rating is personal, it can change as I become more familiar with a p
 
 ## NeetCode progress
 
-The roadmap totals are a snapshot of NeetCode All and may change as NeetCode adds or reorganizes problems.
+<!-- roadmap-snapshot:start -->
+The roadmap totals are a snapshot of NeetCode All captured on September 14, 2026 and may change as NeetCode adds or reorganizes problems.
+<!-- roadmap-snapshot:end -->
 
-[`data/roadmap.json`](data/roadmap.json) keeps the roadmap data in one place. The roadmap CLI checks it against the solution files, then uses it to build [SOLUTIONS.md](SOLUTIONS.md), update the solved counts, and generate the README charts and topic table.
+The full solved catalog, including complexity and solve dates, is in [SOLUTIONS.md](SOLUTIONS.md).
 
 <!-- difficulty-chart:start -->
 ```mermaid
@@ -84,20 +86,9 @@ pie showData
 ```
 <!-- topic-chart:end -->
 
-The usual workflow is `planned → in-progress → solved`:
-
-```bash
-node scripts/roadmap-tracker.js add 217 "Contains Duplicate" arrays-and-hashing Easy --url https://leetcode.com/problems/contains-duplicate/
-node scripts/roadmap-tracker.js start 217
-# Implement the solution and remove TODO(roadmap-solution).
-node scripts/roadmap-tracker.js solve 217 --time "O(n), where n is the number of values" --space "O(n) for the hash set" --personal-difficulty 2
-```
-
-Run `node scripts/roadmap-tracker.js --help` to see every option.
-
 ### Progress by topic
 
-Open the table below to see solved and total problem counts for every roadmap topic and jump to its solution catalog section.
+If you want to see the full topic breakdown, including solved counts and links to solutions, click below.
 
 <details>
 <summary><strong>View detailed topic progress</strong></summary>
@@ -132,6 +123,8 @@ Open the table below to see solved and total problem counts for every roadmap to
 
 I also keep some separate practice for specific companies in [`companies/`](companies/README.md).
 
+For company-specific practice, I often use [liquidslr/leetcode-company-wise-problems](https://github.com/liquidslr/leetcode-company-wise-problems) as the problem source and work through each company's list from highest reported frequency to lowest.
+
 If I solve the same problem again while preparing for an OA or interview, I keep that attempt separate. I like being able to see how I approached the same problem at different times.
 
 <!-- company-progress:start -->
@@ -147,58 +140,20 @@ If I solve the same problem again while preparing for an OA or interview, I keep
 | Roblox | [`companies/roblox/`](companies/roblox/) |
 <!-- company-list:end -->
 
-There’s also a small tracker behind this so I don’t have to update everything by hand. It keeps track of `planned → in-progress → solved` problems and checks that solved ones include the solution, time complexity, and space complexity.
-
-If you’re curious, the full setup is in the [company prep guide](companies/README.md).
-
-## Folder layout
-
-NeetCode solutions are grouped by topic, while company prep gets its own folder for each company:
-
-```text
-# Roadmap metadata
-data/roadmap.json
-
-# NeetCode All roadmap solutions
-neetcode-all/<topic-slug>/<problem-number>.py
-
-# Company preparation solutions
-companies/<company-name>/solutions/<problem-id>.py
-
-# Dependency-free automation
-scripts/
-├── company-tracker.js       # company CLI + dashboard generation
-├── roadmap-tracker.js       # roadmap lifecycle CLI
-├── automation.test.js       # high-signal integration test
-└── lib/                     # shared helpers for the above scripts
-```
-
-For example, a roadmap solution is [`neetcode-all/arrays-and-hashing/217.py`](neetcode-all/arrays-and-hashing/217.py).
-
-Company attempts use the same simple Python style, but they stay inside their own company folder.
+You can find more information in the [company prep guide](companies/README.md).
 
 ## How I write my solutions
 
 Everything is Python 3 unless I have a reason to use something else.
 
-I try to keep the solutions simple and readable, basically code I’d be comfortable explaining out loud in an interview. I’m not trying to write the cleverest one-liner possible.
+I try to keep the solutions simple and readable: basically code I’d be comfortable explaining out loud in an interview. I’m not trying to write the cleverest one-liner possible.
 
 ## Want to contribute?
 
 Found a mistake or have a cleaner solution? Feel free to open a PR. Have a look at [CONTRIBUTING.md](CONTRIBUTING.md) first so everything stays consistent.
 
-## Problem references
-
-Solution files identify each problem only by its title and ID. For the full statement, examples, and constraints, use the official link in [SOLUTIONS.md](SOLUTIONS.md) or the relevant company dashboard.
+If you want, you can also fill out the [Pull Request template](.github/pull_request_template.md) to provide more context for your changes.
 
 ## License
 
 The repository’s original code and documentation are licensed under the [MIT License](LICENSE). Third-party content, platform names, and trademarks remain the property of their respective owners.
-
-## Contributors
-
-<p align="center">
-  <a href="https://github.com/simonesiega/leetcode-solutions/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=simonesiega/leetcode-solutions&max=24&columns=12" alt="Contributors" />
-  </a>
-</p>

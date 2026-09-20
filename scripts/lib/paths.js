@@ -13,6 +13,7 @@ const paths = Object.freeze({
   solutionsCatalog: path.join(root, 'SOLUTIONS.md'),
   roadmapSolutions: path.join(root, 'neetcode-all'),
   companies: path.join(root, 'companies'),
+  companySourceCache: path.join(root, '.cache', 'company-source'),
 });
 
 /**

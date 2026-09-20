@@ -1,22 +1,21 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "name": "Roblox",
   "focus": "America OA",
   "website": "",
+  "source": {
+    "repository": "liquidslr/leetcode-company-wise-problems",
+    "commit": "03850eb5d16892514491cf1381c32ec0330a2719",
+    "snapshotDate": "2026-08-16",
+    "window": "all",
+    "path": "Roblox/5. All.csv"
+  },
   "problems": [
     {
-      "id": "68",
-      "title": "Text Justification",
-      "url": "https://leetcode.com/problems/text-justification/",
-      "difficulty": "Hard",
-      "personalDifficulty": 5,
-      "status": "solved",
-      "time": "O(nw)",
-      "space": "O(w)",
-      "notes": "n = number of characters in the returned output; w = maxWidth; auxiliary space excludes the returned output"
-    },
-    {
       "id": "723",
+      "sourceKey": "candy-crush",
+      "sourceRank": 1,
+      "frequency": 100,
       "title": "Candy Crush",
       "url": "https://leetcode.com/problems/candy-crush/",
       "difficulty": "Medium",
@@ -28,6 +27,9 @@
     },
     {
       "id": "767",
+      "sourceKey": "reorganize-string",
+      "sourceRank": 2,
+      "frequency": 92.2,
       "title": "Reorganize String",
       "url": "https://leetcode.com/problems/reorganize-string/",
       "difficulty": "Medium",
@@ -39,6 +41,9 @@
     },
     {
       "id": "1434",
+      "sourceKey": "number-of-ways-to-wear-different-hats-to-each-other",
+      "sourceRank": 3,
+      "frequency": 91.5,
       "title": "Number of Ways to Wear Different Hats to Each Other",
       "url": "https://leetcode.com/problems/number-of-ways-to-wear-different-hats-to-each-other/",
       "difficulty": "Hard",
@@ -47,6 +52,20 @@
       "time": "O(Hp2^p)",
       "space": "O(H2^p + Hp)",
       "notes": "H = 40 possible hats; p = number of people; space includes memoization and the hat-to-people mapping"
+    },
+    {
+      "id": "68",
+      "sourceKey": "text-justification",
+      "sourceRank": 4,
+      "frequency": 87.7,
+      "title": "Text Justification",
+      "url": "https://leetcode.com/problems/text-justification/",
+      "difficulty": "Hard",
+      "personalDifficulty": 5,
+      "status": "solved",
+      "time": "O(nw)",
+      "space": "O(w)",
+      "notes": "n = number of characters in the returned output; w = maxWidth; auxiliary space excludes the returned output"
     }
   ]
 }

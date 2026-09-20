@@ -1,6 +1,6 @@
 # Contributing
 
-[← Project README](README.md) · [Solutions](SOLUTIONS.md) · [Companies](companies/README.md) · [Code of Conduct](CODE_OF_CONDUCT.md)
+[← Project README](README.md) · [Solutions](SOLUTIONS.md) · [Companies](companies/README.md) · [Data model](docs/DATA_MODEL.md) · [Code of Conduct](CODE_OF_CONDUCT.md)
 
 Thanks for checking this out! This is mostly my personal LeetCode workspace, so contributions don’t need to be anything huge. A bug fix, a cleaner solution, a small docs improvement, or a useful new problem is more than enough.
 
@@ -25,9 +25,7 @@ For small fixes, just open a Pull Request. If you want to change something bigge
 
 The same problem can show up in both places. That’s intentional. If I solve something again for an OA or interview, I like keeping that attempt separate from the roadmap version.
 
-For company prep, only add questions, notes, or material that is public or that you’re allowed to share.
-
-Please don’t add confidential assessment content, private recruiter/interviewer messages, someone else’s application details, or anything that clearly isn’t meant to be public.
+For company prep, only add questions, notes, or material that is public or that you’re allowed to share. Please don’t add confidential assessment content, private recruiter/interviewer messages, someone else’s application details, or anything that clearly isn’t meant to be public.
 
 ## What I’m looking for in a solution
 
@@ -53,54 +51,69 @@ Start every solution with `# <Problem title> - <ID>`, leave a blank line, and th
 
 ## Adding a NeetCode problem
 
-[`data/roadmap.json`](data/roadmap.json) is the source of truth for roadmap metadata, topic definitions, and the roadmap total. `SOLUTIONS.md` and the roadmap blocks in `README.md` are generated files, so don’t edit them directly.
+[`data/roadmap.json`](data/roadmap.json) is the source of truth for roadmap metadata. `SOLUTIONS.md` and the generated roadmap blocks in `README.md` should not be edited by hand.
 
-Use the roadmap tracker from the repository root instead of synchronizing files by hand:
+Use the roadmap tracker from the repository root:
 
 ```bash
-# Register canonical metadata as a planned problem.
+# Register the problem.
 node scripts/roadmap-tracker.js add 217 "Contains Duplicate" arrays-and-hashing Easy --url https://leetcode.com/problems/contains-duplicate/
 
-# Create neetcode-all/arrays-and-hashing/217.py and mark it in progress.
+# Create the solution file and mark it in progress.
 node scripts/roadmap-tracker.js start 217
 
-# After implementing the solution and removing TODO(roadmap-solution), record complexity.
+# After implementing the solution, record complexity and finish it.
 node scripts/roadmap-tracker.js solve 217 --time "O(n), where n is the number of values" --space "O(n) for the set of input values" --personal-difficulty 2
 ```
 
-`add` requires a numeric LeetCode ID, exact title, registered topic slug, platform difficulty, and canonical LeetCode URL. The available topic slugs are listed in `data/roadmap.json`. `--personal-difficulty` is optional on both `add` and `solve`; omit it to keep the rating `null`. The tracker inserts metadata in numeric ID order, creates the solution in the registered topic, validates state transitions, and regenerates `SOLUTIONS.md` and the roadmap blocks in `README.md` after each mutation.
+`--personal-difficulty` is optional. The tracker handles ordering, state changes, solve dates, generated docs, and validation for you.
 
-The shared roadmap validation checks the JSON schema, IDs, URLs, topics, difficulties, ratings, statuses, complexities, solution paths, implementations, and `# <Title> - <ID>` headers before writing Markdown. Only solved entries appear in the catalog and progress statistics. A planned entry must not have a solution file, while in-progress and solved entries must have one. Both complexity fields are required before `solve` succeeds.
+For metadata-only maintenance:
 
-For metadata-only maintenance, `node scripts/roadmap-tracker.js` regenerates the derived files and `node scripts/roadmap-tracker.js --check` checks them without writing.
+```bash
+node scripts/roadmap-tracker.js
+node scripts/roadmap-tracker.js --check
+```
+
+The exact roadmap schema, date rules, and lifecycle invariants are documented in [docs/DATA_MODEL.md](docs/DATA_MODEL.md).
 
 ## Adding company prep
 
-For company prep, use the tracker instead of creating and syncing everything by hand:
+For company-specific practice, use the company tracker instead of syncing files by hand:
 
 ```bash
 # Create the company workspace once.
 node scripts/company-tracker.js add-company "Company Name" --focus "Region or interview stage"
 
-# Add a problem to the preparation plan.
+# Add a problem manually.
 node scripts/company-tracker.js add-problem company-name 1 "Two Sum" Easy --personal-difficulty 3
 
-# Create the solution file and mark the problem in progress.
+# Create the solution file and mark it in progress.
 node scripts/company-tracker.js start company-name 1
 
-# After solving it, remove TODO(company-solution) and record the complexity.
+# Finish it and record complexity.
 node scripts/company-tracker.js solve company-name 1 --time "O(n)" --space "O(n)" --personal-difficulty 3
 ```
 
-`add-company` also supports `--slug` and `--website`.
+`add-company` also supports `--slug` and `--website`. `add-problem` supports `--url`, `--notes`, and custom OA-style IDs.
 
-`add-problem` supports `--personal-difficulty` for an optional rating from 1 to 10, `--url` for problems outside LeetCode, and `--notes` for a quick pattern, reminder, or review note. The `solve` command also accepts `--personal-difficulty`, so an unrated problem can be rated later. Problem IDs can use letters, numbers, dots, underscores, and hyphens.
+For source-backed company lists:
 
-Each company’s `company.json` is the source of truth. The tracker uses it to generate the dashboard, badge, folder links, and progress counts.
+```bash
+node scripts/company-tracker.js source-sync ibm
+node scripts/company-tracker.js next ibm
+node scripts/company-tracker.js add-from-source ibm valid-parentheses --id 20
+```
 
-If something needs changing, update it through the tracker or the source data instead of editing generated company READMEs directly.
+You can also use a local CSV with:
 
-A solved company problem should include its solution file along with its time and space complexity. Personal difficulty may remain unrated as `null` until the maintainer assigns a value.
+```bash
+node scripts/company-tracker.js source-sync ibm --file PATH
+```
+
+Manual and OA-specific entries still work normally. The tracker owns the company manifests, generated dashboards, source ordering, and root summary.
+
+The exact company schema and source metadata rules are documented in [docs/DATA_MODEL.md](docs/DATA_MODEL.md).
 
 ## Working on automation
 
@@ -108,26 +121,27 @@ The automation is deliberately split into small entry points and shared helpers:
 
 ```text
 scripts/
-├── company-tracker.js       # company CLI + dashboard generation
-├── roadmap-tracker.js       # roadmap lifecycle CLI
-├── automation.test.js       # single high-signal integration test
+├── company-tracker.js       # company CLI
+├── roadmap-tracker.js       # roadmap CLI
+├── automation.test.js       # automation test suite
 └── lib/
-    ├── cli.js               # CLI parsing + error handling
-    ├── generated-files.js   # generated-file drift + writes
-    ├── json.js              # JSON reads + formatting
-    ├── markdown.js          # Markdown generation + escaping
-    ├── paths.js             # canonical repository paths
-    ├── progress.js          # progress aggregation
-    ├── roadmap.js           # roadmap validation + generation
-    ├── solutions.js         # solution scaffolds + checks
-    └── validation.js        # shared metadata validation
+    ├── cli.js
+    ├── company.js
+    ├── company-source.js
+    ├── csv.js
+    ├── generated-files.js
+    ├── json.js
+    ├── markdown.js
+    ├── paths.js
+    ├── progress.js
+    ├── roadmap.js
+    ├── solutions.js
+    └── validation.js
 ```
 
-Keep the entry points thin. If roadmap and company automation need the same rule, parsing, validation, file handling, or Markdown helper, put it in the matching `scripts/lib/` module instead of copying it into both CLIs.
+Keep the CLI entry points small. Shared parsing, validation, file handling, and Markdown logic should live in the narrowest existing `scripts/lib/` module instead of being duplicated.
 
-Before adding a new helper, check whether it naturally belongs in one of the existing modules. The goal is simple shared code, not a framework.
-
-`scripts/automation.test.js` is the main integration test for this layer. It should cover the important roadmap and company workflows, generated-file drift, shared validation, and import-time safety using disposable repository fixtures rather than touching the real working tree.
+The goal is simple shared code, not a framework.
 
 ## Branches and PRs
 
@@ -145,23 +159,19 @@ If the change is for a specific problem, include its ID in the PR title.
 
 For example:
 
-```
+```text
 Solve #15: add Three Sum
 Improve #125: simplify Valid Palindrome
 Solve Roblox OA Pairs
 ```
 
-In the PR, a short note is enough. Mention:
-- what changed;
-- why the change is useful;
-- the relevant time and space complexity for solution changes; and
-- how you validated the result.
+In the PR, a short note is enough. Mention what changed, why it is useful, the relevant complexity for solution changes, and how you validated it.
 
-Try to keep unrelated cleanup out of the same PR so it stays easy to read.
+Try to keep unrelated cleanup out of the same PR so it stays easy to review.
 
 ## Before opening the PR
 
-Before opening a PR, run the checks below:
+Run the checks below from the repository root:
 
 ```bash
 for file in scripts/*.js scripts/lib/*.js; do node --check "$file"; done
@@ -177,15 +187,16 @@ python -m compileall -q neetcode-all companies
 git diff --check
 ```
 
-And do one quick pass through this:
+`git diff --check` stays a local review command because CI checks a clean checkout rather than your working-tree diff.
+
+One last pass:
 
 - [ ] the solution is in the correct roadmap topic or company workspace;
 - [ ] the filename matches its LeetCode or tracked OA problem ID;
-- [ ] the solution was accepted by the relevant platform or tested with representative cases;
-- [ ] important edge cases and complexity notes are accurate;
-- [ ] `data/roadmap.json` contains the correct roadmap metadata;
-- [ ] `company.json` contains the correct metadata and status for company additions;
-- [ ] generated `SOLUTIONS.md`, README blocks, and company dashboards are up to date; and
+- [ ] the solution was accepted or tested with representative cases;
+- [ ] edge cases and complexity notes are accurate;
+- [ ] roadmap or company metadata is correct;
+- [ ] generated docs are up to date; and
 - [ ] the Pull Request contains one focused change.
 
 ## One last thing
@@ -195,7 +206,8 @@ Just be respectful in issues, PRs, and reviews. Questions are welcome. This repo
 The usual [Code of Conduct](CODE_OF_CONDUCT.md) applies too.
 
 If you have a question that doesn’t really need an issue:
+
 - GitHub: [@simonesiega](https://github.com/simonesiega)
-- Email: [simonesiega1@gmail.com](mailto:simonesiega1@gmail.com).
+- Email: [simonesiega1@gmail.com](mailto:simonesiega1@gmail.com)
 
 Thanks for helping out!

@@ -2,9 +2,9 @@
 
 [← Project README](../README.md) · [Solutions](../SOLUTIONS.md) · [Contributing](../CONTRIBUTING.md)
 
-This directory contains focused preparation for upcoming OAs and technical interviews.
+This directory contains locally tracked preparation for OAs and technical interviews. Candidate lists come from [liquidslr/leetcode-company-wise-problems](https://github.com/liquidslr/leetcode-company-wise-problems), and source-backed problems are practiced from highest reported frequency to lowest. Frequency is only the source's relative ranking signal, not a prediction that a problem will appear in an interview.
 
-Company-specific attempts stay separate from the year-round NeetCode roadmap, so revisiting the same problem for a particular interview remains visible as an independent practice session.
+Each manifest records the selected source window, snapshot date, commit, and CSV path. The external candidate list remains separate from the problems selected for practice, so progress totals below count only local manifest entries.
 
 ## Progress
 
@@ -15,58 +15,43 @@ Company-specific attempts stay separate from the year-round NeetCode roadmap, so
 
 **Total:** 11 solved, 0 in progress, and 0 planned across 2 companies.
 
-## Quick start
+## Source-backed workflow
 
-Run these commands from the repository root:
-
-```bash
-# Create companies/amazon with its manifest and generated dashboard.
-node scripts/company-tracker.js add-company "Amazon"
-
-# Add a problem to the preparation plan.
-# Numeric IDs default to the corresponding LeetCode problem URL.
-node scripts/company-tracker.js add-problem amazon 1 "Two Sum" Easy --personal-difficulty 3
-
-# Create companies/amazon/solutions/1.py and mark the problem in progress.
-node scripts/company-tracker.js start amazon 1
-
-# After implementing the solution and removing TODO(company-solution),
-# record its time and space complexity.
-node scripts/company-tracker.js solve amazon 1 --time "O(n)" --space "O(n)" --personal-difficulty 3
-```
-
-Use `--focus` when the workspace targets a particular region, assessment, or interview stage:
+Source data is cached locally and is never required for normal validation or CI. For a company with source provenance in its manifest:
 
 ```bash
-node scripts/company-tracker.js add-company "Roblox" --focus "US OA"
+node scripts/company-tracker.js source-sync ibm
+node scripts/company-tracker.js next ibm
+node scripts/company-tracker.js add-from-source ibm valid-parentheses --id 20
 ```
 
-Use `--personal-difficulty` to record a personal rating from 1 to 10, `add-problem --url` when the problem is not from LeetCode, and `--notes` for a short pattern, reminder, or review note.
+`source-sync` fetches the exact pinned commit, not the latest upstream data. Use `--file PATH` to populate the same gitignored cache from a local CSV. Refreshing source provenance is an intentional data update, separate from importing one candidate.
+
+## Manual workflow
+
+Manual and OA-specific entries remain supported:
+
+```bash
+node scripts/company-tracker.js add-company "Amazon" --focus "US OA"
+node scripts/company-tracker.js add-problem amazon oa-pairs "Pair Optimization" Medium --url https://example.com/problems/pairs
+node scripts/company-tracker.js start amazon oa-pairs
+node scripts/company-tracker.js solve amazon oa-pairs --time "O(n)" --space "O(n)" --personal-difficulty 3
+```
 
 Run `node scripts/company-tracker.js --help` to see every option.
 
 ## Folder layout
 
-Each company gets a small tracked workspace containing its source metadata, generated progress page, and independent solutions:
-
 ```text
 companies/
 └── amazon/
-    ├── company.json       # problem metadata, status, and workspace settings
-    ├── README.md          # generated company progress dashboard
+    ├── company.json       # personal tracked state and optional source provenance
+    ├── README.md          # generated dashboard
     └── solutions/
-        └── 1.py           # independent company-specific attempt
+        └── oa-pairs.py    # independent company-specific attempt
 ```
 
-`company.json` is the source of truth for each workspace.
-
-Statuses follow `planned → in-progress → solved`. Personal difficulty is an optional rating from 1 to 10 and is separate from the platform difficulty. A solved entry must include its Python solution together with time and space complexity. The manifest, generated dashboard, and solutions are committed so preparation progress remains visible over time.
+`company.json` is the source of truth for selected personal practice, not a copy of the complete external dataset. Statuses follow `planned → in-progress → solved`, and solved entries require a Python solution plus time and space complexity. See [the data model reference](../docs/DATA_MODEL.md) for exact fields and provenance semantics.
 
 > [!IMPORTANT]
-> Company README files are generated. Do not edit them directly.
->
-> Update `company.json` through the tracker or the appropriate source data, then regenerate the documentation with:
->
-> ```bash
-> node scripts/company-tracker.js
-> ```
+> Company README files are generated. Update the manifest through the tracker or source data, then run `node scripts/company-tracker.js` instead of editing Markdown directly.

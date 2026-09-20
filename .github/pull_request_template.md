@@ -20,7 +20,8 @@ For solution changes; use `N/A` otherwise.
 - [ ] The solution was accepted by the relevant platform or tested with representative cases.
 - [ ] Important edge cases were checked.
 - [ ] The file, ID, topic, and workspace are correct where applicable.
-- [ ] Complexity notes and personal difficulty metadata are accurate where applicable.
+- [ ] Complexity notes, personal difficulty, solve dates, and roadmap snapshot metadata are accurate where applicable.
+- [ ] Company source provenance, rank, frequency, and canonical URLs are accurate where applicable.
 - [ ] Generated roadmap and company documentation is up to date.
 - [ ] Automation checks, `scripts/automation.test.js`, and Python checks pass.
 - [ ] No unrelated changes are included.

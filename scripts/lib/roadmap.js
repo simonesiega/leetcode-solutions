@@ -5,7 +5,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { findStaleFiles, writeFiles } = require('./generated-files');
 const { readJson } = require('./json');
-const { escapeMermaidLabel, renderDifficultyChart, replaceBlock } = require('./markdown');
+const {
+  escapeMermaidLabel, formatDateOnly, renderDifficultyChart, replaceBlock,
+} = require('./markdown');
 const { paths, relativePath } = require('./paths');
 const { getSolvedDifficultyCounts } = require('./progress');
 const {
@@ -13,7 +15,9 @@ const {
 } = require('./solutions');
 const {
   assertComplexity,
+  assertDateOnly,
   assertDifficulty,
+  assertIsoInstant,
   assertKeys,
   assertNonemptyText,
   assertObject,
@@ -57,9 +61,14 @@ function getRoadmapSolutionPath(problem) {
  */
 function validateRoadmap(roadmap) {
   assertObject(roadmap, 'data/roadmap.json');
-  assertKeys(roadmap, ['schemaVersion', 'name', 'total', 'topics', 'problems'], 'data/roadmap.json');
-  if (roadmap.schemaVersion !== 2) throw new Error('data/roadmap.json schemaVersion must be 2.');
+  assertKeys(
+    roadmap,
+    ['schemaVersion', 'name', 'snapshotDate', 'total', 'topics', 'problems'],
+    'data/roadmap.json',
+  );
+  if (roadmap.schemaVersion !== 3) throw new Error('data/roadmap.json schemaVersion must be 3.');
   assertNonemptyText(roadmap.name, 'Roadmap name');
+  assertDateOnly(roadmap.snapshotDate, 'Roadmap snapshotDate');
   if (!Number.isInteger(roadmap.total) || roadmap.total < 0) {
     throw new Error('data/roadmap.json total must be a non-negative integer.');
   }
@@ -101,7 +110,7 @@ function validateRoadmap(roadmap) {
     assertObject(problem, context);
     assertKeys(problem, [
       'id', 'title', 'url', 'topic', 'difficulty', 'personalDifficulty', 'status',
-      'timeComplexity', 'spaceComplexity',
+      'solvedAt', 'timeComplexity', 'spaceComplexity',
     ], context);
     if (!Number.isInteger(problem.id) || problem.id <= 0) throw new Error(`${context} ID must be a positive integer.`);
     if (ids.has(problem.id)) throw new Error(`Duplicate roadmap problem ID: ${problem.id}`);
@@ -118,6 +127,13 @@ function validateRoadmap(roadmap) {
     assertDifficulty(problem.difficulty, `Problem ${problem.id}`, true);
     assertPersonalDifficulty(problem.personalDifficulty, `Problem ${problem.id}`);
     assertStatus(problem.status, `Problem ${problem.id}`, true);
+    if (problem.solvedAt !== null) assertIsoInstant(problem.solvedAt, `Problem ${problem.id} solvedAt`);
+    if (problem.status === 'solved' && problem.solvedAt === null) {
+      throw new Error(`Solved problem ${problem.id} must include solvedAt.`);
+    }
+    if (problem.status !== 'solved' && problem.solvedAt !== null) {
+      throw new Error(`${problem.status} problem ${problem.id} must have solvedAt set to null.`);
+    }
     assertComplexity(problem.timeComplexity, `Problem ${problem.id} timeComplexity`);
     assertComplexity(problem.spaceComplexity, `Problem ${problem.id} spaceComplexity`);
     if (problem.status === 'solved' && (!problem.timeComplexity || !problem.spaceComplexity)) {
@@ -187,6 +203,9 @@ function updateRoadmapDocumentation(checkOnly = false) {
   let updatedReadme = replaceBlock(originalReadme, 'solved-count', [
     `<img src="https://img.shields.io/badge/NeetCode%20Solved-${solved.length}-brightgreen" alt="NeetCode solved problems: ${solved.length}" />`,
   ]);
+  updatedReadme = replaceBlock(updatedReadme, 'roadmap-snapshot', [
+    `The roadmap totals are a snapshot of NeetCode All captured on ${formatDateOnly(roadmap.snapshotDate)} and may change as NeetCode adds or reorganizes problems.`,
+  ]);
   updatedReadme = replaceBlock(
     updatedReadme,
     'difficulty-chart',
@@ -232,7 +251,7 @@ function renderSolutions(topics, problems) {
     '',
     '[← Project README](README.md) · [Company preparation](companies/README.md) · [Contributing](CONTRIBUTING.md)',
     '',
-    'Here are the NeetCode All problems I have finished so far, along with each solution, its official and personal difficulty, and a quick time and space complexity breakdown.',
+    'Here are the NeetCode All problems I have finished so far, along with each completion date, solution, official and personal difficulty, and a quick time and space complexity breakdown.',
     '',
     'Company-specific attempts live separately in the [company preparation dashboard](companies/README.md), keeping this list focused on progress through the main NeetCode All roadmap.',
     '',
@@ -249,13 +268,13 @@ function renderSolutions(topics, problems) {
       continue;
     }
     lines.push(
-      '| Problem | Title | File | Time Complexity | Space Complexity | Difficulty | Personal Difficulty |',
-      '|---:|---|---|---|---|:---:|:---:|',
+      '| Problem | Title | Solved | File | Time Complexity | Space Complexity | Difficulty | Personal Difficulty |',
+      '|---:|---|:---:|---|---|---|:---:|:---:|',
     );
     for (const problem of topicProblems) {
       const solutionPath = `neetcode-all/${problem.topic}/${problem.id}.py`;
       const color = difficultyColors[problem.difficulty];
-      lines.push(`| ${problem.id} | [${problem.title}](${problem.url}) | [${problem.id}.py](${solutionPath}) | ${problem.timeComplexity} | ${problem.spaceComplexity} | ![${problem.difficulty}](https://img.shields.io/badge/${problem.difficulty}-${color}?style=flat-square) | ${problem.personalDifficulty ?? '—'} |`);
+      lines.push(`| ${problem.id} | [${problem.title}](${problem.url}) | ${problem.solvedAt.slice(0, 10)} | [${problem.id}.py](${solutionPath}) | ${problem.timeComplexity} | ${problem.spaceComplexity} | ![${problem.difficulty}](https://img.shields.io/badge/${problem.difficulty}-${color}?style=flat-square) | ${problem.personalDifficulty ?? 'Not rated'} |`);
     }
     lines.push('');
   }

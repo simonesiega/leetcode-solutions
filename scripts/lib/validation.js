@@ -34,8 +34,13 @@ function assertKeys(value, expected, context) {
  * @param {string} context - Human-readable field name.
  */
 function assertNonemptyText(value, context) {
-  if (typeof value !== 'string' || !value.trim() || value !== value.trim()) {
-    throw new Error(`${context} must be a non-empty string without leading or trailing whitespace.`);
+  if (
+    typeof value !== 'string'
+    || !value.trim()
+    || value !== value.trim()
+    || /[\u0000-\u001F\u007F]/.test(value)
+  ) {
+    throw new Error(`${context} must be non-empty, trimmed, single-line text without control characters.`);
   }
 }
 
@@ -60,6 +65,42 @@ function assertPersonalDifficulty(value, context) {
   if (value !== null && (!Number.isInteger(value) || value < 1 || value > 10)) {
     throw new Error(`${context} personalDifficulty must be null or an integer from 1 to 10.`);
   }
+}
+
+/**
+ * Require a real calendar date in the repository's YYYY-MM-DD format.
+ * @param {unknown} value - Candidate date.
+ * @param {string} context - Human-readable field name.
+ */
+function assertDateOnly(value, context) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    throw new Error(`${context} must be a valid date in YYYY-MM-DD format.`);
+  }
+  const [year] = value.split('-').map(Number);
+  const date = new Date(`${value}T00:00:00.000Z`);
+  if (year === 0 || Number.isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== value) {
+    throw new Error(`${context} must be a valid date in YYYY-MM-DD format.`);
+  }
+}
+
+/**
+ * Require a canonical UTC ISO timestamp representing a real instant.
+ * @param {unknown} value - Candidate timestamp.
+ * @param {string} context - Human-readable field name.
+ */
+function assertIsoInstant(value, context) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value)) {
+    throw new Error(`${context} must be a valid UTC ISO timestamp.`);
+  }
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime()) || date.toISOString() !== value || value.startsWith('0000-')) {
+    throw new Error(`${context} must be a valid UTC ISO timestamp.`);
+  }
+}
+
+/** Return the current instant in canonical UTC ISO format. */
+function getCurrentIsoInstant() {
+  return new Date().toISOString();
 }
 
 /**
@@ -121,6 +162,32 @@ function assertComplexity(value, context) {
     throw new Error(`${context} must be a single-line Markdown string without table separators.`);
   }
   if (value !== value.trim()) throw new Error(`${context} must not have leading or trailing whitespace.`);
+}
+
+/**
+ * Require an HTTP or HTTPS URL without credentials.
+ * @param {unknown} value - Candidate URL.
+ * @param {string} context - Human-readable field name.
+ * @param {boolean} [allowEmpty=false] - Whether an empty string is accepted.
+ */
+function assertHttpUrl(value, context, allowEmpty = false) {
+  if (allowEmpty && value === '') return;
+  if (
+    typeof value !== 'string'
+    || value !== value.trim()
+    || /[\s\u007F]/u.test(value)
+  ) {
+    throw new Error(`${context} must be an HTTP or HTTPS URL without whitespace or control characters.`);
+  }
+  let url;
+  try {
+    url = new URL(value);
+  } catch {
+    throw new Error(`${context} must be a valid HTTP or HTTPS URL.`);
+  }
+  if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || !url.hostname) {
+    throw new Error(`${context} must be a valid HTTP or HTTPS URL without credentials.`);
+  }
 }
 
 /**
@@ -198,13 +265,17 @@ module.exports = {
   VALID_DIFFICULTIES,
   VALID_STATUSES,
   assertComplexity,
+  assertDateOnly,
   assertDifficulty,
+  assertHttpUrl,
+  assertIsoInstant,
   assertKeys,
   assertNonemptyText,
   assertObject,
   assertPersonalDifficulty,
   assertStatus,
   assertTableText,
+  getCurrentIsoInstant,
   isSlug,
   parseOptionalPersonalDifficulty,
   parsePositiveIntegerId,

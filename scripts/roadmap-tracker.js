@@ -17,6 +17,7 @@ const {
   VALID_DIFFICULTIES,
   assertComplexity,
   assertTableText,
+  getCurrentIsoInstant,
   parseOptionalPersonalDifficulty,
   parsePositiveIntegerId,
   validateCanonicalLeetCodeUrl,
@@ -95,11 +96,13 @@ function addProblem(args) {
     difficulty,
     personalDifficulty,
     status: 'planned',
+    solvedAt: null,
     timeComplexity: '',
     spaceComplexity: '',
   });
   // Keep the manifest deterministic regardless of the order in which problems are added.
   roadmap.problems.sort((a, b) => a.id - b.id);
+  validateRoadmap(roadmap);
   writeJson(paths.roadmap, roadmap);
   updateRoadmapDocumentation(false);
   console.log(`Added ${id} - ${title} to ${topic} as planned.`);
@@ -111,8 +114,8 @@ function addProblem(args) {
  * @param {string[]} args - Arguments after `start`.
  */
 function startProblem(args) {
-  const { positionals, options } = parseArguments(args, new Set());
-  if (Object.keys(options).length || positionals.length !== 1) {
+  const { positionals } = parseArguments(args, new Set());
+  if (positionals.length !== 1) {
     throw new Error('Usage: node scripts/roadmap-tracker.js start <problem-id>');
   }
   const id = parsePositiveIntegerId(positionals[0]);
@@ -124,6 +127,7 @@ function startProblem(args) {
   const solutionPath = getRoadmapSolutionPath(problem);
   createSolutionScaffold(solutionPath, problem, 'roadmap-solution');
   problem.status = 'in-progress';
+  validateRoadmap(roadmap);
   writeJson(paths.roadmap, roadmap);
   updateRoadmapDocumentation(false);
   console.log(`Started ${id} - ${problem.title}: ${relativePath(solutionPath)}`);
@@ -146,6 +150,7 @@ function solveProblem(args) {
   const roadmap = readRoadmap();
   validateRoadmap(roadmap);
   const problem = findProblem(roadmap, id);
+  if (problem.status === 'solved') throw new Error(`Roadmap problem ${id} is already solved.`);
   const solutionPath = getRoadmapSolutionPath(problem);
   if (!fs.existsSync(solutionPath)) {
     throw new Error(`Missing solution ${relativePath(solutionPath)}. Run the start command first.`);
@@ -154,9 +159,12 @@ function solveProblem(args) {
   validateSolutionForSolve(source, problem, relativePath(solutionPath), 'roadmap-solution');
 
   problem.status = 'solved';
+  problem.solvedAt = getCurrentIsoInstant();
   problem.timeComplexity = options.time;
   problem.spaceComplexity = options.space;
   if (personalDifficulty !== undefined) problem.personalDifficulty = personalDifficulty;
+  // Commit only a fully valid lifecycle transition to the source-of-truth manifest.
+  validateRoadmap(roadmap);
   writeJson(paths.roadmap, roadmap);
   updateRoadmapDocumentation(false);
   console.log(`Marked ${id} - ${problem.title} as solved.`);
