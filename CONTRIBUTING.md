@@ -23,7 +23,7 @@ For small fixes, just open a Pull Request. If you want to change something bigge
 | NeetCode All | `neetcode-all/<topic-slug>/<problem-number>.py` | My main roadmap practice. |
 | Company prep | `companies/<company>/solutions/<problem-id>.py` | A separate attempt for a specific OA or interview. |
 
-The same problem can show up in both places. That’s intentional — if I solve something again for an OA or interview, I like keeping that attempt separate from the roadmap version.
+The same problem can show up in both places. That’s intentional. If I solve something again for an OA or interview, I like keeping that attempt separate from the roadmap version.
 
 For company prep, only add questions, notes, or material that is public or that you’re allowed to share.
 
@@ -31,7 +31,7 @@ Please don’t add confidential assessment content, private recruiter/interviewe
 
 ## What I’m looking for in a solution
 
-Nothing complicated — just try to keep it:
+Nothing complicated. Just try to keep it:
 
 - compatible with Python 3 unless the problem explicitly requires another language;
 - in the method signature expected by the relevant platform;
@@ -40,7 +40,7 @@ Nothing complicated — just try to keep it:
 - correct for the required edge cases; and
 - consistent with nearby files.
 
-If you’re replacing an existing solution, there should be a real reason for it — clearer code, better naming, simpler control flow, fixed edge cases, or better complexity are all good reasons.
+If you’re replacing an existing solution, there should be a real reason for it. Clearer code, better naming, simpler control flow, fixed edge cases, or better complexity are all good reasons.
 
 For comments, I prefer explaining **why** something matters instead of describing code that already explains itself.
 
@@ -49,37 +49,30 @@ For comments, I prefer explaining **why** something matters instead of describin
 if number - 1 not in numbers:
 ```
 
-Start every solution with `# <Problem title> - <ID>`, leave a blank line, and then write the solution. Keep the problem statement out of the file — just link to the official problem instead of copying or rewriting its description, examples, constraints, or editorial content.
+Start every solution with `# <Problem title> - <ID>`, leave a blank line, and then write the solution. Keep the problem statement out of the file. Just link to the official problem instead of copying or rewriting its description, examples, constraints, or editorial content.
 
 ## Adding a NeetCode problem
 
 [`data/roadmap.json`](data/roadmap.json) is the source of truth for roadmap metadata, topic definitions, and the roadmap total. `SOLUTIONS.md` and the roadmap blocks in `README.md` are generated files, so don’t edit them directly.
 
-To add the next accepted solution:
+Use the roadmap tracker from the repository root instead of synchronizing files by hand:
 
-1. confirm that its numeric ID is not already in `data/roadmap.json`;
-2. add the solution to `neetcode-all/<topic-slug>/<id>.py`, using one of the topic slugs already defined in the JSON file;
-3. add a numerically ordered problem object to `data/roadmap.json` with all of these fields:
-   ```json
-   {
-     "id": 217,
-     "title": "Contains Duplicate",
-     "url": "https://leetcode.com/problems/contains-duplicate/",
-     "topic": "arrays-and-hashing",
-     "difficulty": "Easy",
-     "personalDifficulty": null,
-     "status": "solved",
-     "timeComplexity": "Expected `O(n)`, where `n` is the number of values.",
-     "spaceComplexity": "`O(n)` for the set of input values."
-   }
-   ```
-4. run the generator from the repository root:
-   ```bash
-   node scripts/update-readme-stats.js
-   ```
-5. review the generated changes to `SOLUTIONS.md` and `README.md`, then run the checks below.
+```bash
+# Register canonical metadata as a planned problem.
+node scripts/roadmap-tracker.js add 217 "Contains Duplicate" arrays-and-hashing Easy --url https://leetcode.com/problems/contains-duplicate/
 
-The generator validates the JSON schema, IDs, URLs, topics, difficulties, personal difficulty ratings, statuses, complexities, solution paths, solved implementations, and `# <Title> - <ID>` headers before writing Markdown. Personal difficulty is an optional integer from 1 to 10; use `null` until the problem has been rated. It supports `planned`, `in-progress`, and `solved`; only solved entries appear in the catalog and progress statistics. A planned entry must not have a solution file, while in-progress and solved entries must have one. Keep complexity strings empty until they are known for a planned or in-progress entry, and fill both before changing its status to `solved`.
+# Create neetcode-all/arrays-and-hashing/217.py and mark it in progress.
+node scripts/roadmap-tracker.js start 217
+
+# After implementing the solution and removing TODO(roadmap-solution), record complexity.
+node scripts/roadmap-tracker.js solve 217 --time "O(n), where n is the number of values" --space "O(n) for the set of input values" --personal-difficulty 2
+```
+
+`add` requires a numeric LeetCode ID, exact title, registered topic slug, platform difficulty, and canonical LeetCode URL. The available topic slugs are listed in `data/roadmap.json`. `--personal-difficulty` is optional on both `add` and `solve`; omit it to keep the rating `null`. The tracker inserts metadata in numeric ID order, creates the solution in the registered topic, validates state transitions, and regenerates `SOLUTIONS.md` and the roadmap blocks in `README.md` after each mutation.
+
+The shared roadmap validation checks the JSON schema, IDs, URLs, topics, difficulties, ratings, statuses, complexities, solution paths, implementations, and `# <Title> - <ID>` headers before writing Markdown. Only solved entries appear in the catalog and progress statistics. A planned entry must not have a solution file, while in-progress and solved entries must have one. Both complexity fields are required before `solve` succeeds.
+
+For metadata-only maintenance, `node scripts/roadmap-tracker.js` regenerates the derived files and `node scripts/roadmap-tracker.js --check` checks them without writing. The older `node scripts/update-readme-stats.js [--check]` entry point remains supported and uses the same shared roadmap logic.
 
 ## Adding company prep
 
@@ -108,6 +101,34 @@ Each company’s `company.json` is the source of truth. The tracker uses it to g
 If something needs changing, update it through the tracker or the source data instead of editing generated company READMEs directly.
 
 A solved company problem should include its solution file along with its time and space complexity. Personal difficulty may remain unrated as `null` until the maintainer assigns a value.
+
+## Working on automation
+
+The automation is deliberately split into small entry points and shared helpers:
+
+```text
+scripts/
+├── company-tracker.js       # company CLI + dashboard generation
+├── roadmap-tracker.js       # roadmap lifecycle CLI
+├── update-readme-stats.js   # backwards-compatible generator entry point
+├── automation.test.js       # single high-signal integration test
+└── lib/
+    ├── cli.js               # CLI parsing + error handling
+    ├── generated-files.js   # generated-file drift + writes
+    ├── json.js              # JSON reads + formatting
+    ├── markdown.js          # Markdown generation + escaping
+    ├── paths.js             # canonical repository paths
+    ├── progress.js          # progress aggregation
+    ├── roadmap.js           # roadmap validation + generation
+    ├── solutions.js         # solution scaffolds + checks
+    └── validation.js        # shared metadata validation
+```
+
+Keep the entry points thin. If roadmap and company automation need the same rule, parsing, validation, file handling, or Markdown helper, put it in the matching `scripts/lib/` module instead of copying it into both CLIs.
+
+Before adding a new helper, check whether it naturally belongs in one of the existing modules. The goal is simple shared code, not a framework.
+
+`scripts/automation.test.js` is the main integration test for this layer. It should cover the important roadmap and company workflows, generated-file drift, shared validation, and import-time safety using disposable repository fixtures rather than touching the real working tree.
 
 ## Branches and PRs
 
@@ -144,15 +165,12 @@ Try to keep unrelated cleanup out of the same PR so it stays easy to read.
 Before opening a PR, run the checks below:
 
 ```bash
-node --check scripts/update-readme-stats.js
-node --check scripts/update-readme-stats.test.js
-node --check scripts/company-tracker.js
-node --check scripts/company-tracker.test.js
+for file in scripts/*.js scripts/lib/*.js; do node --check "$file"; done
 
 node scripts/update-readme-stats.js --check
-node --test scripts/update-readme-stats.test.js
+node scripts/roadmap-tracker.js --check
 node scripts/company-tracker.js --check
-node --test scripts/company-tracker.test.js
+node --test scripts/automation.test.js
 
 python -m pip install --requirement requirements-dev.txt
 ruff check neetcode-all companies
@@ -174,7 +192,7 @@ And do one quick pass through this:
 
 ## One last thing
 
-Just be respectful in issues, PRs, and reviews. Questions are welcome — this repo is here for learning, and nobody needs to know everything already.
+Just be respectful in issues, PRs, and reviews. Questions are welcome. This repo is here for learning, and nobody needs to know everything already.
 
 The usual [Code of Conduct](CODE_OF_CONDUCT.md) applies too.
 

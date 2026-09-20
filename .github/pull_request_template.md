@@ -1,12 +1,12 @@
-## Problem
+## What is this?
 
-- Collection: <!-- NeetCode All, company preparation, docs, or tooling -->
-- Problem ID and title (if applicable):
-- File (if applicable):
+- Type: <!-- roadmap / company prep / docs / tooling -->
+- Problem: <!-- ID + title, if applicable -->
+- Main file: <!-- if applicable -->
 
 ## What changed?
 
-Briefly describe the solution or fix and why it is useful.
+A short explanation is enough: what changed, and why is it useful?
 
 ## Complexity
 
@@ -19,14 +19,13 @@ For solution changes; use `N/A` otherwise.
 
 - [ ] The solution was accepted by the relevant platform or tested with representative cases.
 - [ ] Important edge cases were checked.
-- [ ] The file and ID are correct for the roadmap topic or company list.
-- [ ] Complexity notes are accurate where applicable.
-- [ ] Personal difficulty metadata is a rating from 1 to 10 or is left unrated.
-- [ ] Generated roadmap and company documentation is current.
-- [ ] Roadmap automation tests, company tracker tests, and Python syntax checks pass.
+- [ ] The file, ID, topic, and workspace are correct where applicable.
+- [ ] Complexity notes and personal difficulty metadata are accurate where applicable.
+- [ ] Generated roadmap and company documentation is up to date.
+- [ ] Automation checks, `scripts/automation.test.js`, and Python checks pass.
 - [ ] No unrelated changes are included.
 - [ ] I agree to follow the [Code of Conduct](https://github.com/simonesiega/leetcode-solutions/blob/main/CODE_OF_CONDUCT.md).
 
 ## Anything else?
 
-Add examples, trade-offs, screenshots, or notes if they help with review.
+Add examples, trade-offs, screenshots, or notes only if they make the review easier.

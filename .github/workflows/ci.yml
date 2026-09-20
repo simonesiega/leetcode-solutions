@@ -30,25 +30,17 @@ jobs:
         with:
           node-version: 22
 
-      - name: Validate roadmap data and generated documentation
+      - name: Check automation syntax
+        run: for file in scripts/*.js scripts/lib/*.js; do node --check "$file"; done
+
+      - name: Validate generated documentation
         run: |
-          node --check scripts/update-readme-stats.js
           node scripts/update-readme-stats.js --check
-
-      - name: Test roadmap validation and generation
-        run: |
-          node --check scripts/update-readme-stats.test.js
-          node --test scripts/update-readme-stats.test.js
-
-      - name: Validate company preparation tracker
-        run: |
-          node --check scripts/company-tracker.js
+          node scripts/roadmap-tracker.js --check
           node scripts/company-tracker.js --check
 
-      - name: Test company preparation tracker
-        run: |
-          node --check scripts/company-tracker.test.js
-          node --test scripts/company-tracker.test.js
+      - name: Test automation
+        run: node --test scripts/automation.test.js
 
   test:
     name: Python ${{ matrix.python-version }}

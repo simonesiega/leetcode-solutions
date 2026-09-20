@@ -25,9 +25,9 @@
 
 ## What's this?
 
-Nothing fancy, this is where I keep the LeetCode problems I solve while working through the [NeetCode All roadmap](https://neetcode.io/roadmap) and preparing for OAs and interviews.
+Nothing fancy. This is where I keep the LeetCode problems I solve while working through the [NeetCode All roadmap](https://neetcode.io/roadmap) and preparing for OAs and interviews.
 
-Mostly here so I can keep track of what I’ve done, come back to old problems, and hopefully see myself getting better over time.
+The repo keeps the boring stuff in sync for me: progress, complexity notes, personal difficulty, and company-specific practice. That way, I can mostly focus on solving problems and come back later to see how I’ve improved.
 
 ## Personal difficulty rating
 
@@ -54,7 +54,7 @@ Because the rating is personal, it can change as I become more familiar with a p
 
 The roadmap totals are a snapshot of NeetCode All and may change as NeetCode adds or reorganizes problems.
 
-[`data/roadmap.json`](data/roadmap.json) keeps the roadmap data in one place. The generator checks it against the solution files, then uses it to build [SOLUTIONS.md](SOLUTIONS.md), update the solved counts, and generate the README charts and topic table.
+[`data/roadmap.json`](data/roadmap.json) keeps the roadmap data in one place. The roadmap CLI checks it against the solution files, then uses it to build [SOLUTIONS.md](SOLUTIONS.md), update the solved counts, and generate the README charts and topic table.
 
 <!-- difficulty-chart:start -->
 ```mermaid
@@ -78,6 +78,17 @@ pie showData
     "Stack" : 6
 ```
 <!-- topic-chart:end -->
+
+The usual workflow is `planned → in-progress → solved`:
+
+```bash
+node scripts/roadmap-tracker.js add 217 "Contains Duplicate" arrays-and-hashing Easy --url https://leetcode.com/problems/contains-duplicate/
+node scripts/roadmap-tracker.js start 217
+# Implement the solution and remove TODO(roadmap-solution).
+node scripts/roadmap-tracker.js solve 217 --time "O(n), where n is the number of values" --space "O(n) for the hash set" --personal-difficulty 2
+```
+
+Run `node scripts/roadmap-tracker.js --help` to see every option. 
 
 ### Progress by topic
 
@@ -148,6 +159,14 @@ neetcode-all/<topic-slug>/<problem-number>.py
 
 # Company preparation solutions
 companies/<company-name>/solutions/<problem-id>.py
+
+# Dependency-free automation
+scripts/
+├── company-tracker.js       # company CLI + dashboard generation
+├── roadmap-tracker.js       # roadmap lifecycle CLI
+├── update-readme-stats.js   # backwards-compatible generator entry point
+├── automation.test.js       # high-signal integration test
+└── lib/                     # shared helpers for the above scripts
 ```
 
 For example, a roadmap solution is [`neetcode-all/arrays-and-hashing/217.py`](neetcode-all/arrays-and-hashing/217.py).
@@ -158,7 +177,7 @@ Company attempts use the same simple Python style, but they stay inside their ow
 
 Everything is Python 3 unless I have a reason to use something else.
 
-I try to keep the solutions simple and readable — basically code I’d be comfortable explaining out loud in an interview. I’m not trying to write the cleverest one-liner possible.
+I try to keep the solutions simple and readable, basically code I’d be comfortable explaining out loud in an interview. I’m not trying to write the cleverest one-liner possible.
 
 ## Want to contribute?
 

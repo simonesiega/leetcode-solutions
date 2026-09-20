@@ -6,7 +6,7 @@ Here are the NeetCode All problems I have finished so far, along with each solut
 
 Company-specific attempts live separately in the [company preparation dashboard](companies/README.md), keeping this list focused on progress through the main NeetCode All roadmap.
 
-<!-- Generated from data/roadmap.json by scripts/update-readme-stats.js. Do not edit directly. -->
+<!-- Generated from data/roadmap.json by the roadmap automation. Do not edit directly. -->
 
 **Topics:** [Arrays & Hashing](#arrays-and-hashing) · [Two Pointers](#two-pointers) · [Sliding Window](#sliding-window) · [Stack](#stack) · [Binary Search](#binary-search) · [Linked List](#linked-list) · [Trees](#trees) · [Heap / Priority Queue](#heap-priority-queue) · [Backtracking](#backtracking) · [Tries](#tries) · [Graphs](#graphs) · [Advanced Graphs](#advanced-graphs) · [1-D Dynamic Programming](#1d-dynamic-programming) · [2-D Dynamic Programming](#2d-dynamic-programming) · [Greedy](#greedy) · [Intervals](#intervals) · [Math & Geometry](#math-and-geometry) · [Bit Manipulation](#bit-manipulation)
 

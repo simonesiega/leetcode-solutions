@@ -1,26 +1,43 @@
 #!/usr/bin/env node
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+// Company workspace CLI: mutate manifests, validate solutions, and regenerate company dashboards.
+const fs = require('node:fs');
+const path = require('node:path');
+const {
+  assertNoExtraArguments, defaultProblemUrl, parseArguments, runCli, slugify,
+} = require('./lib/cli');
+const { findStaleFiles, writeFiles } = require('./lib/generated-files');
+const { readJson, writeJson } = require('./lib/json');
+const {
+  encodePath, escapeMarkdown, escapeTable, pluralize, renderDifficultyChart, replaceBlock,
+} = require('./lib/markdown');
+const { paths, relativePath } = require('./lib/paths');
+const { getProblemCounts, getSolvedDifficultyCounts } = require('./lib/progress');
+const { containsPythonCode, solutionTemplate, validateSolutionHeader } = require('./lib/solutions');
+const {
+  VALID_DIFFICULTIES: validDifficulties,
+  VALID_STATUSES: validStatuses,
+  assertPersonalDifficulty: validatePersonalDifficulty,
+  parsePersonalDifficulty,
+  validateProblemId,
+  validateSlug,
+} = require('./lib/validation');
 
-const root = path.resolve(__dirname, '..');
-const companiesDir = path.join(root, 'companies');
-const rootReadmePath = path.join(root, 'README.md');
-const validStatuses = new Set(['planned', 'in-progress', 'solved']);
-const validDifficulties = new Set(['Easy', 'Medium', 'Hard']);
-const command = process.argv[2] || 'update';
+const companiesDir = paths.companies;
+const rootReadmePath = paths.readme;
 
-// Keep every operation behind one dependency-free CLI so local usage and CI share the same rules.
-try {
+/** Dispatch the requested company tracker command. */
+function main() {
+  const command = process.argv[2] || 'update';
   switch (command) {
     case 'update':
-      assertNoExtraArguments(3, 'node scripts/company-tracker.js [update]');
+      assertNoExtraArguments(process.argv, 3, 'node scripts/company-tracker.js [update]');
       updateDocumentation(false);
       break;
     case '--check':
     case 'check':
-      assertNoExtraArguments(3, 'node scripts/company-tracker.js --check');
+      assertNoExtraArguments(process.argv, 3, 'node scripts/company-tracker.js --check');
       updateDocumentation(true);
       break;
     case 'add-company':
@@ -43,9 +60,10 @@ try {
     default:
       fail(`Unknown command "${command}". Run with --help for usage.`);
   }
-} catch (error) {
-  fail(error.message);
 }
+
+// Importing the tracker is side-effect free; only direct CLI execution dispatches commands.
+if (require.main === module) runCli(main);
 
 /**
  * Create a company workspace and regenerate all derived dashboards.
@@ -58,9 +76,9 @@ function addCompany(args) {
   }
 
   const name = positionals[0].trim();
+  if (!name) fail('The company name cannot be empty.');
   const slug = options.slug || slugify(name);
   validateCompanySlug(slug);
-  if (!name) fail('The company name cannot be empty.');
 
   const directory = path.join(companiesDir, slug);
   if (fs.existsSync(directory)) fail(`Company "${slug}" already exists.`);
@@ -137,7 +155,7 @@ function startProblem(args) {
   const solutionPath = getSolutionPath(company.directory, id);
   if (!fs.existsSync(solutionPath)) {
     fs.mkdirSync(path.dirname(solutionPath), { recursive: true });
-    fs.writeFileSync(solutionPath, solutionTemplate(problem));
+    fs.writeFileSync(solutionPath, solutionTemplate(problem, 'company-solution'));
   }
   const placeholderPath = path.join(path.dirname(solutionPath), '.gitkeep');
   if (fs.existsSync(placeholderPath)) fs.unlinkSync(placeholderPath);
@@ -153,7 +171,11 @@ function startProblem(args) {
  */
 function solveProblem(args) {
   const { positionals, options } = parseArguments(args, new Set(['time', 'space', 'notes', 'personal-difficulty']));
-  if (positionals.length !== 2 || !options.time || !options.space) {
+  if (
+    positionals.length !== 2
+    || !options.time?.trim()
+    || !options.space?.trim()
+  ) {
     fail('Usage: node scripts/company-tracker.js solve <company> <problem-id> --time "O(...)" --space "O(...)" [--personal-difficulty 1-10] [--notes TEXT]');
   }
   const personalDifficulty = options['personal-difficulty'] === undefined
@@ -168,7 +190,7 @@ function solveProblem(args) {
     fail(`Missing solution ${relativePath(solutionPath)}. Run the start command first.`);
   }
   const source = fs.readFileSync(solutionPath, 'utf8');
-  validateSolutionHeader(source, problem, solutionPath);
+  validateSolutionHeader(source, problem, relativePath(solutionPath));
   if (source.includes('TODO(company-solution)')) {
     fail(`Finish ${relativePath(solutionPath)} and remove the TODO(company-solution) marker before marking it solved.`);
   }
@@ -221,7 +243,7 @@ function updateDocumentation(checkOnly) {
   );
   expectedFiles.push({ path: rootReadmePath, content: updatedRootReadme });
 
-  const stale = expectedFiles.filter((file) => !fs.existsSync(file.path) || fs.readFileSync(file.path, 'utf8') !== file.content);
+  const stale = findStaleFiles(expectedFiles);
   if (checkOnly) {
     if (stale.length) {
       fail(`Generated company documentation is outdated: ${stale.map((file) => relativePath(file.path)).join(', ')}. Run: node scripts/company-tracker.js`);
@@ -230,7 +252,7 @@ function updateDocumentation(checkOnly) {
     return;
   }
 
-  for (const file of stale) fs.writeFileSync(file.path, file.content);
+  writeFiles(stale);
   console.log(summaryMessage(companies, stale.length ? 'Updated company tracking' : 'Company tracking already up to date'));
 }
 
@@ -257,12 +279,7 @@ function readCompany(slug) {
   const manifestPath = path.join(directory, 'company.json');
   if (!fs.existsSync(manifestPath)) fail(`Company "${slug}" does not exist (missing ${relativePath(manifestPath)}).`);
 
-  let data;
-  try {
-    data = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-  } catch (error) {
-    fail(`Invalid JSON in ${relativePath(manifestPath)}: ${error.message}`);
-  }
+  const data = readJson(manifestPath);
   return { slug, directory, manifestPath, data };
 }
 
@@ -313,7 +330,7 @@ function validateCompany(company) {
     let source;
     if (solutionExists) {
       source = fs.readFileSync(solutionPath, 'utf8');
-      validateSolutionHeader(source, problem, solutionPath);
+      validateSolutionHeader(source, problem, relativePath(solutionPath));
     }
     if (problem.status === 'solved') {
       if (!problem.time.trim() || !problem.space.trim()) {
@@ -413,11 +430,7 @@ node scripts/company-tracker.js add-company "Roblox" --focus "US OA"
 
 Use \`--personal-difficulty\` to record a personal rating from 1 to 10, \`add-problem --url\` when the problem is not from LeetCode, and \`--notes\` for a short pattern, reminder, or review note.
 
-Run the following command to see all available options:
-
-\`\`\`bash
-node scripts/company-tracker.js --help
-\`\`\`
+Run \`node scripts/company-tracker.js --help\` to see every option.
 
 ## Folder layout
 
@@ -478,14 +491,7 @@ ${focus}
 - **In progress:** ${counts.inProgress}
 - **Planned:** ${counts.planned}
 
-\`\`\`mermaid
-%%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
-pie showData
-    title Solved Problems by Difficulty (${counts.solved} Total)
-    "Easy" : ${difficulties.Easy}
-    "Medium" : ${difficulties.Medium}
-    "Hard" : ${difficulties.Hard}
-\`\`\`
+${renderDifficultyChart(difficulties, counts.solved).join('\n')}
 
 | ID | Problem | Difficulty | Personal Difficulty | Status | Solution | Time | Space | Notes |
 |---|---|:---:|:---:|:---:|---|---|---|---|
@@ -530,51 +536,6 @@ function renderRootCompanyList(companies) {
 }
 
 /**
- * Check whether a source file contains executable Python rather than only comments.
- * @param {string} source - Python source text.
- * @returns {boolean}
- */
-function containsPythonCode(source) {
-  return source.split(/\r?\n/).some((line) => {
-    const trimmed = line.trim();
-    return trimmed && !trimmed.startsWith('#');
-  });
-}
-
-/**
- * Build the required title-and-ID comment for a company solution.
- * @param {{title: string, id: string}} problem - Problem metadata from company.json.
- * @returns {string}
- */
-function solutionHeader(problem) {
-  const oneLine = (value) => String(value).replace(/\r?\n/g, ' ');
-  return `# ${oneLine(problem.title)} - ${oneLine(problem.id)}`;
-}
-
-/**
- * Require a solution to start with its title-and-ID comment and a blank line.
- * @param {string} source - Python source text.
- * @param {{title: string, id: string}} problem - Problem metadata from company.json.
- * @param {string} solutionPath - Absolute path to the solution file.
- */
-function validateSolutionHeader(source, problem, solutionPath) {
-  const [header, separator] = source.split(/\r?\n/);
-  const expected = solutionHeader(problem);
-  if (header !== expected || separator !== '') {
-    fail(`${relativePath(solutionPath)} must begin with "${expected}" followed by a blank line.`);
-  }
-}
-
-/**
- * Create the initial Python scaffold for an in-progress company problem.
- * @param {{title: string, id: string}} problem - Problem metadata from company.json.
- * @returns {string}
- */
-function solutionTemplate(problem) {
-  return `${solutionHeader(problem)}\n\n# TODO(company-solution): implement the accepted solution, then remove this marker.\n`;
-}
-
-/**
  * Combine problem-status totals across company workspaces.
  * @param {Array<{data: object}>} companies - Loaded company workspaces.
  * @returns {{solved: number, inProgress: number, planned: number}}
@@ -587,32 +548,6 @@ function getTotals(companies) {
     total.planned += counts.planned;
     return total;
   }, { solved: 0, inProgress: 0, planned: 0 });
-}
-
-/**
- * Count problems by status.
- * @param {Array<{status: string}>} problems - Problems from a company manifest.
- * @returns {{solved: number, inProgress: number, planned: number}}
- */
-function getProblemCounts(problems) {
-  return problems.reduce((counts, problem) => {
-    if (problem.status === 'solved') counts.solved++;
-    else if (problem.status === 'in-progress') counts.inProgress++;
-    else if (problem.status === 'planned') counts.planned++;
-    return counts;
-  }, { solved: 0, inProgress: 0, planned: 0 });
-}
-
-/**
- * Count solved problems by difficulty.
- * @param {Array<{status: string, difficulty: string}>} problems - Problems from a company manifest.
- * @returns {{Easy: number, Medium: number, Hard: number}}
- */
-function getSolvedDifficultyCounts(problems) {
-  return problems.reduce((counts, problem) => {
-    if (problem.status === 'solved') counts[problem.difficulty]++;
-    return counts;
-  }, { Easy: 0, Medium: 0, Hard: 0 });
 }
 
 /**
@@ -647,119 +582,11 @@ function sortProblems(problems) {
 }
 
 /**
- * Write a JSON file with repository-standard formatting.
- * @param {string} filePath - Destination path.
- * @param {unknown} value - JSON-serializable value.
- */
-function writeJson(filePath, value) {
-  fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
-}
-
-/**
- * Parse positional arguments and a strict set of dependency-free CLI options.
- * @param {string[]} args - Command arguments to parse.
- * @param {Set<string>} allowedOptions - Accepted long-option names.
- * @returns {{positionals: string[], options: Object<string, string>}}
- */
-function parseArguments(args, allowedOptions) {
-  const positionals = [];
-  const options = {};
-  for (let index = 0; index < args.length; index++) {
-    const value = args[index];
-    if (!value.startsWith('--')) {
-      positionals.push(value);
-      continue;
-    }
-    const name = value.slice(2);
-    if (!allowedOptions.has(name)) fail(`Unknown option --${name}.`);
-    if (options[name] !== undefined) fail(`Option --${name} was provided more than once.`);
-    if (index + 1 >= args.length || args[index + 1].startsWith('--')) fail(`Option --${name} requires a value.`);
-    options[name] = args[++index];
-  }
-  return { positionals, options };
-}
-
-/**
- * Parse a personal difficulty CLI option.
- * @param {string} value - Raw option value.
- * @returns {number}
- */
-function parsePersonalDifficulty(value) {
-  if (!/^(?:[1-9]|10)$/.test(value)) {
-    fail('Personal difficulty must be an integer from 1 to 10.');
-  }
-  return Number(value);
-}
-
-/**
- * Validate a personal difficulty manifest value.
- * @param {unknown} value - Candidate rating.
- * @param {string} context - Human-readable problem identifier.
- */
-function validatePersonalDifficulty(value, context) {
-  if (value !== null && (!Number.isInteger(value) || value < 1 || value > 10)) {
-    fail(`${context} personalDifficulty must be null or an integer from 1 to 10.`);
-  }
-}
-
-/**
- * Replace a marker-delimited block while preserving indentation and EOL style.
- * @param {string} content - Original file contents.
- * @param {string} name - Marker name.
- * @param {string[]} lines - Generated lines placed between the markers.
- * @returns {string}
- */
-function replaceBlock(content, name, lines) {
-  const start = `<!-- ${name}:start -->`;
-  const end = `<!-- ${name}:end -->`;
-  const pattern = new RegExp(`^([ \\t]*)${start}[\\s\\S]*?^[ \\t]*${end}`, 'm');
-  const match = content.match(pattern);
-  if (!match) fail(`Missing README.md markers for "${name}".`);
-  const eol = content.includes('\r\n') ? '\r\n' : '\n';
-  const indent = match[1];
-  const replacement = [start, ...lines, end].map((line) => `${indent}${line}`).join(eol);
-  return content.replace(pattern, replacement);
-}
-
-/**
- * Convert a name into a lowercase, URL-safe slug.
- * @param {string} value - Name to normalize.
- * @returns {string}
- */
-function slugify(value) {
-  return value.trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-}
-
-/**
  * Require a valid lowercase company directory slug.
  * @param {string} slug - Company slug to validate.
  */
 function validateCompanySlug(slug) {
-  if (typeof slug !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
-    fail(`Invalid company slug "${slug}". Use lowercase letters, numbers, and single hyphens.`);
-  }
-}
-
-/**
- * Require a problem identifier that is safe for use as a filename.
- * @param {string} id - Problem identifier to validate.
- */
-function validateProblemId(id) {
-  if (typeof id !== 'string' || !/^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?$/.test(id)) {
-    fail(`Invalid problem id "${id}". Use letters, numbers, dots, underscores, or hyphens.`);
-  }
-}
-
-/**
- * Build the conventional LeetCode URL for a numeric problem ID.
- * @param {string} id - Problem identifier.
- * @param {string} title - Problem title.
- * @returns {string}
- */
-function defaultProblemUrl(id, title) {
-  if (!/^\d+$/.test(id)) return '';
-  return `https://leetcode.com/problems/${slugify(title)}/`;
+  validateSlug(slug, 'company slug');
 }
 
 /**
@@ -774,53 +601,6 @@ function formatStatus(status) {
 }
 
 /**
- * Escape square brackets and backslashes in Markdown text.
- * @param {unknown} value - Value to escape.
- * @returns {string}
- */
-function escapeMarkdown(value) {
-  return String(value).replace(/([\\[\]])/g, '\\$1');
-}
-
-/**
- * Escape a value for use inside a Markdown table cell.
- * @param {unknown} value - Value to escape.
- * @returns {string}
- */
-function escapeTable(value) {
-  return escapeMarkdown(value).replace(/\|/g, '\\|').replace(/\r?\n/g, '<br>');
-}
-
-/**
- * URL-encode each segment of a repository-relative path.
- * @param {string} value - Slash-delimited path.
- * @returns {string}
- */
-function encodePath(value) {
-  return value.split('/').map(encodeURIComponent).join('/');
-}
-
-/**
- * Select a singular or plural label for a count.
- * @param {number} count - Quantity controlling the label.
- * @param {string} singular - Singular label.
- * @param {string} plural - Plural label.
- * @returns {string}
- */
-function pluralize(count, singular, plural) {
-  return count === 1 ? singular : plural;
-}
-
-/**
- * Convert an absolute path to a slash-delimited repository-relative path.
- * @param {string} filePath - Absolute file path.
- * @returns {string}
- */
-function relativePath(filePath) {
-  return path.relative(root, filePath).split(path.sep).join('/');
-}
-
-/**
  * Build the tracker completion message with aggregate status totals.
  * @param {Array<{data: object}>} companies - Loaded company workspaces.
  * @param {string} prefix - Message prefix describing the completed operation.
@@ -829,15 +609,6 @@ function relativePath(filePath) {
 function summaryMessage(companies, prefix) {
   const totals = getTotals(companies);
   return `${prefix} (${companies.length} ${pluralize(companies.length, 'company', 'companies')}; ${totals.solved} solved, ${totals.inProgress} in progress, ${totals.planned} planned).`;
-}
-
-/**
- * Reject unexpected process arguments for commands without parsed options.
- * @param {number} maxLength - Maximum allowed process argument count.
- * @param {string} usage - Usage text shown on failure.
- */
-function assertNoExtraArguments(maxLength, usage) {
-  if (process.argv.length > maxLength) fail(`Usage: ${usage}`);
 }
 
 /**
@@ -859,10 +630,11 @@ solution files, and generated documentation without changing files.`);
 }
 
 /**
- * Print an error and terminate the process unsuccessfully.
+ * Stop the current command with a user-facing error.
  * @param {string} message - Error message.
  */
 function fail(message) {
-  console.error(`Error: ${message}`);
-  process.exit(1);
+  throw new Error(message);
 }
+
+module.exports = { main };
