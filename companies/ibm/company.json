@@ -5,6 +5,17 @@
   "website": "",
   "problems": [
     {
+      "id": "56",
+      "title": "Merge Intervals",
+      "url": "https://leetcode.com/problems/merge-intervals/",
+      "difficulty": "Medium",
+      "personalDifficulty": 3,
+      "status": "solved",
+      "time": "O(n log n), where n is the number of intervals",
+      "space": "O(n) for the returned merged intervals",
+      "notes": "n = the number of intervals"
+    },
+    {
       "id": "412",
       "title": "Fizz Buzz",
       "url": "https://leetcode.com/problems/fizz-buzz/",

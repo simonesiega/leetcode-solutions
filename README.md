@@ -35,6 +35,9 @@ For both **NeetCode roadmap problems** and **company-specific practice**, I opti
 
 The score represents how difficult it felt to derive a correct and reasonably optimal solution from scratch, not how difficult the implementation looks after the solution is known. It is separate from LeetCode's official Easy / Medium / Hard classification and is meant to track how my own problem-solving ability changes over time.
 
+<details>
+<summary><strong>View personal difficulty rating scale</strong></summary>
+
 | Rating | Level | Meaning |
 |---:|---|---|
 | **1** | Immediate | I see the solution almost instantly. The right data structure or algorithm is obvious, with almost no real reasoning required. |
@@ -47,6 +50,8 @@ The score represents how difficult it felt to derive a correct and reasonably op
 | **8** | Major non-obvious insight | The solution requires changing how I initially view the problem or combining several important deductions. Missing one of them can prevent me from reaching the intended approach. |
 | **9** | Extremely hard to derive | I would probably not reach the intended optimal solution from scratch under interview pressure and would likely need a substantial hint. |
 | **10** | No realistic path from scratch | I would have essentially no path to the intended solution without seeing a major part of the idea first. The required technique or transformation is outside my current problem-solving instincts. |
+
+</details>
 
 Because the rating is personal, it can change as I become more familiar with a pattern. A LeetCode **Hard** can receive a relatively low score if its core idea feels natural to me, while a **Medium** can receive a higher score if its main insight is difficult to discover.
 
@@ -130,7 +135,7 @@ I also keep some separate practice for specific companies in [`companies/`](comp
 If I solve the same problem again while preparing for an OA or interview, I keep that attempt separate. I like being able to see how I approached the same problem at different times.
 
 <!-- company-progress:start -->
-**2 companies · 5 solved · 0 in progress · 0 planned**
+**2 companies · 6 solved · 0 in progress · 0 planned**
 <!-- company-progress:end -->
 
 ### Companies

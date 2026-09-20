@@ -6,21 +6,22 @@
 
 ## Progress
 
-- **Solved:** 1 / 1
+- **Solved:** 2 / 2
 - **In progress:** 0
 - **Planned:** 0
 
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (1 Total)
+    title Solved Problems by Difficulty (2 Total)
     "Easy" : 1
-    "Medium" : 0
+    "Medium" : 1
     "Hard" : 0
 ```
 
 | ID | Problem | Difficulty | Personal Difficulty | Status | Solution | Time | Space | Notes |
 |---|---|:---:|:---:|:---:|---|---|---|---|
+| 56 | [Merge Intervals](https://leetcode.com/problems/merge-intervals/) | Medium | 3 | Solved | [56.py](solutions/56.py) | O(n log n), where n is the number of intervals | O(n) for the returned merged intervals | n = the number of intervals |
 | 412 | [Fizz Buzz](https://leetcode.com/problems/fizz-buzz/) | Easy | 1 | Solved | [412.py](solutions/412.py) | O(n) | O(1) auxiliary; O(n) including the output | n = the input integer and number of generated entries |
 
 ## Commands
