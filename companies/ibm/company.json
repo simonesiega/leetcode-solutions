@@ -5,6 +5,17 @@
   "website": "",
   "problems": [
     {
+      "id": "12",
+      "title": "Integer to Roman",
+      "url": "https://leetcode.com/problems/integer-to-roman/",
+      "difficulty": "Medium",
+      "personalDifficulty": 3,
+      "status": "solved",
+      "time": "O(1) because the input is bounded by 3999",
+      "space": "O(1) auxiliary space",
+      "notes": "The Roman numeral symbol table and maximum output length are bounded by the problem constraints"
+    },
+    {
       "id": "56",
       "title": "Merge Intervals",
       "url": "https://leetcode.com/problems/merge-intervals/",

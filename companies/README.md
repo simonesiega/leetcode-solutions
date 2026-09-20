@@ -10,10 +10,10 @@ Company-specific attempts stay separate from the year-round NeetCode roadmap, so
 
 | Company | Solved | In progress | Planned |
 |---|---:|---:|---:|
-| [IBM](ibm/README.md) | 2 / 2 | 0 | 0 |
+| [IBM](ibm/README.md) | 3 / 3 | 0 | 0 |
 | [Roblox](roblox/README.md) | 4 / 4 | 0 | 0 |
 
-**Total:** 6 solved, 0 in progress, and 0 planned across 2 companies.
+**Total:** 7 solved, 0 in progress, and 0 planned across 2 companies.
 
 ## Quick start
 
