@@ -5,6 +5,17 @@
   "website": "",
   "problems": [
     {
+      "id": "3",
+      "title": "Longest Substring Without Repeating Characters",
+      "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+      "difficulty": "Medium",
+      "personalDifficulty": 3,
+      "status": "solved",
+      "time": "O(n), where n is the string length",
+      "space": "O(min(n, a)) for the sliding-window set",
+      "notes": "n = the string length; a = the character-set size"
+    },
+    {
       "id": "12",
       "title": "Integer to Roman",
       "url": "https://leetcode.com/problems/integer-to-roman/",

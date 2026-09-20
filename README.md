@@ -135,7 +135,7 @@ I also keep some separate practice for specific companies in [`companies/`](comp
 If I solve the same problem again while preparing for an OA or interview, I keep that attempt separate. I like being able to see how I approached the same problem at different times.
 
 <!-- company-progress:start -->
-**2 companies · 7 solved · 0 in progress · 0 planned**
+**2 companies · 8 solved · 0 in progress · 0 planned**
 <!-- company-progress:end -->
 
 ### Companies
