@@ -157,3 +157,13 @@ If you want, you can also fill out the [Pull Request template](.github/pull_requ
 ## License
 
 The repository’s original code and documentation are licensed under the [MIT License](LICENSE). Third-party content, platform names, and trademarks remain the property of their respective owners.
+
+## Contributors
+
+Thanks to all the people who have contributed to this project!
+
+<p align="center">
+  <a href="https://github.com/simonesiega/leetcode-solutions/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=simonesiega/leetcode-solutions&max=24&columns=12" alt="Contributors" />
+  </a>
+</p>

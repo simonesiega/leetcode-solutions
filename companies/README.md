@@ -2,9 +2,11 @@
 
 [← Project README](../README.md) · [Solutions](../SOLUTIONS.md) · [Contributing](../CONTRIBUTING.md)
 
-This directory contains locally tracked preparation for OAs and technical interviews. Candidate lists come from [liquidslr/leetcode-company-wise-problems](https://github.com/liquidslr/leetcode-company-wise-problems), and source-backed problems are practiced from highest reported frequency to lowest. Frequency is only the source's relative ranking signal, not a prediction that a problem will appear in an interview.
+This is where I keep separate practice for specific companies, OAs, and interviews.
 
-Each manifest records the selected source window, snapshot date, commit, and CSV path. The external candidate list remains separate from the problems selected for practice, so progress totals below count only local manifest entries.
+For the main company lists, I often use [liquidslr/leetcode-company-wise-problems](https://github.com/liquidslr/leetcode-company-wise-problems) and generally work through each company from the highest reported frequency to the lowest.
+
+I only add a problem here when I actually decide to practice it, so `company.json` stays focused on my own progress instead of becoming a copy of the full external dataset.
 
 ## Progress
 
@@ -15,9 +17,9 @@ Each manifest records the selected source window, snapshot date, commit, and CSV
 
 **Total:** 11 solved, 0 in progress, and 0 planned across 2 companies.
 
-## Source-backed workflow
+## Picking the next problem
 
-Source data is cached locally and is never required for normal validation or CI. For a company with source provenance in its manifest:
+The source list stays in a local gitignored cache, so normal checks and CI do not need it. These commands sync the CSV from the pinned commit, show the next highest-ranked problem, and add it to my own list:
 
 ```bash
 node scripts/company-tracker.js source-sync ibm
@@ -25,11 +27,17 @@ node scripts/company-tracker.js next ibm
 node scripts/company-tracker.js add-from-source ibm valid-parentheses --id 20
 ```
 
-`source-sync` fetches the exact pinned commit, not the latest upstream data. Use `--file PATH` to populate the same gitignored cache from a local CSV. Refreshing source provenance is an intentional data update, separate from importing one candidate.
+If I already have the CSV locally, I can use it without downloading anything:
 
-## Manual workflow
+```bash
+node scripts/company-tracker.js source-sync ibm --file PATH
+```
 
-Manual and OA-specific entries remain supported:
+`source-sync` always uses the exact source commit saved for that company rather than silently switching to the latest upstream data.
+
+## Adding something manually
+
+Manual and OA-specific problems work too:
 
 ```bash
 node scripts/company-tracker.js add-company "Amazon" --focus "US OA"
@@ -51,7 +59,7 @@ companies/
         └── oa-pairs.py    # independent company-specific attempt
 ```
 
-`company.json` is the source of truth for selected personal practice, not a copy of the complete external dataset. Statuses follow `planned → in-progress → solved`, and solved entries require a Python solution plus time and space complexity. See [the data model reference](../docs/DATA_MODEL.md) for exact fields and provenance semantics.
+The exact schema and source metadata rules are documented in [the data model reference](../docs/DATA_MODEL.md).
 
 > [!IMPORTANT]
 > Company README files are generated. Update the manifest through the tracker or source data, then run `node scripts/company-tracker.js` instead of editing Markdown directly.
