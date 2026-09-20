@@ -72,7 +72,7 @@ node scripts/roadmap-tracker.js solve 217 --time "O(n), where n is the number of
 
 The shared roadmap validation checks the JSON schema, IDs, URLs, topics, difficulties, ratings, statuses, complexities, solution paths, implementations, and `# <Title> - <ID>` headers before writing Markdown. Only solved entries appear in the catalog and progress statistics. A planned entry must not have a solution file, while in-progress and solved entries must have one. Both complexity fields are required before `solve` succeeds.
 
-For metadata-only maintenance, `node scripts/roadmap-tracker.js` regenerates the derived files and `node scripts/roadmap-tracker.js --check` checks them without writing. The older `node scripts/update-readme-stats.js [--check]` entry point remains supported and uses the same shared roadmap logic.
+For metadata-only maintenance, `node scripts/roadmap-tracker.js` regenerates the derived files and `node scripts/roadmap-tracker.js --check` checks them without writing.
 
 ## Adding company prep
 
@@ -110,7 +110,6 @@ The automation is deliberately split into small entry points and shared helpers:
 scripts/
 ├── company-tracker.js       # company CLI + dashboard generation
 ├── roadmap-tracker.js       # roadmap lifecycle CLI
-├── update-readme-stats.js   # backwards-compatible generator entry point
 ├── automation.test.js       # single high-signal integration test
 └── lib/
     ├── cli.js               # CLI parsing + error handling
@@ -167,7 +166,6 @@ Before opening a PR, run the checks below:
 ```bash
 for file in scripts/*.js scripts/lib/*.js; do node --check "$file"; done
 
-node scripts/update-readme-stats.js --check
 node scripts/roadmap-tracker.js --check
 node scripts/company-tracker.js --check
 node --test scripts/automation.test.js

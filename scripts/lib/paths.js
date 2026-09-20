@@ -8,7 +8,6 @@ const root = path.resolve(__dirname, '..', '..');
 
 // Centralizing repository paths keeps fixtures and production commands on the same layout.
 const paths = Object.freeze({
-  root,
   roadmap: path.join(root, 'data', 'roadmap.json'),
   readme: path.join(root, 'README.md'),
   solutionsCatalog: path.join(root, 'SOLUTIONS.md'),

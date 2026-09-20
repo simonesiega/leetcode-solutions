@@ -7,6 +7,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { afterEach, test } = require('node:test');
+const { readJson, writeJson } = require('./lib/json');
 
 const fixtures = [];
 
@@ -33,7 +34,6 @@ function assertImportBehavior() {
     for (const entry of [
       './scripts/company-tracker.js',
       './scripts/roadmap-tracker.js',
-      './scripts/update-readme-stats.js',
     ]) {
       assert.equal(typeof require(entry).main, 'function');
     }
@@ -58,7 +58,7 @@ function assertImportBehavior() {
   assert.equal(fs.existsSync(path.join(root, 'companies/README.md')), false);
 }
 
-/** Exercise the roadmap lifecycle, validation failures, generation, and legacy entry point. */
+/** Exercise the roadmap lifecycle, validation failures, and generated documentation. */
 function assertRoadmapWorkflow() {
   const root = createRepository();
   run(root, 'roadmap-tracker.js', [
@@ -97,6 +97,18 @@ function assertRoadmapWorkflow() {
   ], false);
   assert.match(result.stderr, /remove the TODO\(roadmap-solution\) marker/);
 
+  roadmap = readJson(path.join(root, 'data/roadmap.json'));
+  roadmap.problems[0].status = 'solved';
+  roadmap.problems[0].timeComplexity = 'O(n²)';
+  roadmap.problems[0].spaceComplexity = 'O(n)';
+  writeJson(path.join(root, 'data/roadmap.json'), roadmap);
+  result = run(root, 'roadmap-tracker.js', ['--check'], false);
+  assert.match(result.stderr, /marked solved but still contains TODO\(roadmap-solution\)/);
+  roadmap.problems[0].status = 'in-progress';
+  roadmap.problems[0].timeComplexity = '';
+  roadmap.problems[0].spaceComplexity = '';
+  writeJson(path.join(root, 'data/roadmap.json'), roadmap);
+
   fs.writeFileSync(solutionPath, '# Wrong Title - 5\n\nclass Solution:\n    pass\n');
   result = run(root, 'roadmap-tracker.js', [
     'solve', '5', '--time', 'O(n²)', '--space', 'O(n)',
@@ -112,7 +124,6 @@ function assertRoadmapWorkflow() {
     '--space', 'O(n) auxiliary space', '--personal-difficulty', '4',
   ]);
   run(root, 'roadmap-tracker.js', ['--check']);
-  run(root, 'update-readme-stats.js', ['--check']);
 
   roadmap = readJson(path.join(root, 'data/roadmap.json'));
   assert.equal(roadmap.problems[0].status, 'solved');
@@ -214,7 +225,7 @@ function createRepository() {
   fs.mkdirSync(path.join(root, 'data'), { recursive: true });
   fs.mkdirSync(path.join(root, 'companies'), { recursive: true });
   fs.cpSync(path.join(__dirname, 'lib'), path.join(root, 'scripts/lib'), { recursive: true });
-  for (const script of ['company-tracker.js', 'roadmap-tracker.js', 'update-readme-stats.js']) {
+  for (const script of ['company-tracker.js', 'roadmap-tracker.js']) {
     fs.copyFileSync(path.join(__dirname, script), path.join(root, 'scripts', script));
   }
   fs.writeFileSync(path.join(root, 'README.md'), [
@@ -276,14 +287,4 @@ function run(root, script, args, expectSuccess = true) {
     assert.fail(`Command failed: ${script} ${args.join(' ')}\nstdout: ${result.stdout}\nstderr: ${result.stderr}`);
   }
   return result;
-}
-
-/** Read fixture JSON. */
-function readJson(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-}
-
-/** Write fixture JSON using repository formatting. */
-function writeJson(filePath, value) {
-  fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
 }

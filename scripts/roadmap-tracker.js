@@ -3,7 +3,6 @@
 
 // Main roadmap CLI: move problems through planned, in-progress, and solved states.
 const fs = require('node:fs');
-const path = require('node:path');
 const { assertNoExtraArguments, parseArguments, runCli } = require('./lib/cli');
 const { writeJson } = require('./lib/json');
 const { paths, relativePath } = require('./lib/paths');
@@ -13,12 +12,12 @@ const {
   updateRoadmapDocumentation,
   validateRoadmap,
 } = require('./lib/roadmap');
-const { containsPythonCode, solutionTemplate, validateSolutionHeader } = require('./lib/solutions');
+const { createSolutionScaffold, validateSolutionForSolve } = require('./lib/solutions');
 const {
   VALID_DIFFICULTIES,
   assertComplexity,
   assertTableText,
-  parsePersonalDifficulty,
+  parseOptionalPersonalDifficulty,
   parsePositiveIntegerId,
   validateCanonicalLeetCodeUrl,
 } = require('./lib/validation');
@@ -73,9 +72,7 @@ function addProblem(args) {
   assertTableText(title, `Problem ${id} title`);
   validateCanonicalLeetCodeUrl(options.url, `Problem ${id}`);
   if (!VALID_DIFFICULTIES.has(difficulty)) throw new Error('Difficulty must be Easy, Medium, or Hard.');
-  const personalDifficulty = options['personal-difficulty'] === undefined
-    ? null
-    : parsePersonalDifficulty(options['personal-difficulty']);
+  const personalDifficulty = parseOptionalPersonalDifficulty(options, null);
 
   const roadmap = readRoadmap();
   validateRoadmap(roadmap);
@@ -125,10 +122,7 @@ function startProblem(args) {
   if (problem.status === 'solved') throw new Error(`Roadmap problem ${id} is already solved.`);
 
   const solutionPath = getRoadmapSolutionPath(problem);
-  if (!fs.existsSync(solutionPath)) {
-    fs.mkdirSync(path.dirname(solutionPath), { recursive: true });
-    fs.writeFileSync(solutionPath, solutionTemplate(problem, 'roadmap-solution'));
-  }
+  createSolutionScaffold(solutionPath, problem, 'roadmap-solution');
   problem.status = 'in-progress';
   writeJson(paths.roadmap, roadmap);
   updateRoadmapDocumentation(false);
@@ -147,9 +141,7 @@ function solveProblem(args) {
   const id = parsePositiveIntegerId(positionals[0]);
   assertComplexity(options.time, `Problem ${id} timeComplexity`);
   assertComplexity(options.space, `Problem ${id} spaceComplexity`);
-  const personalDifficulty = options['personal-difficulty'] === undefined
-    ? undefined
-    : parsePersonalDifficulty(options['personal-difficulty']);
+  const personalDifficulty = parseOptionalPersonalDifficulty(options, undefined);
 
   const roadmap = readRoadmap();
   validateRoadmap(roadmap);
@@ -159,12 +151,7 @@ function solveProblem(args) {
     throw new Error(`Missing solution ${relativePath(solutionPath)}. Run the start command first.`);
   }
   const source = fs.readFileSync(solutionPath, 'utf8');
-  validateSolutionHeader(source, problem, relativePath(solutionPath));
-  // The workflow-specific marker prevents an untouched scaffold from counting as solved.
-  if (source.includes('TODO(roadmap-solution)')) {
-    throw new Error(`Finish ${relativePath(solutionPath)} and remove the TODO(roadmap-solution) marker before marking it solved.`);
-  }
-  if (!containsPythonCode(source)) throw new Error(`${relativePath(solutionPath)} does not contain a Python solution.`);
+  validateSolutionForSolve(source, problem, relativePath(solutionPath), 'roadmap-solution');
 
   problem.status = 'solved';
   problem.timeComplexity = options.time;

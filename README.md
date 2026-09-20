@@ -88,7 +88,7 @@ node scripts/roadmap-tracker.js start 217
 node scripts/roadmap-tracker.js solve 217 --time "O(n), where n is the number of values" --space "O(n) for the hash set" --personal-difficulty 2
 ```
 
-Run `node scripts/roadmap-tracker.js --help` to see every option. 
+Run `node scripts/roadmap-tracker.js --help` to see every option.
 
 ### Progress by topic
 
@@ -164,7 +164,6 @@ companies/<company-name>/solutions/<problem-id>.py
 scripts/
 ├── company-tracker.js       # company CLI + dashboard generation
 ├── roadmap-tracker.js       # roadmap lifecycle CLI
-├── update-readme-stats.js   # backwards-compatible generator entry point
 ├── automation.test.js       # high-signal integration test
 └── lib/                     # shared helpers for the above scripts
 ```

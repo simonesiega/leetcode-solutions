@@ -43,11 +43,7 @@ node scripts/company-tracker.js add-company "Roblox" --focus "US OA"
 
 Use `--personal-difficulty` to record a personal rating from 1 to 10, `add-problem --url` when the problem is not from LeetCode, and `--notes` for a short pattern, reminder, or review note.
 
-Run the following command to see all available options:
-
-```bash
-node scripts/company-tracker.js --help
-```
+Run `node scripts/company-tracker.js --help` to see every option.
 
 ## Folder layout
 

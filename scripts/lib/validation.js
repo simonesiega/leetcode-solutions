@@ -75,6 +75,17 @@ function parsePersonalDifficulty(value) {
 }
 
 /**
+ * Parse an optional `--personal-difficulty` value with a caller-selected fallback.
+ * @param {Object<string, string>} options - Parsed CLI options.
+ * @param {null|undefined} missingValue - Value returned when the option is absent.
+ * @returns {number|null|undefined}
+ */
+function parseOptionalPersonalDifficulty(options, missingValue) {
+  const value = options['personal-difficulty'];
+  return value === undefined ? missingValue : parsePersonalDifficulty(value);
+}
+
+/**
  * Require one of the platform difficulty labels.
  * @param {unknown} value - Candidate difficulty.
  * @param {string} context - Human-readable problem identifier.
@@ -195,7 +206,7 @@ module.exports = {
   assertStatus,
   assertTableText,
   isSlug,
-  parsePersonalDifficulty,
+  parseOptionalPersonalDifficulty,
   parsePositiveIntegerId,
   validateCanonicalLeetCodeUrl,
   validateProblemId,

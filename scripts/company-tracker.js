@@ -14,12 +14,18 @@ const {
 } = require('./lib/markdown');
 const { paths, relativePath } = require('./lib/paths');
 const { getProblemCounts, getSolvedDifficultyCounts } = require('./lib/progress');
-const { containsPythonCode, solutionTemplate, validateSolutionHeader } = require('./lib/solutions');
+const {
+  createSolutionScaffold,
+  validateSolutionFileState,
+  validateSolutionForSolve,
+  validateSolutionHeader,
+  validateSolvedSolution,
+} = require('./lib/solutions');
 const {
   VALID_DIFFICULTIES: validDifficulties,
   VALID_STATUSES: validStatuses,
   assertPersonalDifficulty: validatePersonalDifficulty,
-  parsePersonalDifficulty,
+  parseOptionalPersonalDifficulty,
   validateProblemId,
   validateSlug,
 } = require('./lib/validation');
@@ -111,9 +117,7 @@ function addProblem(args) {
   validateProblemId(id);
   if (!title.trim()) fail('The problem title cannot be empty.');
   if (!validDifficulties.has(difficulty)) fail('Difficulty must be Easy, Medium, or Hard.');
-  const personalDifficulty = options['personal-difficulty'] === undefined
-    ? null
-    : parsePersonalDifficulty(options['personal-difficulty']);
+  const personalDifficulty = parseOptionalPersonalDifficulty(options, null);
 
   const company = readCompany(slug);
   if (company.data.problems.some((problem) => problem.id === id)) {
@@ -153,10 +157,7 @@ function startProblem(args) {
   if (problem.status === 'solved') fail(`Problem "${id}" is already solved.`);
 
   const solutionPath = getSolutionPath(company.directory, id);
-  if (!fs.existsSync(solutionPath)) {
-    fs.mkdirSync(path.dirname(solutionPath), { recursive: true });
-    fs.writeFileSync(solutionPath, solutionTemplate(problem, 'company-solution'));
-  }
+  createSolutionScaffold(solutionPath, problem, 'company-solution');
   const placeholderPath = path.join(path.dirname(solutionPath), '.gitkeep');
   if (fs.existsSync(placeholderPath)) fs.unlinkSync(placeholderPath);
   problem.status = 'in-progress';
@@ -178,9 +179,7 @@ function solveProblem(args) {
   ) {
     fail('Usage: node scripts/company-tracker.js solve <company> <problem-id> --time "O(...)" --space "O(...)" [--personal-difficulty 1-10] [--notes TEXT]');
   }
-  const personalDifficulty = options['personal-difficulty'] === undefined
-    ? undefined
-    : parsePersonalDifficulty(options['personal-difficulty']);
+  const personalDifficulty = parseOptionalPersonalDifficulty(options, undefined);
 
   const [slug, id] = positionals;
   const company = readCompany(slug);
@@ -190,13 +189,7 @@ function solveProblem(args) {
     fail(`Missing solution ${relativePath(solutionPath)}. Run the start command first.`);
   }
   const source = fs.readFileSync(solutionPath, 'utf8');
-  validateSolutionHeader(source, problem, relativePath(solutionPath));
-  if (source.includes('TODO(company-solution)')) {
-    fail(`Finish ${relativePath(solutionPath)} and remove the TODO(company-solution) marker before marking it solved.`);
-  }
-  if (!containsPythonCode(source)) {
-    fail(`${relativePath(solutionPath)} does not contain a Python solution.`);
-  }
+  validateSolutionForSolve(source, problem, relativePath(solutionPath), 'company-solution');
 
   problem.status = 'solved';
   problem.time = options.time;
@@ -316,32 +309,29 @@ function validateCompany(company) {
     }
 
     const solutionPath = getSolutionPath(directory, problem.id);
-    const solutionExists = fs.existsSync(solutionPath);
-    if (solutionExists && !fs.statSync(solutionPath).isFile()) {
-      fail(`${relativePath(solutionPath)} must be a Python file.`);
-    }
-    if (problem.status === 'planned' && solutionExists) {
-      fail(`${relativePath(solutionPath)} exists, but its status is planned. Set it to in-progress or remove the file.`);
-    }
-    if (problem.status !== 'planned' && !solutionExists) {
-      fail(`${location}: ${problem.status} problem ${problem.id} is missing its solution file.`);
-    }
+    const solutionRelativePath = relativePath(solutionPath);
+    const solutionExists = validateSolutionFileState(
+      solutionPath,
+      solutionRelativePath,
+      problem.status,
+      {
+        planned: `${solutionRelativePath} exists, but its status is planned. Set it to in-progress or remove the file.`,
+        missing: `${location}: ${problem.status} problem ${problem.id} is missing its solution file.`,
+      },
+    );
 
     let source;
     if (solutionExists) {
       source = fs.readFileSync(solutionPath, 'utf8');
-      validateSolutionHeader(source, problem, relativePath(solutionPath));
+      if (problem.status !== 'solved') {
+        validateSolutionHeader(source, problem, solutionRelativePath);
+      }
     }
     if (problem.status === 'solved') {
       if (!problem.time.trim() || !problem.space.trim()) {
         fail(`${location}: solved problem ${problem.id} requires time and space complexity.`);
       }
-      if (source.includes('TODO(company-solution)')) {
-        fail(`${relativePath(solutionPath)} is marked solved but still contains TODO(company-solution).`);
-      }
-      if (!containsPythonCode(source)) {
-        fail(`${relativePath(solutionPath)} is marked solved but does not contain a Python solution.`);
-      }
+      validateSolvedSolution(source, problem, solutionRelativePath, 'company-solution');
     }
   }
 

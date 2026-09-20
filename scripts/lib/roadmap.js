@@ -8,7 +8,9 @@ const { readJson } = require('./json');
 const { escapeMermaidLabel, renderDifficultyChart, replaceBlock } = require('./markdown');
 const { paths, relativePath } = require('./paths');
 const { getSolvedDifficultyCounts } = require('./progress');
-const { containsPythonCode, findPythonSolutions, validateSolutionHeader } = require('./solutions');
+const {
+  findPythonSolutions, validateSolutionFileState, validateSolutionHeader, validateSolvedSolution,
+} = require('./solutions');
 const {
   assertComplexity,
   assertDifficulty,
@@ -124,24 +126,23 @@ function validateRoadmap(roadmap) {
 
     const solutionPath = getRoadmapSolutionPath(problem);
     const solutionRelativePath = relativePath(solutionPath);
-    const solutionExists = fs.existsSync(solutionPath);
+    const solutionExists = validateSolutionFileState(
+      solutionPath,
+      solutionRelativePath,
+      problem.status,
+      {
+        planned: `${solutionRelativePath} exists, but problem ${problem.id} is planned. Set it to in-progress or remove the file.`,
+        missing: `Missing solution file for ${problem.status} problem ${problem.id}: ${solutionRelativePath}`,
+      },
+    );
     expectedSolutions.set(solutionRelativePath, problem);
-
-    if (solutionExists && !fs.statSync(solutionPath).isFile()) {
-      throw new Error(`${solutionRelativePath} must be a Python file.`);
-    }
-    if (problem.status === 'planned' && solutionExists) {
-      throw new Error(`${solutionRelativePath} exists, but problem ${problem.id} is planned. Set it to in-progress or remove the file.`);
-    }
-    if (problem.status !== 'planned' && !solutionExists) {
-      throw new Error(`Missing solution file for ${problem.status} problem ${problem.id}: ${solutionRelativePath}`);
-    }
 
     if (solutionExists) {
       const source = fs.readFileSync(solutionPath, 'utf8');
-      validateSolutionHeader(source, problem, solutionRelativePath);
-      if (problem.status === 'solved' && !containsPythonCode(source)) {
-        throw new Error(`${solutionRelativePath} is marked solved but does not contain a Python solution.`);
+      if (problem.status === 'solved') {
+        validateSolvedSolution(source, problem, solutionRelativePath, 'roadmap-solution');
+      } else {
+        validateSolutionHeader(source, problem, solutionRelativePath);
       }
     }
   });
@@ -207,7 +208,7 @@ function updateRoadmapDocumentation(checkOnly = false) {
   const summary = `${solved.length} solved: ${difficultyCounts.Easy} Easy, ${difficultyCounts.Medium} Medium, ${difficultyCounts.Hard} Hard across ${chartTopics.length} topics`;
   if (checkOnly) {
     if (stale.length) {
-      throw new Error(`Generated roadmap documentation is outdated: ${stale.map(relativePath).join(', ')}. Run: node scripts/update-readme-stats.js`);
+      throw new Error(`Generated roadmap documentation is outdated: ${stale.map(relativePath).join(', ')}. Run: node scripts/roadmap-tracker.js`);
     }
     console.log(`Roadmap data and documentation are valid (${summary}).`);
     return;

@@ -35,7 +35,6 @@ jobs:
 
       - name: Validate generated documentation
         run: |
-          node scripts/update-readme-stats.js --check
           node scripts/roadmap-tracker.js --check
           node scripts/company-tracker.js --check
 
