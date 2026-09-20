@@ -38,6 +38,17 @@
       "notes": "n = the number of intervals"
     },
     {
+      "id": "121",
+      "title": "Best Time to Buy and Sell Stock",
+      "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "time": "O(n), where n is the number of prices",
+      "space": "O(1) auxiliary space",
+      "notes": "n = the number of daily stock prices"
+    },
+    {
       "id": "412",
       "title": "Fizz Buzz",
       "url": "https://leetcode.com/problems/fizz-buzz/",
