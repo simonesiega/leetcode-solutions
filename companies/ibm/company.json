@@ -36,7 +36,7 @@
       "personalDifficulty": 3,
       "status": "solved",
       "time": "O(n log n), where n is the number of intervals",
-      "space": "O(n) for the returned merged intervals",
+      "space": "O(n) worst-case auxiliary space for Python's in-place sort and the intervals[1:] slice; O(n) for the returned list of interval references",
       "notes": "n = the number of intervals"
     },
     {

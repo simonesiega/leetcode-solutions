@@ -29,7 +29,7 @@ Generated Markdown should not be edited by hand. Change the JSON or use the trac
 
 Each topic stores `slug`, `label`, and `total`. The slug also matches the folder under `neetcode-all/`.
 
-Each roadmap problem stores:
+Each roadmap problem stores (IDs and canonical URLs must both be unique):
 
 | Field | Meaning |
 |---|---|
@@ -123,7 +123,7 @@ When a company uses it, `source` keeps the exact snapshot:
 | `window` | Selected source window |
 | `path` | Exact CSV path inside the source repo |
 
-This keeps the ranking reproducible even if the upstream repository changes later. The company `snapshotDate` is unrelated to the roadmap `snapshotDate`.
+This keeps the ranking reproducible even if the upstream repository changes later. The company `snapshotDate` is unrelated to the roadmap `snapshotDate`. New workspaces start with `source: null`; for a new source-backed workspace, record verified provenance in `company.json` and regenerate the dashboard before running `source-sync`.
 
 Source-backed problems also store:
 

@@ -68,11 +68,12 @@ Use this workflow for company-specific preparation, whether the workspace alread
    node scripts/company-tracker.js solve <company-slug> <id> --time "O(...)" --space "O(...)" [--personal-difficulty 1-10] [--notes TEXT]
    ```
 
-4. If the user already created `companies/<company>/solutions/<id>.py`, preserve it. Temporarily move it outside the solution path if necessary, run `add-problem` and `start`, then restore the original solution before `solve`. Never let the generated template replace user work.
-5. Preserve source repository, commit, snapshot date, window, and path. Do not silently refresh the external source. Source-backed ordering follows `sourceRank`; manual and custom OA entries remain supported.
-6. Confirm that the tracker updated `company.json`, the company dashboard, `companies/README.md`, and the company summary in `README.md`.
-7. Review the implementation, metadata, generated files, and complete diff, then run the full validation suite.
-8. When asked to commit, use the exact subject `solve leetcode #<id> @ <company-slug>`, preserving the folder slug's spelling and case.
+4. A newly created workspace has `source: null`. Before `source-sync` on a new source-backed company, put the verified repository, commit, snapshot date, window, and CSV path in `company.json`, then regenerate with `node scripts/company-tracker.js`. Never infer this provenance or edit the generated dashboards.
+5. If the user already created `companies/<company>/solutions/<id>.py`, preserve it. Temporarily move it outside the solution path if necessary, run `add-problem` and `start`, then restore the original solution before `solve`. Never let the generated template replace user work.
+6. Preserve source repository, commit, snapshot date, window, and path. Do not silently refresh the external source. Source-backed ordering follows `sourceRank`; manual and custom OA entries remain supported.
+7. Confirm that the tracker updated `company.json`, the company dashboard, `companies/README.md`, and the company summary in `README.md`.
+8. Review the implementation, metadata, generated files, and complete diff, then run the full validation suite.
+9. When asked to commit, use the exact subject `solve leetcode #<id> @ <company-slug>`, preserving the folder slug's spelling and case.
 
 When a requested company workspace does not exist, run `node scripts/company-tracker.js add-company "Company Name"` first. Add `--focus`, `--slug`, or `--website` only from known information.
 

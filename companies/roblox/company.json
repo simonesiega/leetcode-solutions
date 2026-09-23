@@ -21,9 +21,9 @@
       "difficulty": "Medium",
       "personalDifficulty": 6,
       "status": "solved",
-      "time": "O(kmn), worst-case O((mn)^2)",
+      "time": "O((k + 1)mn), worst-case O((mn)^2)",
       "space": "O(1)",
-      "notes": "k = number of crush rounds"
+      "notes": "m = number of board rows; n = number of columns; k = number of crush rounds"
     },
     {
       "id": "767",
@@ -37,7 +37,7 @@
       "status": "solved",
       "time": "O(n + k log k)",
       "space": "O(n + k)",
-      "notes": "k = number of distinct characters"
+      "notes": "n = length of s; k = number of distinct characters"
     },
     {
       "id": "1434",

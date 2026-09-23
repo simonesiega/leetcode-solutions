@@ -86,7 +86,7 @@ For company-specific practice, use the company tracker instead of syncing files 
 node scripts/company-tracker.js add-company "Company Name" --focus "Region or interview stage"
 
 # Add a problem manually.
-node scripts/company-tracker.js add-problem company-name 1 "Two Sum" Easy --personal-difficulty 3
+node scripts/company-tracker.js add-problem company-name 1 "Two Sum" Easy --url https://leetcode.com/problems/two-sum/ --personal-difficulty 3
 
 # Create the solution file and mark it in progress.
 node scripts/company-tracker.js start company-name 1
@@ -95,7 +95,7 @@ node scripts/company-tracker.js start company-name 1
 node scripts/company-tracker.js solve company-name 1 --time "O(n)" --space "O(n)" --personal-difficulty 3
 ```
 
-`add-company` also supports `--slug` and `--website`. `add-problem` supports `--url`, `--notes`, and custom OA-style IDs.
+`add-company` also supports `--slug` and `--website`. `add-problem` supports `--url`, `--notes`, and custom OA-style IDs. For a LeetCode problem, I provide the verified official URL rather than relying on a link generated from the title.
 
 For source-backed company lists:
 
@@ -104,6 +104,8 @@ node scripts/company-tracker.js source-sync ibm
 node scripts/company-tracker.js next ibm
 node scripts/company-tracker.js add-from-source ibm valid-parentheses --id 20
 ```
+
+A new company starts with `source: null`. For a new source-backed workspace, I first record the verified repository, commit, snapshot date, window, and CSV path in its `company.json`, then run `node scripts/company-tracker.js` before `source-sync`. I don't guess the source commit or edit the generated README files.
 
 You can also use a local CSV with:
 

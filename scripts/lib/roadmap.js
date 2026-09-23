@@ -101,6 +101,7 @@ function validateRoadmap(roadmap) {
   }
 
   const ids = new Set();
+  const urls = new Set();
   let previousId = 0;
   const problemCounts = new Map(roadmap.topics.map((topic) => [topic.slug, 0]));
   // Track every registered path so the final filesystem scan can reject orphaned solutions.
@@ -122,6 +123,8 @@ function validateRoadmap(roadmap) {
 
     assertTableText(problem.title, `Problem ${problem.id} title`);
     validateCanonicalLeetCodeUrl(problem.url, `Problem ${problem.id}`);
+    if (urls.has(problem.url)) throw new Error(`Duplicate roadmap problem URL: ${problem.url}`);
+    urls.add(problem.url);
     if (!topicSlugs.has(problem.topic)) throw new Error(`Problem ${problem.id} has invalid topic "${problem.topic}".`);
     problemCounts.set(problem.topic, problemCounts.get(problem.topic) + 1);
     assertDifficulty(problem.difficulty, `Problem ${problem.id}`, true);

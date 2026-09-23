@@ -90,6 +90,12 @@ test('roadmap validation enforces schema v3 dates and generated-file drift', () 
   const cases = [
     [(roadmap) => { roadmap.extra = true; }, /unknown field.*extra/],
     [(roadmap) => { roadmap.problems[0].extra = true; }, /unknown field.*extra/],
+    [(roadmap) => {
+      roadmap.problems.push({
+        ...roadmap.problems[0], id: 6, status: 'planned', solvedAt: null,
+        timeComplexity: '', spaceComplexity: '',
+      });
+    }, /Duplicate roadmap problem URL/],
     [(roadmap) => { roadmap.snapshotDate = '2026-02-30'; }, /snapshotDate must be a valid date/],
     [(roadmap) => { roadmap.problems[0].solvedAt = null; }, /Solved problem 5 must include solvedAt/],
     [(roadmap) => { roadmap.problems[0].status = 'planned'; }, /planned problem 5 must have solvedAt set to null/],
@@ -105,6 +111,13 @@ test('roadmap validation enforces schema v3 dates and generated-file drift', () 
     assert.match(run(root, 'roadmap-tracker.js', ['--check'], false).stderr, error);
   }
   writeJson(roadmapPath, valid);
+  const duplicate = run(root, 'roadmap-tracker.js', [
+    'add', '6', 'Another Title', 'arrays-and-hashing', 'Easy',
+    '--url', valid.problems[0].url,
+  ], false);
+  assert.match(duplicate.stderr, /Duplicate roadmap problem URL/);
+  assert.deepEqual(readJson(roadmapPath), valid);
+
   fs.appendFileSync(path.join(root, 'SOLUTIONS.md'), 'stale\n');
   assert.match(
     run(root, 'roadmap-tracker.js', ['--check'], false).stderr,

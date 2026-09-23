@@ -5,7 +5,9 @@ class Solution:
         min_price = prices[0]
         max_profit = 0
 
-        for price in prices[1:]:
+        for i in range(1, len(prices)):
+            price = prices[i]
+
             # Update the cheapest price seen so far
             min_price = min(min_price, price)
 

@@ -36,7 +36,7 @@ pie showData
 | ID | Time | Space | Notes |
 |---|---|---|---|
 | 412 | O(n) | O(1) auxiliary; O(n) including the output | n = the input integer and number of generated entries |
-| 56 | O(n log n), where n is the number of intervals | O(n) for the returned merged intervals | n = the number of intervals |
+| 56 | O(n log n), where n is the number of intervals | O(n) worst-case auxiliary space for Python's in-place sort and the intervals\[1:\] slice; O(n) for the returned list of interval references | n = the number of intervals |
 | 12 | O(1) because the input is bounded by 3999 | O(1) auxiliary space | The Roman numeral symbol table and maximum output length are bounded by the problem constraints |
 | 3 | O(n), where n is the string length | O(min(n, a)) for the sliding-window set | n = the string length; a = the character-set size |
 | 121 | O(n), where n is the number of prices | O(1) auxiliary space | n = the number of daily stock prices |

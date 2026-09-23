@@ -34,8 +34,8 @@ pie showData
 
 | ID | Time | Space | Notes |
 |---|---|---|---|
-| 723 | O(kmn), worst-case O((mn)^2) | O(1) | k = number of crush rounds |
-| 767 | O(n + k log k) | O(n + k) | k = number of distinct characters |
+| 723 | O((k + 1)mn), worst-case O((mn)^2) | O(1) | m = number of board rows; n = number of columns; k = number of crush rounds |
+| 767 | O(n + k log k) | O(n + k) | n = length of s; k = number of distinct characters |
 | 1434 | O(Hp2^p) | O(H2^p + Hp) | H = 40 possible hats; p = number of people; space includes memoization and the hat-to-people mapping |
 | 68 | O(nw) | O(w) | n = number of characters in the returned output; w = maxWidth; auxiliary space excludes the returned output |
 

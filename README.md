@@ -114,7 +114,7 @@ If you want to see the full topic breakdown, including solved counts and links t
 | Intervals | 0 | 21 | [View](SOLUTIONS.md#intervals) |
 | Math & Geometry | 0 | 63 | [View](SOLUTIONS.md#math-and-geometry) |
 | Bit Manipulation | 0 | 31 | [View](SOLUTIONS.md#bit-manipulation) |
-| **All topics** | <!-- progress-total:start -->**29**<!-- progress-total:end --> | **973** | [Browse all](SOLUTIONS.md) |
+| **All topics** | <!-- progress-total:start -->**29**<!-- progress-total:end --> | **943** | [Browse all](SOLUTIONS.md) |
 <!-- topic-table:end -->
 
 </details>

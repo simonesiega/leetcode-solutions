@@ -6,7 +6,7 @@ from collections import defaultdict
 
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        if (len(strs) < 2):
+        if (len(strs) == 1):
             return [strs]
 
         anagram_groups = defaultdict(list)
