@@ -119,9 +119,23 @@
       "difficulty": "Easy",
       "personalDifficulty": 2,
       "status": "solved",
-      "time": "O(n)",
-      "space": "O(n)",
-      "notes": "n = the string length; the stack stores opening brackets"
+      "time": "O(n), where n is the string length",
+      "space": "O(n) worst-case auxiliary space for the stack",
+      "notes": "n = the string length; in the worst case, every character is an opening bracket"
+    },
+    {
+      "id": "2580",
+      "sourceKey": "count-ways-to-group-overlapping-ranges",
+      "sourceRank": 9,
+      "frequency": 81.6,
+      "title": "Count Ways to Group Overlapping Ranges",
+      "url": "https://leetcode.com/problems/count-ways-to-group-overlapping-ranges/",
+      "difficulty": "Medium",
+      "personalDifficulty": 4,
+      "status": "solved",
+      "time": "O(n log n), where n is the number of ranges",
+      "space": "O(n) worst-case auxiliary space for Python's in-place sort; O(1) auxiliary space excluding sorting",
+      "notes": "n = the number of ranges"
     }
   ]
 }
