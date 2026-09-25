@@ -136,6 +136,20 @@
       "time": "O(n log n), where n is the number of ranges",
       "space": "O(n) worst-case auxiliary space for Python's in-place sort; O(1) auxiliary space excluding sorting",
       "notes": "n = the number of ranges"
+    },
+    {
+      "id": "2602",
+      "sourceKey": "minimum-operations-to-make-all-array-elements-equal",
+      "sourceRank": 10,
+      "frequency": 80.3,
+      "title": "Minimum Operations to Make All Array Elements Equal",
+      "url": "https://leetcode.com/problems/minimum-operations-to-make-all-array-elements-equal/",
+      "difficulty": "Medium",
+      "personalDifficulty": 4,
+      "status": "solved",
+      "time": "O(n log n + q log n), where n is the number of values and q is the number of queries",
+      "space": "O(n) for prefix sums, plus O(n) worst-case auxiliary space for Python's in-place sort",
+      "notes": "n = the number of input values; q = the number of queries"
     }
   ]
 }

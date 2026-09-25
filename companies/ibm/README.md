@@ -8,16 +8,16 @@
 
 ## Progress
 
-- **Solved:** 9 / 9
+- **Solved:** 10 / 10
 - **In progress:** 0
 - **Planned:** 0
 
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (9 Total)
+    title Solved Problems by Difficulty (10 Total)
     "Easy" : 5
-    "Medium" : 4
+    "Medium" : 5
     "Hard" : 0
 ```
 
@@ -32,6 +32,7 @@ pie showData
 | 7 | [Roman to Integer](https://leetcode.com/problems/roman-to-integer/) | 82.9% | Easy | Solved | 2 | [13.py](solutions/13.py) |
 | 8 | [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/) | 81.6% | Easy | Solved | 2 | [20.py](solutions/20.py) |
 | 9 | [Count Ways to Group Overlapping Ranges](https://leetcode.com/problems/count-ways-to-group-overlapping-ranges/) | 81.6% | Medium | Solved | 4 | [2580.py](solutions/2580.py) |
+| 10 | [Minimum Operations to Make All Array Elements Equal](https://leetcode.com/problems/minimum-operations-to-make-all-array-elements-equal/) | 80.3% | Medium | Solved | 4 | [2602.py](solutions/2602.py) |
 
 ## Attempt details
 
@@ -46,6 +47,7 @@ pie showData
 | 13 | O(n), where n is the Roman numeral length | O(1) auxiliary space | n = the number of Roman numeral characters |
 | 20 | O(n), where n is the string length | O(n) worst-case auxiliary space for the stack | n = the string length; in the worst case, every character is an opening bracket |
 | 2580 | O(n log n), where n is the number of ranges | O(n) worst-case auxiliary space for Python's in-place sort; O(1) auxiliary space excluding sorting | n = the number of ranges |
+| 2602 | O(n log n + q log n), where n is the number of values and q is the number of queries | O(n) for prefix sums, plus O(n) worst-case auxiliary space for Python's in-place sort | n = the number of input values; q = the number of queries |
 
 ## Commands
 
