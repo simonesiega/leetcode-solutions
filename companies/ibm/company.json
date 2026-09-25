@@ -108,6 +108,20 @@
       "time": "O(n), where n is the Roman numeral length",
       "space": "O(1) auxiliary space",
       "notes": "n = the number of Roman numeral characters"
+    },
+    {
+      "id": "20",
+      "sourceKey": "valid-parentheses",
+      "sourceRank": 8,
+      "frequency": 81.6,
+      "title": "Valid Parentheses",
+      "url": "https://leetcode.com/problems/valid-parentheses/",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "time": "O(n)",
+      "space": "O(n)",
+      "notes": "n = the string length; the stack stores opening brackets"
     }
   ]
 }

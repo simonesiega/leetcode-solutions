@@ -8,15 +8,15 @@
 
 ## Progress
 
-- **Solved:** 7 / 7
+- **Solved:** 8 / 8
 - **In progress:** 0
 - **Planned:** 0
 
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (7 Total)
-    "Easy" : 4
+    title Solved Problems by Difficulty (8 Total)
+    "Easy" : 5
     "Medium" : 3
     "Hard" : 0
 ```
@@ -30,6 +30,7 @@ pie showData
 | 5 | [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/) | 86.5% | Easy | Solved | 2 | [121.py](solutions/121.py) |
 | 6 | [Two Sum](https://leetcode.com/problems/two-sum/) | 85.4% | Easy | Solved | 1 | [1.py](solutions/1.py) |
 | 7 | [Roman to Integer](https://leetcode.com/problems/roman-to-integer/) | 82.9% | Easy | Solved | 2 | [13.py](solutions/13.py) |
+| 8 | [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/) | 81.6% | Easy | Solved | 2 | [20.py](solutions/20.py) |
 
 ## Attempt details
 
@@ -42,6 +43,7 @@ pie showData
 | 121 | O(n), where n is the number of prices | O(1) auxiliary space | n = the number of daily stock prices |
 | 1 | O(n), where n is the number of values | O(n) for the value-to-index map | n = the number of input values |
 | 13 | O(n), where n is the Roman numeral length | O(1) auxiliary space | n = the number of Roman numeral characters |
+| 20 | O(n) | O(n) | n = the input string length |
 
 ## Commands
 
