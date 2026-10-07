@@ -8,7 +8,7 @@ const { normalizeLeetCodeUrl } = require('./company-source');
 const { findStaleFiles, writeFiles } = require('./generated-files');
 const { readJson, writeJson } = require('./json');
 const {
-  encodePath, escapeLinkDestination, escapeMarkdown, escapeTable, formatDateOnly, pluralize,
+  encodePath, escapeLinkDestination, escapeMarkdown, escapeMermaidLabel, escapeTable, formatDateOnly, pluralize,
   renderDifficultyChart, replaceBlock,
 } = require('./markdown');
 const { paths, relativePath } = require('./paths');
@@ -47,7 +47,7 @@ const SOURCE_PROBLEM_KEYS = [
 /** Create a company workspace with a schema v3 manifest. */
 function createCompanyWorkspace({ name, slug, website = '', focus = '' }) {
   assertNonemptyText(name, 'Company name');
-  validateCompanySlug(slug);
+  validateSlug(slug, 'company slug');
   if (focus !== '') assertNonemptyText(focus, 'Company focus');
   assertHttpUrl(website, 'Company website', true);
   const directory = path.join(paths.companies, slug);
@@ -208,7 +208,7 @@ function loadCompanies() {
 
 /** Read one company manifest. Validation remains explicit at operation boundaries. */
 function readCompany(slug) {
-  validateCompanySlug(slug);
+  validateSlug(slug, 'company slug');
   const directory = path.join(paths.companies, slug);
   const manifestPath = path.join(directory, 'company.json');
   if (!fs.existsSync(manifestPath)) {
@@ -579,10 +579,6 @@ function getSolutionPath(directory, id) {
   return path.join(directory, 'solutions', `${id}.py`);
 }
 
-function validateCompanySlug(slug) {
-  validateSlug(slug, 'company slug');
-}
-
 function formatStatus(status) {
   if (status === 'solved') return 'Solved';
   if (status === 'in-progress') return 'In progress';
@@ -608,7 +604,21 @@ function renderRootSummary(companies) {
     return 'No company plans yet. Create one with `node scripts/company-tracker.js add-company "Company Name"`.';
   }
   const totals = getTotals(companies);
-  return `**${companies.length} ${pluralize(companies.length, 'company', 'companies')} · ${totals.solved} solved · ${totals.inProgress} in progress · ${totals.planned} planned**`;
+  const summary = `Company practice currently contains **${companies.length} ${pluralize(companies.length, 'company', 'companies')}**`;
+  if (!totals.solved) return `${summary}\n\nNo solved company problems yet.`;
+  const slices = companies.flatMap((company) => {
+    const { solved } = getProblemCounts(company.data.problems);
+    return solved ? [`    "${escapeMermaidLabel(company.data.name)}" : ${solved}`] : [];
+  });
+  return [
+    summary,
+    '',
+    '```mermaid',
+    'pie showData',
+    `    title Solved Problems by Company (${totals.solved} Total)`,
+    ...slices,
+    '```',
+  ].join('\n');
 }
 
 function renderRootCompanyList(companies) {

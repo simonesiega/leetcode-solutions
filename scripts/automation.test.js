@@ -42,6 +42,28 @@ test('automation modules import without output or side effects', () => {
   assert.equal(fs.existsSync(path.join(root, 'companies/README.md')), false);
 });
 
+test('root company pie includes only solved counts and handles empty progress', () => {
+  const root = createRepository();
+  run(root, 'company-tracker.js', []);
+  assert.match(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /No company plans yet/);
+  for (const name of ['Alpha', 'Beta']) {
+    run(root, 'company-tracker.js', ['add-company', name]);
+    run(root, 'company-tracker.js', ['add-problem', name.toLowerCase(), '1', 'Two Sum', 'Easy']);
+  }
+  assert.match(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /No solved company problems yet/);
+  run(root, 'company-tracker.js', ['start', 'alpha', '1']);
+  fs.writeFileSync(path.join(root, 'companies/alpha/solutions/1.py'), '# Two Sum - 1\n\nclass Solution:\n    pass\n');
+  run(root, 'company-tracker.js', ['solve', 'alpha', '1', '--time', 'O(n)', '--space', 'O(n)']);
+  run(root, 'company-tracker.js', ['start', 'beta', '1']);
+  const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
+  const block = readme.split('<!-- company-progress:start -->')[1].split('<!-- company-progress:end -->')[0];
+  assert.match(block, /Company practice currently contains \*\*2 companies\*\*/);
+  assert.match(block, /pie showData\n    title Solved Problems by Company \(1 Total\)\n    "Alpha" : 1/);
+  assert.doesNotMatch(block, /Beta|in progress|planned/);
+  assert.match(fs.readFileSync(path.join(root, 'companies/beta/README.md'), 'utf8'), /In progress/i);
+  run(root, 'company-tracker.js', ['--check']);
+});
+
 test('roadmap lifecycle records one immutable solvedAt instant', () => {
   const root = createRepository();
   run(root, 'roadmap-tracker.js', [
@@ -149,7 +171,7 @@ test('company lifecycle keeps manual and OA entries working', () => {
   assert.equal(manifest.problems[0].status, 'solved');
   assert.equal(manifest.problems[0].personalDifficulty, 3);
   assert.match(fs.readFileSync(path.join(root, 'companies/example-labs/README.md'), 'utf8'), /Manual.*Pair Optimization/);
-  assert.match(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /1 solved/);
+  assert.match(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /Solved Problems by Company \(1 Total\)/);
 
   const solvedManifest = fs.readFileSync(manifestPath, 'utf8');
   const result = run(root, 'company-tracker.js', [
@@ -266,6 +288,15 @@ test('Markdown helpers preserve literal text and safe link destinations', () => 
   assert.equal(
     replaceBlock(input, 'sample', ['$& is literal']),
     'before\n  <!-- sample:start -->\n  $& is literal\n  <!-- sample:end -->\nafter\n',
+  );
+  assert.equal(
+    replaceBlock(input.replace(/\n/g, '\r\n'), 'sample', ['fresh']),
+    'before\r\n  <!-- sample:start -->\r\n  fresh\r\n  <!-- sample:end -->\r\nafter\r\n',
+  );
+  assert.throws(() => replaceBlock('no markers', 'sample', []), /Missing README.md markers/);
+  assert.throws(
+    () => replaceBlock('<!-- sample:end -->\n<!-- sample:start -->\n', 'sample', []),
+    /exactly one ordered pair/,
   );
   assert.throws(
     () => replaceBlock(`${input}<!-- sample:start -->\n<!-- sample:end -->\n`, 'sample', []),
@@ -442,5 +473,6 @@ function run(root, script, args, expectSuccess = true) {
   if (expectSuccess && result.status !== 0) {
     assert.fail(`Command failed: ${script} ${args.join(' ')}\nstdout: ${result.stdout}\nstderr: ${result.stderr}`);
   }
+  if (!expectSuccess) assert.notEqual(result.status, 0, `Command unexpectedly succeeded: ${script} ${args.join(' ')}`);
   return result;
 }

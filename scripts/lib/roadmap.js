@@ -105,7 +105,7 @@ function validateRoadmap(roadmap) {
   let previousId = 0;
   const problemCounts = new Map(roadmap.topics.map((topic) => [topic.slug, 0]));
   // Track every registered path so the final filesystem scan can reject orphaned solutions.
-  const expectedSolutions = new Map();
+  const expectedSolutions = new Set();
   roadmap.problems.forEach((problem, index) => {
     const context = `Problem at index ${index}`;
     assertObject(problem, context);
@@ -154,7 +154,7 @@ function validateRoadmap(roadmap) {
         missing: `Missing solution file for ${problem.status} problem ${problem.id}: ${solutionRelativePath}`,
       },
     );
-    expectedSolutions.set(solutionRelativePath, problem);
+    expectedSolutions.add(solutionRelativePath);
 
     if (solutionExists) {
       const source = fs.readFileSync(solutionPath, 'utf8');

@@ -13,7 +13,7 @@ function replaceBlock(content, name, lines) {
   const start = `<!-- ${name}:start -->`;
   const end = `<!-- ${name}:end -->`;
   const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const markerPattern = (marker) => new RegExp(`^[ \\t]*${escapeRegExp(marker)}[ \\t]*\\r?$`, 'gm');
+  const markerPattern = (marker) => new RegExp(`^([ \\t]*)${escapeRegExp(marker)}[ \\t]*(?=\\r?$)`, 'gm');
   const startMatches = [...content.matchAll(markerPattern(start))];
   const endMatches = [...content.matchAll(markerPattern(end))];
   if (!startMatches.length || !endMatches.length) {
@@ -23,16 +23,13 @@ function replaceBlock(content, name, lines) {
     throw new Error(`README.md markers for "${name}" must form exactly one ordered pair.`);
   }
 
-  const pattern = new RegExp(
-    `^([ \\t]*)${escapeRegExp(start)}[ \\t]*\\r?$[\\s\\S]*?^[ \\t]*${escapeRegExp(end)}[ \\t]*\\r?$`,
-    'm',
-  );
-  const match = content.match(pattern);
+  const [startMatch] = startMatches;
+  const [endMatch] = endMatches;
   const eol = content.includes('\r\n') ? '\r\n' : '\n';
-  const indent = match[1];
+  const indent = startMatch[1];
   const replacement = [start, ...lines, end].map((line) => `${indent}${line}`).join(eol);
   // Slice instead of String.replace so generated `$&`-style text is always treated literally.
-  return content.slice(0, match.index) + replacement + content.slice(match.index + match[0].length);
+  return content.slice(0, startMatch.index) + replacement + content.slice(endMatch.index + endMatch[0].length);
 }
 
 /**
