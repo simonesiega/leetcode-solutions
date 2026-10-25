@@ -133,6 +133,18 @@
       "spaceComplexity": "`O(1)`; only two pointers and scalar values are stored."
     },
     {
+      "id": 14,
+      "title": "Longest Common Prefix",
+      "url": "https://leetcode.com/problems/longest-common-prefix/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-10-25T14:02:07.570Z",
+      "timeComplexity": "`O(n * m)`, where `n` is the number of strings and `m` is the length of the shortest string; characters are compared column by column until a mismatch or string end.",
+      "spaceComplexity": "`O(1)` auxiliary space, excluding the returned prefix, which uses `O(p)` space for prefix length `p`."
+    },
+    {
       "id": 15,
       "title": "3Sum",
       "url": "https://leetcode.com/problems/3sum/",
