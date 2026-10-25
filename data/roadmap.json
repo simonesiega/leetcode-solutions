@@ -313,6 +313,18 @@
       "spaceComplexity": "`O(1)`; only two pointers and the current sum are stored."
     },
     {
+      "id": 205,
+      "title": "Isomorphic Strings",
+      "url": "https://leetcode.com/problems/isomorphic-strings/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-10-25T16:08:03.961Z",
+      "timeComplexity": "Expected `O(n)`, where `n = len(s)`; when lengths match, each character pair is checked once using dictionary and set lookups.",
+      "spaceComplexity": "`O(a)` auxiliary space, where `a` is the number of distinct characters mapped from `s`; the dictionary and set store at most one entry per mapping. Under the ASCII input constraint, this is `O(1)`."
+    },
+    {
       "id": 217,
       "title": "Contains Duplicate",
       "url": "https://leetcode.com/problems/contains-duplicate/",
