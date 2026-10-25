@@ -385,6 +385,18 @@
       "spaceComplexity": "`O(n)` for the frequency map and `n + 1` buckets."
     },
     {
+      "id": 383,
+      "title": "Ransom Note",
+      "url": "https://leetcode.com/problems/ransom-note/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-10-25T14:35:02.821Z",
+      "timeComplexity": "`O(m + n)`, where `m = len(magazine)` and `n = len(ransomNote)`; magazine characters are counted and ransom-note characters are checked once.",
+      "spaceComplexity": "`O(a)` auxiliary space for character counts, where `a` is the number of distinct characters in `magazine`; since inputs contain only lowercase English letters, `a <= 26`, so constrained space is `O(1)`."
+    },
+    {
       "id": 392,
       "title": "Is Subsequence",
       "url": "https://leetcode.com/problems/is-subsequence/",
