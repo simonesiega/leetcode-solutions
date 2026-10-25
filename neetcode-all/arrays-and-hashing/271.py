@@ -4,7 +4,6 @@ from typing import List
 
 
 class Solution:
-
     def encode(self, strs: List[str]) -> str:
         if (strs == []):
             return ""

@@ -193,6 +193,18 @@
       "spaceComplexity": "`O(w)` for signatures, dictionary entries, and grouped string references; the input strings themselves are not copied."
     },
     {
+      "id": 58,
+      "title": "Length of Last Word",
+      "url": "https://leetcode.com/problems/length-of-last-word/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 1,
+      "status": "solved",
+      "solvedAt": "2026-10-25T11:45:18.113Z",
+      "timeComplexity": "O(n), where n = len(s); stripping and splitting the string take linear time.",
+      "spaceComplexity": "O(n) auxiliary space for the stripped string, split substrings, and word list, where n = len(s)."
+    },
+    {
       "id": 76,
       "title": "Minimum Window Substring",
       "url": "https://leetcode.com/problems/minimum-window-substring/",
