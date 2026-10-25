@@ -397,6 +397,18 @@
       "spaceComplexity": "`O(a)` auxiliary space for character counts, where `a` is the number of distinct characters in `magazine`; since inputs contain only lowercase English letters, `a <= 26`, so constrained space is `O(1)`."
     },
     {
+      "id": 387,
+      "title": "First Unique Character in a String",
+      "url": "https://leetcode.com/problems/first-unique-character-in-a-string/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-10-25T15:34:00.337Z",
+      "timeComplexity": "`O(n)`, where `n = len(s)`; one pass counts characters and a second pass finds the first unique character.",
+      "spaceComplexity": "`O(1)` auxiliary space for a fixed array of 26 lowercase-English character counts."
+    },
+    {
       "id": 392,
       "title": "Is Subsequence",
       "url": "https://leetcode.com/problems/is-subsequence/",
