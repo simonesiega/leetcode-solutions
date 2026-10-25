@@ -158,7 +158,7 @@ function assertStatus(value, context, detailed = false) {
  * @param {string} context - Human-readable field name.
  */
 function assertComplexity(value, context) {
-  if (typeof value !== 'string' || /[|\r\n]/.test(value)) {
+  if (typeof value !== 'string' || /[|\u0000-\u001F\u007F]/.test(value)) {
     throw new Error(`${context} must be a single-line Markdown string without table separators.`);
   }
   if (value !== value.trim()) throw new Error(`${context} must not have leading or trailing whitespace.`);
@@ -175,7 +175,7 @@ function assertHttpUrl(value, context, allowEmpty = false) {
   if (
     typeof value !== 'string'
     || value !== value.trim()
-    || /[\s\u007F]/u.test(value)
+    || /[\s\u0000-\u001F\u007F]/u.test(value)
   ) {
     throw new Error(`${context} must be an HTTP or HTTPS URL without whitespace or control characters.`);
   }
@@ -206,14 +206,15 @@ function validateCanonicalLeetCodeUrl(value, context) {
     throw new Error(`${context} has invalid URL "${value}".`);
   }
   if (
-    url.protocol !== 'https:'
+    value !== `https://leetcode.com${url.pathname}`
+    || url.protocol !== 'https:'
     || url.hostname !== 'leetcode.com'
     || url.port
     || url.username
     || url.password
     || url.search
     || url.hash
-    || !/^\/problems\/[a-z0-9-]+\/$/.test(url.pathname)
+    || !/^\/problems\/[a-z0-9]+(?:-[a-z0-9]+)*\/$/.test(url.pathname)
   ) {
     throw new Error(`${context} URL must be a canonical https://leetcode.com/problems/<slug>/ URL.`);
   }
@@ -237,6 +238,14 @@ function validateSlug(slug, context = 'slug') {
   if (!isSlug(slug)) {
     throw new Error(`Invalid ${context} "${slug}". Use lowercase letters, numbers, and single hyphens.`);
   }
+  assertPortableName(slug, context);
+}
+
+/** Reject Windows device names even on systems that allow them as ordinary files. */
+function assertPortableName(value, context) {
+  if (/^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(value)) {
+    throw new Error(`Invalid ${context} "${value}": reserved filename on Windows.`);
+  }
 }
 
 /**
@@ -247,6 +256,7 @@ function validateProblemId(id) {
   if (typeof id !== 'string' || !/^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?$/.test(id)) {
     throw new Error(`Invalid problem id "${id}". Use letters, numbers, dots, underscores, or hyphens.`);
   }
+  assertPortableName(id, 'problem id');
 }
 
 /**

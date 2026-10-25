@@ -32,16 +32,20 @@ pie showData
 
 ## Attempt details
 
+The [complexity notes](../../docs/DATA_MODEL.md#complexity-conventions) explain how I count time and space. I use source frequency to choose what to practice, not to predict interview questions.
+
 | ID | Time | Space | Notes |
 |---|---|---|---|
-| 723 | O((k + 1)mn), worst-case O((mn)^2) | O(1) | m = number of board rows; n = number of columns; k = number of crush rounds |
-| 767 | O(n + k log k) | O(n + k) | n = length of s; k = number of distinct characters |
+| 723 | O((k + 1)mn), worst-case O((mn)^2) | O(1) auxiliary; the input board is modified and returned | m = number of board rows; n = number of columns; k = number of crush rounds. Each round removes at least three candies, so k = O(mn); the quadratic expression is an upper bound |
+| 767 | O(n + k log k) | O(n + k) auxiliary for counts, sorted keys, and the character list; O(n) returned string | n = length of s; k = number of distinct characters (at most 26 here), so constrained time and space are O(n) |
 | 1434 | O(Hp2^p) | O(H2^p + Hp) | H = 40 possible hats; p = number of people; space includes memoization and the hat-to-people mapping |
-| 68 | O(nw) | O(w) | n = number of characters in the returned output; w = maxWidth; auxiliary space excludes the returned output |
+| 68 | O(nw) | O(w) | n = number of characters in the returned output; w = maxWidth. Repeated string concatenation in list slots can copy O(w) characters per added space, giving O(nw) worst-case time; O(w) auxiliary space excludes the O(n) returned output |
 
 ## Commands
 
-```bash
+Run these from the repository root, replacing the placeholders with your values. Anything in square brackets is optional. For source commands, set up the company’s source first and run `source-sync` before `next` or `add-from-source`.
+
+```text
 node scripts/company-tracker.js source-sync roblox
 node scripts/company-tracker.js next roblox
 node scripts/company-tracker.js add-from-source roblox <source-key> [--id problem-id]

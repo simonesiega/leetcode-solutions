@@ -13,7 +13,10 @@ const {
 const { parseCsv } = require('./lib/csv');
 const { readJson, writeJson } = require('./lib/json');
 const { escapeLinkDestination, replaceBlock } = require('./lib/markdown');
-const { assertIsoInstant } = require('./lib/validation');
+const {
+  assertComplexity, assertHttpUrl, assertIsoInstant, validateCanonicalLeetCodeUrl,
+  validateProblemId, validateSlug,
+} = require('./lib/validation');
 
 const fixtures = [];
 
@@ -119,6 +122,9 @@ test('roadmap validation enforces schema v3 dates and generated-file drift', () 
       });
     }, /Duplicate roadmap problem URL/],
     [(roadmap) => { roadmap.snapshotDate = '2026-02-30'; }, /snapshotDate must be a valid date/],
+    [(roadmap) => { roadmap.total++; }, /topic totals must sum/],
+    [(roadmap) => { roadmap.topics[0].slug = 'aux'; }, /reserved filename on Windows/],
+    [(roadmap) => { roadmap.problems[0].id = 2 ** 53; }, /positive safe integer/],
     [(roadmap) => { roadmap.problems[0].solvedAt = null; }, /Solved problem 5 must include solvedAt/],
     [(roadmap) => { roadmap.problems[0].status = 'planned'; }, /planned problem 5 must have solvedAt set to null/],
     [(roadmap) => { roadmap.problems[0].status = 'in-progress'; }, /in-progress problem 5 must have solvedAt set to null/],
@@ -362,6 +368,96 @@ test('company source cache supports next and deterministic import without networ
   assert.match(fs.readFileSync(path.join(root, 'companies/source-labs/README.md'), 'utf8'), /\| 1 \| \[Problem, With Comma\]/);
 });
 
+test('portable names reject Windows devices but retain ordinary custom IDs', () => {
+  for (const id of ['CON', 'nul', 'Aux.txt', 'com1', 'LPT9.extra']) {
+    assert.throws(() => validateProblemId(id), /reserved filename on Windows/);
+  }
+  for (const slug of ['con', 'prn', 'aux', 'nul', 'com9', 'lpt1']) {
+    assert.throws(() => validateSlug(slug), /reserved filename on Windows/);
+  }
+  for (const id of ['oa-pairs', 'CON-test', 'com10', 'Round_1.2']) {
+    assert.doesNotThrow(() => validateProblemId(id));
+  }
+});
+
+test('company IDs cannot collide on case-insensitive filesystems', () => {
+  const root = createRepository();
+  run(root, 'company-tracker.js', ['add-company', 'Portable']);
+  run(root, 'company-tracker.js', ['add-problem', 'portable', 'Task', 'First', 'Easy']);
+  const manifestPath = path.join(root, 'companies/portable/company.json');
+  const before = fs.readFileSync(manifestPath, 'utf8');
+  const result = run(root, 'company-tracker.js', ['add-problem', 'portable', 'task', 'Second', 'Easy'], false);
+  assert.match(result.stderr, /case-insensitive filenames/);
+  assert.equal(fs.readFileSync(manifestPath, 'utf8'), before);
+  assert.match(
+    run(root, 'company-tracker.js', ['add-problem', 'portable', 'NUL.txt', 'Device', 'Easy'], false).stderr,
+    /reserved filename on Windows/,
+  );
+  assert.equal(fs.readFileSync(manifestPath, 'utf8'), before);
+});
+
+test('company ordering is independent of insertion order and environment locale', () => {
+  const root = createRepository();
+  run(root, 'company-tracker.js', ['add-company', 'Portable']);
+  for (const id of ['10', '2', '1', '01', 'z-task', 'a-task']) {
+    run(root, 'company-tracker.js', ['add-problem', 'portable', id, `Task ${id}`, 'Easy']);
+  }
+  const manifest = readJson(path.join(root, 'companies/portable/company.json'));
+  assert.deepEqual(manifest.problems.map((problem) => problem.id), ['01', '1', '2', '10', 'a-task', 'z-task']);
+  // Swedish sorts Å after Z; English sorts it with A.
+  for (const name of ['Zulu', 'Ångström']) run(root, 'company-tracker.js', ['add-company', name]);
+  const readme = fs.readFileSync(path.join(root, 'companies/README.md'), 'utf8');
+  assert.ok(readme.indexOf('[Ångström]') < readme.indexOf('[Zulu]'));
+  const result = spawnSync(process.execPath, ['scripts/company-tracker.js', '--check'], {
+    cwd: root, encoding: 'utf8', env: { ...process.env, LANG: 'sv_SE.UTF-8', LC_ALL: 'sv_SE.UTF-8' },
+  });
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('UTF-8 BOM, CRLF, spaces in paths, and an outside cwd do not cause drift', () => {
+  const root = createSolvedRoadmapRepository();
+  run(root, 'company-tracker.js', ['add-company', 'Portable']);
+  const files = ['data/roadmap.json', 'companies/portable/company.json'];
+  for (const file of files) {
+    const filePath = path.join(root, file);
+    fs.writeFileSync(filePath, `\uFEFF${fs.readFileSync(filePath, 'utf8').replace(/\n/g, '\r\n')}`);
+  }
+  const markdown = ['README.md', 'SOLUTIONS.md', 'companies/README.md', 'companies/portable/README.md'];
+  for (const file of markdown) {
+    const filePath = path.join(root, file);
+    fs.writeFileSync(filePath, fs.readFileSync(filePath, 'utf8').replace(/\n/g, '\r\n'));
+  }
+  const before = new Map([...files, ...markdown].map((file) => [file, fs.readFileSync(path.join(root, file), 'utf8')]));
+  for (const script of ['roadmap-tracker.js', 'company-tracker.js']) {
+    for (const args of [['--check'], [], []]) {
+      const result = spawnSync(process.execPath, [path.join(root, 'scripts', script), ...args], {
+        cwd: os.tmpdir(), encoding: 'utf8',
+      });
+      assert.equal(result.status, 0, result.stderr);
+    }
+  }
+  for (const [file, content] of before) assert.equal(fs.readFileSync(path.join(root, file), 'utf8'), content);
+  fs.appendFileSync(path.join(root, 'SOLUTIONS.md'), 'real drift\r\n');
+  assert.match(run(root, 'roadmap-tracker.js', ['--check'], false).stderr, /outdated/);
+});
+
+test('URL and complexity validation reject normalized-away controls and noncanonical forms', () => {
+  for (const url of [
+    'https://leetcode.com/prob\nlems/two-sum/',
+    'https://leetcode.com:443/problems/two-sum/',
+    'https://LEETCODE.com/problems/two-sum/',
+    'https://leetcode.com/problems/--/',
+    'https://leetcode.com/problems/two-sum/?',
+  ]) {
+    assert.throws(() => validateCanonicalLeetCodeUrl(url, 'Problem'), /canonical/);
+  }
+  assert.doesNotThrow(() => validateCanonicalLeetCodeUrl('https://leetcode.com/problems/two-sum/', 'Problem'));
+  for (const character of ['\u0000', '\u0001', '\t', '\n', '\u007F']) {
+    assert.throws(() => assertHttpUrl(`https://example.com/a${character}b`, 'URL'), /control characters/);
+    assert.throws(() => assertComplexity(`O(n)${character}note`, 'Time'), /single-line/);
+  }
+});
+
 function createSolvedRoadmapRepository() {
   const root = createRepository();
   run(root, 'roadmap-tracker.js', [
@@ -416,7 +512,7 @@ function sourceMetadata(sourcePath) {
 }
 
 function createRepository() {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'automation-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'automation review-'));
   fixtures.push(root);
   for (const directory of ['scripts', 'data', 'companies']) {
     fs.mkdirSync(path.join(root, directory), { recursive: true });

@@ -15,9 +15,13 @@ concurrency:
 
 jobs:
   documentation:
-    name: Documentation and tracker
-    runs-on: ubuntu-latest
+    name: Documentation and tracker (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: Check out repository
@@ -31,24 +35,32 @@ jobs:
           node-version: 22
 
       - name: Check automation syntax
-        run: for file in scripts/*.js scripts/lib/*.js; do node --check "$file"; done
+        shell: bash
+        run: for file in scripts/*.js scripts/lib/*.js; do node --check "$file" || exit; done
 
-      - name: Validate generated documentation
-        run: |
-          node scripts/roadmap-tracker.js --check
-          node scripts/company-tracker.js --check
+      - name: Validate generated roadmap documentation
+        run: node scripts/roadmap-tracker.js --check
+
+      - name: Validate generated company documentation
+        run: node scripts/company-tracker.js --check
 
       - name: Test automation
         run: node --test scripts/automation.test.js
 
   test:
-    name: Python ${{ matrix.python-version }}
-    runs-on: ubuntu-latest
+    name: Python ${{ matrix.python-version }} (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.13"]
+        os: [ubuntu-latest]
+        python-version: ["3.10", "3.13", "3.14"]
+        include:
+          - os: windows-latest
+            python-version: "3.13"
+          - os: macos-latest
+            python-version: "3.13"
 
     steps:
       - name: Check out repository
@@ -65,7 +77,7 @@ jobs:
         run: python -m pip install --requirement requirements-dev.txt
 
       - name: Lint Python solutions
-        run: ruff check neetcode-all companies
+        run: python -m ruff check neetcode-all companies
 
       - name: Check Python syntax
         run: python -m compileall -q neetcode-all companies

@@ -15,7 +15,8 @@ function readJson(filePath, missingMessage) {
     throw new Error(missingMessage || `Missing JSON file: ${relativePath(filePath)}`);
   }
   try {
-    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    // Windows editors and Windows PowerShell may write a UTF-8 BOM.
+    return JSON.parse(fs.readFileSync(filePath, 'utf8').replace(/^\uFEFF/, ''));
   } catch (error) {
     throw new Error(`Invalid JSON in ${relativePath(filePath)}: ${error.message}`);
   }

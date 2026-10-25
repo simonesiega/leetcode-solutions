@@ -21,9 +21,9 @@
       "difficulty": "Easy",
       "personalDifficulty": 1,
       "status": "solved",
-      "time": "O(n)",
-      "space": "O(1) auxiliary; O(n) including the output",
-      "notes": "n = the input integer and number of generated entries"
+      "time": "O(n d) counting decimal characters; O(n) under the bounded input constraint",
+      "space": "O(1) auxiliary under the bounded-integer constraint; O(n d) for the returned strings and list",
+      "notes": "n = the input integer and number of generated entries; d = maximum decimal digits per entry (at most 5 here). Output strings are not constant-size if the integer bound is lifted"
     },
     {
       "id": "56",
@@ -148,7 +148,7 @@
       "personalDifficulty": 4,
       "status": "solved",
       "time": "O(n log n + q log n), where n is the number of values and q is the number of queries",
-      "space": "O(n) for prefix sums, plus O(n) worst-case auxiliary space for Python's in-place sort",
+      "space": "O(n) auxiliary for prefix sums and Python's in-place sort; O(q) for the returned answers",
       "notes": "n = the number of input values; q = the number of queries"
     }
   ]

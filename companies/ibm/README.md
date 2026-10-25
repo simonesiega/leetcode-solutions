@@ -36,9 +36,11 @@ pie showData
 
 ## Attempt details
 
+The [complexity notes](../../docs/DATA_MODEL.md#complexity-conventions) explain how I count time and space. I use source frequency to choose what to practice, not to predict interview questions.
+
 | ID | Time | Space | Notes |
 |---|---|---|---|
-| 412 | O(n) | O(1) auxiliary; O(n) including the output | n = the input integer and number of generated entries |
+| 412 | O(n d) counting decimal characters; O(n) under the bounded input constraint | O(1) auxiliary under the bounded-integer constraint; O(n d) for the returned strings and list | n = the input integer and number of generated entries; d = maximum decimal digits per entry (at most 5 here). Output strings are not constant-size if the integer bound is lifted |
 | 56 | O(n log n), where n is the number of intervals | O(n) worst-case auxiliary space for Python's in-place sort and the intervals\[1:\] slice; O(n) for the returned list of interval references | n = the number of intervals |
 | 12 | O(1) because the input is bounded by 3999 | O(1) auxiliary space | The Roman numeral symbol table and maximum output length are bounded by the problem constraints |
 | 3 | O(n), where n is the string length | O(min(n, a)) for the sliding-window set | n = the string length; a = the character-set size |
@@ -47,11 +49,13 @@ pie showData
 | 13 | O(n), where n is the Roman numeral length | O(1) auxiliary space | n = the number of Roman numeral characters |
 | 20 | O(n), where n is the string length | O(n) worst-case auxiliary space for the stack | n = the string length; in the worst case, every character is an opening bracket |
 | 2580 | O(n log n), where n is the number of ranges | O(n) worst-case auxiliary space for Python's in-place sort; O(1) auxiliary space excluding sorting | n = the number of ranges |
-| 2602 | O(n log n + q log n), where n is the number of values and q is the number of queries | O(n) for prefix sums, plus O(n) worst-case auxiliary space for Python's in-place sort | n = the number of input values; q = the number of queries |
+| 2602 | O(n log n + q log n), where n is the number of values and q is the number of queries | O(n) auxiliary for prefix sums and Python's in-place sort; O(q) for the returned answers | n = the number of input values; q = the number of queries |
 
 ## Commands
 
-```bash
+Run these from the repository root, replacing the placeholders with your values. Anything in square brackets is optional. For source commands, set up the company’s source first and run `source-sync` before `next` or `add-from-source`.
+
+```text
 node scripts/company-tracker.js source-sync ibm
 node scripts/company-tracker.js next ibm
 node scripts/company-tracker.js add-from-source ibm <source-key> [--id problem-id]

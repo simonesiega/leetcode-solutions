@@ -31,7 +31,7 @@ For company prep, only add questions, notes, or material that is public or that 
 
 Nothing complicated. Just try to keep it:
 
-- compatible with Python 3 unless the problem explicitly requires another language;
+- compatible with Python 3.10+ unless the problem explicitly requires another language;
 - in the method signature expected by the relevant platform;
 - direct, readable, and easy to explain in an interview;
 - free of external dependencies;
@@ -47,13 +47,15 @@ For comments, I prefer explaining **why** something matters instead of describin
 if number - 1 not in numbers:
 ```
 
+Keep the judge’s expected class and method names. One small exception to watch for: `271.py` uses NeetCode’s `Solution.encode` / `decode`; LeetCode expects the class to be named `Codec`.
+
 Start every solution with `# <Problem title> - <ID>`, leave a blank line, and then write the solution. Keep the problem statement out of the file. Just link to the official problem instead of copying or rewriting its description, examples, constraints, or editorial content.
 
 ## Adding a NeetCode problem
 
 [`data/roadmap.json`](data/roadmap.json) is the source of truth for roadmap metadata. `SOLUTIONS.md` and the generated roadmap blocks in `README.md` should not be edited by hand.
 
-Use the roadmap tracker from the repository root:
+Run the roadmap tracker from the repository root. I’m using #217 as an example below; it’s already tracked here, so swap in the problem you’re adding.
 
 ```bash
 # Register the problem.
@@ -66,7 +68,9 @@ node scripts/roadmap-tracker.js start 217
 node scripts/roadmap-tracker.js solve 217 --time "O(n), where n is the number of values" --space "O(n) for the set of input values" --personal-difficulty 2
 ```
 
-`--personal-difficulty` is optional. The tracker handles ordering, state changes, solve dates, generated docs, and validation for you.
+`--personal-difficulty` is optional. The tracker handles ordering, state changes, solve dates, generated docs, and validation for you. Just finish the template and remove its `TODO(roadmap-solution)` marker before running `solve`.
+
+Already wrote the file? Move it somewhere safe outside the solution folders while you run `add` and `start`, then put your code back in place of the template. Skip `add` if the problem is already tracked, and skip `start` if it’s already in progress. The same goes for company solutions, which use `TODO(company-solution)`.
 
 For metadata-only maintenance:
 
@@ -91,8 +95,8 @@ node scripts/company-tracker.js add-problem company-name 1 "Two Sum" Easy --url 
 # Create the solution file and mark it in progress.
 node scripts/company-tracker.js start company-name 1
 
-# Finish it and record complexity.
-node scripts/company-tracker.js solve company-name 1 --time "O(n)" --space "O(n)" --personal-difficulty 3
+# After finishing the template and removing its TODO marker, record complexity.
+node scripts/company-tracker.js solve company-name 1 --time "O(n)" --space "O(n)" --personal-difficulty 3 --notes "n = number of input values"
 ```
 
 `add-company` also supports `--slug` and `--website`. `add-problem` supports `--url`, `--notes`, and custom OA-style IDs. For a LeetCode problem, I provide the verified official URL rather than relying on a link generated from the title.
@@ -102,7 +106,12 @@ For source-backed company lists:
 ```bash
 node scripts/company-tracker.js source-sync ibm
 node scripts/company-tracker.js next ibm
-node scripts/company-tracker.js add-from-source ibm valid-parentheses --id 20
+```
+
+Then use the key from `next` and the problem’s verified LeetCode ID in place of the placeholders:
+
+```text
+node scripts/company-tracker.js add-from-source ibm <source-key> --id <verified-problem-id>
 ```
 
 A new company starts with `source: null`. For a new source-backed workspace, I first record the verified repository, commit, snapshot date, window, and CSV path in its `company.json`, then run `node scripts/company-tracker.js` before `source-sync`. I don't guess the source commit or edit the generated README files.
@@ -113,7 +122,11 @@ You can also use a local CSV with:
 node scripts/company-tracker.js source-sync ibm --file PATH
 ```
 
+If I use a local CSV, I make sure it comes from the same pinned snapshot. The tracker checks its format, but can’t tell where I got it. Downloads always use the saved commit, not the latest upstream version.
+
 Manual and OA-specific entries still work normally. The tracker owns the company manifests, generated dashboards, source ordering, and root summary.
+
+For a metadata fix on an already solved problem, edit the manifest and regenerate. There’s no need to run `solve` again or change the original date, source info, or rating.
 
 The exact company schema and source metadata rules are documented in [docs/DATA_MODEL.md](docs/DATA_MODEL.md).
 
@@ -143,7 +156,7 @@ scripts/
 
 Keep the CLI entry points small. Shared parsing, validation, file handling, and Markdown logic should live in the narrowest existing `scripts/lib/` module instead of being duplicated.
 
-The goal is simple shared code, not a framework.
+The goal is simple shared code, not a framework. If you change how a tracker works, update `scripts/automation.test.js` too. I test solutions on LeetCode rather than keeping a separate solution test suite here.
 
 ## Branches and PRs
 
@@ -173,23 +186,59 @@ Try to keep unrelated cleanup out of the same PR so it stays easy to review.
 
 ## Before opening the PR
 
-Run the checks below from the repository root:
+You’ll need Python 3.10+ and Node.js 22+. Run the commands below from the repository root, using `python3` or `py -3` instead of `python` if that’s your setup.
+
+I recommend a virtual environment for Ruff:
 
 ```bash
-for file in scripts/*.js scripts/lib/*.js; do node --check "$file"; done
+python -m venv .venv
+```
 
+Activate it with the command for your shell:
+
+| Shell | Command |
+|---|---|
+| Linux/macOS (Bash or Zsh) | `source .venv/bin/activate` |
+| Windows Git Bash | `source .venv/Scripts/activate` |
+| PowerShell | `.venv\Scripts\Activate.ps1` |
+
+If activation is blocked, you can use `.venv/bin/python` or `.venv\Scripts\python.exe` directly. Then install Ruff:
+
+```bash
+python -m pip install --requirement requirements-dev.txt
+```
+
+First, check the JavaScript syntax. In Bash or Git Bash:
+
+```bash
+for file in scripts/*.js scripts/lib/*.js; do node --check "$file" || exit; done
+```
+
+Or in PowerShell:
+
+```powershell
+Get-ChildItem scripts/*.js, scripts/lib/*.js | ForEach-Object {
+    node --check $_.FullName
+    if ($LASTEXITCODE -ne 0) { throw "JavaScript syntax check failed" }
+}
+```
+
+The rest works in either shell. Make sure each command passes before moving on:
+
+```bash
 node scripts/roadmap-tracker.js --check
 node scripts/company-tracker.js --check
 node --test scripts/automation.test.js
 
-python -m pip install --requirement requirements-dev.txt
-ruff check neetcode-all companies
+python -m ruff check neetcode-all companies
 python -m compileall -q neetcode-all companies
 
 git diff --check
 ```
 
-`git diff --check` stays a local review command because CI checks a clean checkout rather than your working-tree diff.
+CI covers Linux, Windows, and macOS. The exact Python versions are in [the workflow](.github/workflows/ci.yml).
+
+`git diff --check` stays local because CI starts from a clean checkout. Remember to look at new, untracked files too, and run `git diff --cached --check` after staging.
 
 One last pass:
 

@@ -141,7 +141,7 @@
       "personalDifficulty": 2,
       "status": "solved",
       "solvedAt": "2026-10-25T14:02:07.570Z",
-      "timeComplexity": "`O(n * m)`, where `n` is the number of strings and `m` is the length of the shortest string; characters are compared column by column until a mismatch or string end.",
+      "timeComplexity": "`O(n * (m + 1))`, where `n` is the number of strings and `m` is the shortest string length; the extra column accounts for detecting a string end, including when `m = 0`.",
       "spaceComplexity": "`O(1)` auxiliary space, excluding the returned prefix, which uses `O(p)` space for prefix length `p`."
     },
     {
@@ -177,7 +177,7 @@
       "personalDifficulty": 4,
       "status": "solved",
       "solvedAt": "2026-07-15T12:32:51.000Z",
-      "timeComplexity": "`O(9 × 9) = O(1)` because the implementation always inspects the board's fixed 81 cells.",
+      "timeComplexity": "`O(9 × 9) = O(1)` because the implementation inspects at most the board's fixed 81 cells.",
       "spaceComplexity": "`O(27 × 9) = O(1)` because the 27 row, column, and box sets each hold at most 9 digits."
     },
     {
@@ -213,8 +213,8 @@
       "personalDifficulty": 1,
       "status": "solved",
       "solvedAt": "2026-10-25T11:45:18.113Z",
-      "timeComplexity": "O(n), where n = len(s); stripping and splitting the string take linear time.",
-      "spaceComplexity": "O(n) auxiliary space for the stripped string, split substrings, and word list, where n = len(s)."
+      "timeComplexity": "`O(n)`, where `n = len(s)`; splitting the string takes linear time.",
+      "spaceComplexity": "`O(n)` auxiliary space for the split substrings and word list."
     },
     {
       "id": 76,
@@ -261,7 +261,7 @@
       "personalDifficulty": 2,
       "status": "solved",
       "solvedAt": "2026-07-15T13:18:34.000Z",
-      "timeComplexity": "`O(n)`, where `n` is the length of `s`; the pointers inspect each character at most once.",
+      "timeComplexity": "`O(n)`, where `n` is the length of `s`; each pointer moves inward at most `n` times.",
       "spaceComplexity": "`O(1)`; the implementation compares characters in place instead of building a normalized string."
     },
     {
@@ -297,8 +297,8 @@
       "personalDifficulty": 3,
       "status": "solved",
       "solvedAt": "2026-08-06T15:12:23.000Z",
-      "timeComplexity": "`O(1)` per `push`, `pop`, `top`, or `getMin` operation.",
-      "spaceComplexity": "`O(n)` after `n` pushes because each entry stores its value and the minimum at that depth."
+      "timeComplexity": "Amortized `O(1)` per `push` or `pop` (Python list resizing); worst-case `O(1)` per `top` or `getMin`.",
+      "spaceComplexity": "`O(n)` for `n` stored entries; each stores its value and the minimum at that depth."
     },
     {
       "id": 167,
@@ -321,8 +321,8 @@
       "personalDifficulty": 2,
       "status": "solved",
       "solvedAt": "2026-10-25T16:08:03.961Z",
-      "timeComplexity": "Expected `O(n)`, where `n = len(s)`; when lengths match, each character pair is checked once using dictionary and set lookups.",
-      "spaceComplexity": "`O(a)` auxiliary space, where `a` is the number of distinct characters mapped from `s`; the dictionary and set store at most one entry per mapping. Under the ASCII input constraint, this is `O(1)`."
+      "timeComplexity": "Expected `O(n)`, where `n = len(s) = len(t)` under the equal-length input constraint; sets of characters and zipped character pairs are constructed.",
+      "spaceComplexity": "`O(min(n, a²))` auxiliary space in the worst case, where `a` is the number of distinct characters across both strings; non-isomorphic inputs can create quadratically many distinct pairs in `a`. Under the fixed ASCII alphabet constraint, this is `O(1)`."
     },
     {
       "id": 217,

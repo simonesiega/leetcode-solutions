@@ -19,13 +19,20 @@ I only add a problem here when I actually decide to practice it, so `company.jso
 
 ## Picking the next problem
 
-The source list stays in a local gitignored cache, so normal checks and CI do not need it. These commands sync the CSV from the pinned commit, show the next highest-ranked problem, and add it to my own list:
+The source list stays in a local gitignored cache, so normal checks and CI do not need it. I use these commands to download the pinned CSV and see the next highest-ranked problem:
 
 ```bash
 node scripts/company-tracker.js source-sync ibm
 node scripts/company-tracker.js next ibm
-node scripts/company-tracker.js add-from-source ibm valid-parentheses --id 20
 ```
+
+Then I add the key shown by `next`, with its verified LeetCode ID:
+
+```text
+node scripts/company-tracker.js add-from-source ibm <source-key> --id <problem-id>
+```
+
+Replace the placeholders with the problem you picked. You can also leave out `--id` and use the source key as the filename.
 
 If I already have the CSV locally, I can use it without downloading anything:
 
@@ -33,7 +40,7 @@ If I already have the CSV locally, I can use it without downloading anything:
 node scripts/company-tracker.js source-sync ibm --file PATH
 ```
 
-`source-sync` always uses the exact source commit saved for that company rather than silently switching to the latest upstream data.
+Downloads use the saved commit, not the latest upstream version. If I use `--file`, I make sure the CSV comes from that same snapshot; the tracker can check its format, but not where I got it.
 
 ## Adding something manually
 
@@ -43,7 +50,8 @@ Manual and OA-specific problems work too:
 node scripts/company-tracker.js add-company "Amazon" --focus "US OA"
 node scripts/company-tracker.js add-problem amazon oa-pairs "Pair Optimization" Medium --url https://example.com/problems/pairs
 node scripts/company-tracker.js start amazon oa-pairs
-node scripts/company-tracker.js solve amazon oa-pairs --time "O(n)" --space "O(n)" --personal-difficulty 3
+# Finish companies/amazon/solutions/oa-pairs.py and remove its TODO marker first.
+node scripts/company-tracker.js solve amazon oa-pairs --time "O(n)" --space "O(n)" --personal-difficulty 3 --notes "n = number of values"
 ```
 
 Run `node scripts/company-tracker.js --help` to see every option.

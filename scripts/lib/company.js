@@ -203,7 +203,7 @@ function loadCompanies() {
   return fs.readdirSync(paths.companies, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
     .map((entry) => readCompany(entry.name))
-    .sort((a, b) => a.data.name.localeCompare(b.data.name));
+    .sort((a, b) => a.data.name.localeCompare(b.data.name, 'en') || compareProblemIds(a.slug, b.slug));
 }
 
 /** Read one company manifest. Validation remains explicit at operation boundaries. */
@@ -231,6 +231,7 @@ function validateCompany(company) {
   if (!Array.isArray(data.problems)) throw new Error(`${location} problems must be an array.`);
 
   const ids = new Set();
+  const portableIds = new Set();
   const sourceKeys = new Set();
   const sourceRanks = new Set();
   const canonicalLeetCodeUrls = new Set();
@@ -240,8 +241,11 @@ function validateCompany(company) {
     const sourceBacked = Object.prototype.hasOwnProperty.call(problem, 'sourceKey');
     assertKeys(problem, sourceBacked ? SOURCE_PROBLEM_KEYS : MANUAL_PROBLEM_KEYS, context);
     validateProblemId(problem.id);
-    if (ids.has(problem.id)) throw new Error(`${location} contains duplicate problem id "${problem.id}".`);
+    if (portableIds.has(problem.id.toLowerCase())) {
+      throw new Error(`${location} contains duplicate problem id "${problem.id}" (case-insensitive filenames).`);
+    }
     ids.add(problem.id);
+    portableIds.add(problem.id.toLowerCase());
     assertNonemptyText(problem.title, `${context} title`);
     assertHttpUrl(problem.url, `${context} URL`, !sourceBacked);
     assertDifficulty(problem.difficulty, context);
@@ -377,10 +381,15 @@ function sortProblems(problems) {
   problems.sort((a, b) => {
     const aSource = Number.isInteger(a.sourceRank);
     const bSource = Number.isInteger(b.sourceRank);
-    if (aSource && bSource) return a.sourceRank - b.sourceRank || a.id.localeCompare(b.id, undefined, { numeric: true });
+    if (aSource && bSource) return a.sourceRank - b.sourceRank || compareProblemIds(a.id, b.id);
     if (aSource !== bSource) return aSource ? -1 : 1;
-    return a.id.localeCompare(b.id, undefined, { numeric: true });
+    return compareProblemIds(a.id, b.id);
   });
+}
+
+/** Use a fixed locale and break numeric ties (such as 01 vs 1) deterministically. */
+function compareProblemIds(a, b) {
+  return a.localeCompare(b, 'en', { numeric: true }) || (a < b ? -1 : a > b ? 1 : 0);
 }
 
 /** Render the repository-wide company dashboard and contributor workflow. */
@@ -413,13 +422,20 @@ ${rows}
 
 ## Picking the next problem
 
-The source list stays in a local gitignored cache, so normal checks and CI do not need it. These commands sync the CSV from the pinned commit, show the next highest-ranked problem, and add it to my own list:
+The source list stays in a local gitignored cache, so normal checks and CI do not need it. I use these commands to download the pinned CSV and see the next highest-ranked problem:
 
 \`\`\`bash
 node scripts/company-tracker.js source-sync ibm
 node scripts/company-tracker.js next ibm
-node scripts/company-tracker.js add-from-source ibm valid-parentheses --id 20
 \`\`\`
+
+Then I add the key shown by \`next\`, with its verified LeetCode ID:
+
+\`\`\`text
+node scripts/company-tracker.js add-from-source ibm <source-key> --id <problem-id>
+\`\`\`
+
+Replace the placeholders with the problem you picked. You can also leave out \`--id\` and use the source key as the filename.
 
 If I already have the CSV locally, I can use it without downloading anything:
 
@@ -427,7 +443,7 @@ If I already have the CSV locally, I can use it without downloading anything:
 node scripts/company-tracker.js source-sync ibm --file PATH
 \`\`\`
 
-\`source-sync\` always uses the exact source commit saved for that company rather than silently switching to the latest upstream data.
+Downloads use the saved commit, not the latest upstream version. If I use \`--file\`, I make sure the CSV comes from that same snapshot; the tracker can check its format, but not where I got it.
 
 ## Adding something manually
 
@@ -437,7 +453,8 @@ Manual and OA-specific problems work too:
 node scripts/company-tracker.js add-company "Amazon" --focus "US OA"
 node scripts/company-tracker.js add-problem amazon oa-pairs "Pair Optimization" Medium --url https://example.com/problems/pairs
 node scripts/company-tracker.js start amazon oa-pairs
-node scripts/company-tracker.js solve amazon oa-pairs --time "O(n)" --space "O(n)" --personal-difficulty 3
+# Finish companies/amazon/solutions/oa-pairs.py and remove its TODO marker first.
+node scripts/company-tracker.js solve amazon oa-pairs --time "O(n)" --space "O(n)" --personal-difficulty 3 --notes "n = number of values"
 \`\`\`
 
 Run \`node scripts/company-tracker.js --help\` to see every option.
@@ -507,13 +524,17 @@ ${rankingRows}
 
 ## Attempt details
 
+The [complexity notes](../../docs/DATA_MODEL.md#complexity-conventions) explain how I count time and space. I use source frequency to choose what to practice, not to predict interview questions.
+
 | ID | Time | Space | Notes |
 |---|---|---|---|
 ${detailRows}
 
 ## Commands
 
-\`\`\`bash
+Run these from the repository root, replacing the placeholders with your values. Anything in square brackets is optional. For source commands, set up the company’s source first and run \`source-sync\` before \`next\` or \`add-from-source\`.
+
+\`\`\`text
 node scripts/company-tracker.js source-sync ${slug}
 node scripts/company-tracker.js next ${slug}
 node scripts/company-tracker.js add-from-source ${slug} <source-key> [--id problem-id]

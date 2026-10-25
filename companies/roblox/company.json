@@ -22,8 +22,8 @@
       "personalDifficulty": 6,
       "status": "solved",
       "time": "O((k + 1)mn), worst-case O((mn)^2)",
-      "space": "O(1)",
-      "notes": "m = number of board rows; n = number of columns; k = number of crush rounds"
+      "space": "O(1) auxiliary; the input board is modified and returned",
+      "notes": "m = number of board rows; n = number of columns; k = number of crush rounds. Each round removes at least three candies, so k = O(mn); the quadratic expression is an upper bound"
     },
     {
       "id": "767",
@@ -36,8 +36,8 @@
       "personalDifficulty": 4,
       "status": "solved",
       "time": "O(n + k log k)",
-      "space": "O(n + k)",
-      "notes": "n = length of s; k = number of distinct characters"
+      "space": "O(n + k) auxiliary for counts, sorted keys, and the character list; O(n) returned string",
+      "notes": "n = length of s; k = number of distinct characters (at most 26 here), so constrained time and space are O(n)"
     },
     {
       "id": "1434",
@@ -65,7 +65,7 @@
       "status": "solved",
       "time": "O(nw)",
       "space": "O(w)",
-      "notes": "n = number of characters in the returned output; w = maxWidth; auxiliary space excludes the returned output"
+      "notes": "n = number of characters in the returned output; w = maxWidth. Repeated string concatenation in list slots can copy O(w) characters per added space, giving O(nw) worst-case time; O(w) auxiliary space excludes the O(n) returned output"
     }
   ]
 }

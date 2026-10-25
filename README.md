@@ -12,7 +12,7 @@
   </p>
 
   <p>
-    <img src="https://img.shields.io/badge/Python-3-blue" alt="Python 3" />
+    <img src="https://img.shields.io/badge/Python-3.10%2B-blue" alt="Python 3.10 or newer" />
     <!-- solved-count:start -->
     <img src="https://img.shields.io/badge/NeetCode%20Solved-36-brightgreen" alt="NeetCode solved problems: 36" />
     <!-- solved-count:end -->
@@ -28,6 +28,12 @@
 Nothing fancy. This is where I keep the LeetCode problems I solve while working through the [NeetCode All roadmap](https://neetcode.io/roadmap) and preparing for OAs and interviews.
 
 The repo keeps progress, complexity notes, solve dates, personal difficulty, and company-specific practice in sync so I can mostly focus on solving problems and come back later to see how I’ve improved.
+
+## Using the repo locally
+
+You’ll need **Python 3.10+** for the solutions and **Node.js 22+** for the trackers. The solutions only use the standard library, and there’s no npm install to worry about.
+
+I test my solutions on LeetCode before adding them here. The local checks just keep the tooling, metadata, lint, and syntax in order. You can find those commands, including the Windows setup, in [Contributing](CONTRIBUTING.md#before-opening-the-pr).
 
 ## Personal difficulty rating
 
@@ -151,7 +157,9 @@ You can find more information in the [company prep guide](companies/README.md).
 
 ## How I write my solutions
 
-Everything is Python 3 unless I have a reason to use something else.
+Everything here is Python 3.10 or newer. I write for the problem’s constraints, so a solution might sort the input or update it in place when that’s allowed.
+
+The complexity notes describe my actual code, not just the best-known approach. There’s a short explanation of [how I count time and space](docs/DATA_MODEL.md#complexity-conventions) in the data model docs.
 
 I try to keep the solutions simple and readable: basically code I’d be comfortable explaining out loud in an interview. I’m not trying to write the cleverest one-liner possible.
 

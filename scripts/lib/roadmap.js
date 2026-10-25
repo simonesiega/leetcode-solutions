@@ -24,8 +24,8 @@ const {
   assertPersonalDifficulty,
   assertStatus,
   assertTableText,
-  isSlug,
   validateCanonicalLeetCodeUrl,
+  validateSlug,
 } = require('./validation');
 
 const difficultyColors = { Easy: '1f883d', Medium: 'd29922', Hard: 'd1242f' };
@@ -83,9 +83,7 @@ function validateRoadmap(roadmap) {
     const context = `Topic at index ${index}`;
     assertObject(topic, context);
     assertKeys(topic, ['slug', 'label', 'total'], context);
-    if (!isSlug(topic.slug)) {
-      throw new Error(`${context} has invalid slug "${topic.slug}"; use lowercase words separated by hyphens.`);
-    }
+    validateSlug(topic.slug, `${context} slug`);
     assertTableText(topic.label, `${context} label`);
     if (!Number.isInteger(topic.total) || topic.total < 0) {
       throw new Error(`${context} total must be a non-negative integer.`);
@@ -95,6 +93,10 @@ function validateRoadmap(roadmap) {
     topicSlugs.add(topic.slug);
     topicLabels.add(topic.label);
   });
+
+  if (roadmap.topics.reduce((sum, topic) => sum + topic.total, 0) !== roadmap.total) {
+    throw new Error('Roadmap topic totals must sum to the roadmap total.');
+  }
 
   if (roadmap.problems.length > roadmap.total) {
     throw new Error(`Roadmap has ${roadmap.problems.length} tracked problems but its total is only ${roadmap.total}.`);
@@ -113,7 +115,7 @@ function validateRoadmap(roadmap) {
       'id', 'title', 'url', 'topic', 'difficulty', 'personalDifficulty', 'status',
       'solvedAt', 'timeComplexity', 'spaceComplexity',
     ], context);
-    if (!Number.isInteger(problem.id) || problem.id <= 0) throw new Error(`${context} ID must be a positive integer.`);
+    if (!Number.isSafeInteger(problem.id) || problem.id <= 0) throw new Error(`${context} ID must be a positive safe integer.`);
     if (ids.has(problem.id)) throw new Error(`Duplicate roadmap problem ID: ${problem.id}`);
     if (problem.id <= previousId) {
       throw new Error(`Roadmap problem IDs must be numerically ordered; found ${problem.id} after ${previousId}.`);
@@ -257,6 +259,8 @@ function renderSolutions(topics, problems) {
     'Here are the NeetCode All problems I have finished so far, along with each completion date, solution, official and personal difficulty, and a quick time and space complexity breakdown.',
     '',
     'Company-specific attempts live separately in the [company preparation dashboard](companies/README.md), keeping this list focused on progress through the main NeetCode All roadmap.',
+    '',
+    'The [complexity notes](docs/DATA_MODEL.md#complexity-conventions) explain how I count time and space for these solutions.',
     '',
     '<!-- Generated from data/roadmap.json by the roadmap automation. Do not edit directly. -->',
     '',

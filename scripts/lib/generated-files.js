@@ -10,7 +10,8 @@ const fs = require('node:fs');
  */
 function findStaleFiles(expectedFiles) {
   return expectedFiles.filter((file) => (
-    !fs.existsSync(file.path) || fs.readFileSync(file.path, 'utf8') !== file.content
+    !fs.existsSync(file.path)
+    || fs.readFileSync(file.path, 'utf8').replace(/\r\n/g, '\n') !== file.content.replace(/\r\n/g, '\n')
   ));
 }
 

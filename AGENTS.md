@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This repository records Python solutions completed while following the NeetCode All roadmap and while preparing independently for company online assessments and interviews. Keep solutions readable, easy to explain, compatible with Python 3, and free of external dependencies. Correctness, clear complexity analysis, accurate progress metadata, and focused commits matter more than clever abstractions.
+This repository records Python solutions completed while following the NeetCode All roadmap and while preparing independently for company online assessments and interviews. Keep solutions readable, easy to explain, compatible with Python 3.10+, and free of external dependencies. Correctness, clear complexity analysis, accurate progress metadata, and focused commits matter more than clever abstractions.
 
 Read `CONTRIBUTING.md` before making changes. Preserve the user's solution and approach unless correctness or an explicit request requires an edit. Never add confidential assessment content, recruiter messages, or private interview information.
 
@@ -115,17 +115,19 @@ For requests not covered above, first infer the repository subsystem and desired
 Run from the repository root:
 
 ```bash
-for file in scripts/*.js scripts/lib/*.js; do node --check "$file"; done
+for file in scripts/*.js scripts/lib/*.js; do node --check "$file" || exit; done
 
 node scripts/roadmap-tracker.js --check
 node scripts/company-tracker.js --check
 node --test scripts/automation.test.js
 
-ruff check neetcode-all companies
+python -m ruff check neetcode-all companies
 python -m compileall -q neetcode-all companies
 
 git diff --check
 ```
+
+Use Node.js 22+ and Python 3.10+; see `CONTRIBUTING.md` for PowerShell equivalents and virtual-environment setup. The maintainer validates solutions on LeetCode before adding them. Do not add a solution test suite or runner unless explicitly requested; keep automated behavioral tests focused on the trackers.
 
 Also run focused tests for changed behavior and inspect untracked files because plain `git diff --check` does not include them. If Python is unavailable, say so clearly and rely on CI for that check; do not install tools or dependencies without permission.
 
