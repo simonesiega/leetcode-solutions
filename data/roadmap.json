@@ -385,6 +385,18 @@
       "spaceComplexity": "Encode: `O(p)` peak space for the encoded string. Decode: `O(C + w)` for the returned list and copied strings, where `C` is the decoded character count and `w` is the number of strings."
     },
     {
+      "id": 290,
+      "title": "Word Pattern",
+      "url": "https://leetcode.com/problems/word-pattern/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-10-25T16:30:21.722Z",
+      "timeComplexity": "Expected `O(n + m)`, where `n = len(pattern)` and `m = len(s)`; splitting, hashing words, and constructing the sets take linear time in the total input size.",
+      "spaceComplexity": "`O(n + m)` auxiliary space for the split word list, copied words, and sets, where `n = len(pattern)` and `m = len(s)`."
+    },
+    {
       "id": 347,
       "title": "Top K Frequent Elements",
       "url": "https://leetcode.com/problems/top-k-frequent-elements/",
