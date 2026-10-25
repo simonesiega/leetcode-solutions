@@ -455,6 +455,18 @@
       "solvedAt": "2026-09-16T17:11:20.000Z",
       "timeComplexity": "`O(n)`, where `n` is the number of values in `nums`; each value is copied twice.",
       "spaceComplexity": "`O(1)` auxiliary space beyond the required `O(n)` returned array."
+    },
+    {
+      "id": 3110,
+      "title": "Score of a String",
+      "url": "https://leetcode.com/problems/score-of-a-string/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-10-25T13:45:07.283Z",
+      "timeComplexity": "`O(n)`, where `n = len(s)`; each adjacent character pair is processed once.",
+      "spaceComplexity": "`O(1)` auxiliary space; the generator yields one difference at a time."
     }
   ]
 }
