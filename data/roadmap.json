@@ -469,6 +469,18 @@
       "spaceComplexity": "`O(a)` for the `need` and `window` dictionaries; `a ≤ 26`, so constrained space is `O(1)`."
     },
     {
+      "id": 724,
+      "title": "Find Pivot Index",
+      "url": "https://leetcode.com/problems/find-pivot-index/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-10-27T18:48:36.643Z",
+      "timeComplexity": "`O(n)`, where `n = len(nums)`; computing the total and scanning for the leftmost pivot each take linear time.",
+      "spaceComplexity": "`O(1)` auxiliary space; only the index and running sums are stored."
+    },
+    {
       "id": 739,
       "title": "Daily Temperatures",
       "url": "https://leetcode.com/problems/daily-temperatures/",
