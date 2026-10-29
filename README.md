@@ -14,7 +14,7 @@
   <p>
     <img src="https://img.shields.io/badge/Python-3.10%2B-blue" alt="Python 3.10 or newer" />
     <!-- solved-count:start -->
-    <img src="https://img.shields.io/badge/NeetCode%20Solved-37-brightgreen" alt="NeetCode solved problems: 37" />
+    <img src="https://img.shields.io/badge/NeetCode%20Solved-38-brightgreen" alt="NeetCode solved problems: 38" />
     <!-- solved-count:end -->
     <!-- company-count:start -->
     <img src="https://img.shields.io/badge/Companies-2-blue" alt="Companies covered: 2" />
@@ -73,8 +73,8 @@ The full solved catalog, including complexity and solve dates, is in [SOLUTIONS.
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (37 Total)
-    "Easy" : 17
+    title Solved Problems by Difficulty (38 Total)
+    "Easy" : 18
     "Medium" : 16
     "Hard" : 4
 ```
@@ -84,8 +84,8 @@ pie showData
 ```mermaid
 %%{init: {"themeVariables":{"pie1":"#277ace","pie2":"#ce2748","pie3":"#27ce35","pie4":"#6727ce"},"themeCSS":".pieCircle:nth-of-type(1){fill:#277ace!important}.legend:nth-of-type(2) rect{fill:#277ace!important;stroke:#277ace!important}.pieCircle:nth-of-type(2){fill:#ce2748!important}.legend:nth-of-type(3) rect{fill:#ce2748!important;stroke:#ce2748!important}.pieCircle:nth-of-type(3){fill:#27ce35!important}.legend:nth-of-type(4) rect{fill:#27ce35!important;stroke:#27ce35!important}.pieCircle:nth-of-type(4){fill:#6727ce!important}.legend:nth-of-type(5) rect{fill:#6727ce!important;stroke:#6727ce!important}"}}%%
 pie showData
-    title Solved Problems by Topic (37 Total)
-    "Arrays & Hashing" : 20
+    title Solved Problems by Topic (38 Total)
+    "Arrays & Hashing" : 21
     "Two Pointers" : 5
     "Sliding Window" : 6
     "Stack" : 6
@@ -102,7 +102,7 @@ If you want to see the full topic breakdown, including solved counts and links t
 <!-- topic-table:start -->
 | Topic | Solved | Total | Solutions |
 |---|---:|---:|:---:|
-| Arrays & Hashing | 20 | 175 | [View](SOLUTIONS.md#arrays-and-hashing) |
+| Arrays & Hashing | 21 | 175 | [View](SOLUTIONS.md#arrays-and-hashing) |
 | Two Pointers | 5 | 43 | [View](SOLUTIONS.md#two-pointers) |
 | Sliding Window | 6 | 41 | [View](SOLUTIONS.md#sliding-window) |
 | Stack | 6 | 39 | [View](SOLUTIONS.md#stack) |
@@ -120,7 +120,7 @@ If you want to see the full topic breakdown, including solved counts and links t
 | Intervals | 0 | 21 | [View](SOLUTIONS.md#intervals) |
 | Math & Geometry | 0 | 63 | [View](SOLUTIONS.md#math-and-geometry) |
 | Bit Manipulation | 0 | 31 | [View](SOLUTIONS.md#bit-manipulation) |
-| **All topics** | <!-- progress-total:start -->**37**<!-- progress-total:end --> | **943** | [Browse all](SOLUTIONS.md) |
+| **All topics** | <!-- progress-total:start -->**38**<!-- progress-total:end --> | **943** | [Browse all](SOLUTIONS.md) |
 <!-- topic-table:end -->
 
 </details>

@@ -313,6 +313,18 @@
       "spaceComplexity": "`O(1)`; only two pointers and the current sum are stored."
     },
     {
+      "id": 169,
+      "title": "Majority Element",
+      "url": "https://leetcode.com/problems/majority-element/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-10-29T19:11:31.349Z",
+      "timeComplexity": "Expected `O(n)`, where `n = len(nums)`; each value is counted once using dictionary lookups while tracking the most frequent value.",
+      "spaceComplexity": "`O(k)` auxiliary space for the frequency dictionary, where `k` is the number of distinct values in `nums`; `k <= n`, where `n = len(nums)`."
+    },
+    {
       "id": 205,
       "title": "Isomorphic Strings",
       "url": "https://leetcode.com/problems/isomorphic-strings/",
