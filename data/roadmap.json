@@ -409,6 +409,18 @@
       "spaceComplexity": "`O(n + m)` auxiliary space for the split word list, copied words, and sets, where `n = len(pattern)` and `m = len(s)`."
     },
     {
+      "id": 344,
+      "title": "Reverse String",
+      "url": "https://leetcode.com/problems/reverse-string/",
+      "topic": "two-pointers",
+      "difficulty": "Easy",
+      "personalDifficulty": 1,
+      "status": "solved",
+      "solvedAt": "2026-10-30T23:22:28.756Z",
+      "timeComplexity": "`O(n)`, where `n = len(s)`; the two pointers swap each opposing character pair once.",
+      "spaceComplexity": "`O(1)` auxiliary space; characters are swapped in place using only two pointers."
+    },
+    {
       "id": 347,
       "title": "Top K Frequent Elements",
       "url": "https://leetcode.com/problems/top-k-frequent-elements/",
