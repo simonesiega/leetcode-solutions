@@ -17,7 +17,7 @@ class Solution:
         res = []
 
         for q in queries:
-            # Find the index of the first element in nums that is greater than or equal to q.
+            # find the index of the first element in nums that is greater than or equal to q.
             i = bisect_left(nums, q)
 
             left = q * i - prefix[i]

@@ -32,7 +32,7 @@ pie showData
 | 7 | [Roman to Integer](https://leetcode.com/problems/roman-to-integer/) | 82.9% | Easy | Solved | 2 | [13.py](solutions/13.py) |
 | 8 | [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/) | 81.6% | Easy | Solved | 2 | [20.py](solutions/20.py) |
 | 9 | [Count Ways to Group Overlapping Ranges](https://leetcode.com/problems/count-ways-to-group-overlapping-ranges/) | 81.6% | Medium | Solved | 4 | [2580.py](solutions/2580.py) |
-| 10 | [Minimum Operations to Make All Array Elements Equal](https://leetcode.com/problems/minimum-operations-to-make-all-array-elements-equal/) | 80.3% | Medium | Solved | 4 | [2602.py](solutions/2602.py) |
+| 10 | [Minimum Operations to Make All Array Elements Equal](https://leetcode.com/problems/minimum-operations-to-make-all-array-elements-equal/) | 80.3% | Medium | Solved | 5 | [2602.py](solutions/2602.py) |
 
 ## Attempt details
 

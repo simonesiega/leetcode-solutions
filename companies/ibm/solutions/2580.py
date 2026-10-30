@@ -14,10 +14,10 @@ class Solution:
 
         for start, end in ranges:
             if start > current_end:
-                # Create a new overlapping component.
+                # create a new overlapping component.
                 ways = (ways * 2) % MOD
 
-            # Update the end of the current overlapping component.
+            # update the end of the current overlapping component.
             current_end = max(current_end, end)
 
         return ways

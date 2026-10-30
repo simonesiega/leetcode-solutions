@@ -145,7 +145,7 @@
       "title": "Minimum Operations to Make All Array Elements Equal",
       "url": "https://leetcode.com/problems/minimum-operations-to-make-all-array-elements-equal/",
       "difficulty": "Medium",
-      "personalDifficulty": 4,
+      "personalDifficulty": 5,
       "status": "solved",
       "time": "O(n log n + q log n), where n is the number of values and q is the number of queries",
       "space": "O(n) auxiliary for prefix sums and Python's in-place sort; O(q) for the returned answers",

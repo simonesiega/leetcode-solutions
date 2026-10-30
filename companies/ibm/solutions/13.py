@@ -17,7 +17,7 @@ class Solution:
         for i in range(len(s)):
             value = roman_to_int[s[i]]
 
-            # Subtract when a smaller value comes before a larger one
+            # subtract when a smaller value comes before a larger one
             if i + 1 < len(s) and value < roman_to_int[s[i + 1]]:
                 res -= value
             else:

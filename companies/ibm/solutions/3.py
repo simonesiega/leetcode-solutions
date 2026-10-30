@@ -7,7 +7,7 @@ class Solution:
         seen = set()
 
         for right, char in enumerate(s):
-            # Shrink the window until it contains no duplicates
+            # shrink the window until it contains no duplicates
             while char in seen:
                 seen.remove(s[left])
                 left += 1
