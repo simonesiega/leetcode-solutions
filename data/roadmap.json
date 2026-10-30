@@ -541,6 +541,18 @@
       "spaceComplexity": "`O(1)` auxiliary space beyond the required `O(n)` returned array."
     },
     {
+      "id": 2486,
+      "title": "Append Characters to String to Make Subsequence",
+      "url": "https://leetcode.com/problems/append-characters-to-string-to-make-subsequence/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Medium",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-10-30T21:00:22.433Z",
+      "timeComplexity": "`O(n)`, where `n = len(s)`; the string is scanned at most once while matching characters of `t` in order.",
+      "spaceComplexity": "`O(1)` auxiliary space; only the matched-character count and target length are stored."
+    },
+    {
       "id": 3110,
       "title": "Score of a String",
       "url": "https://leetcode.com/problems/score-of-a-string/",
