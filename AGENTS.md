@@ -46,7 +46,7 @@ Use this workflow when asked to add or finish a roadmap problem.
 4. If the problem is planned, run `node scripts/roadmap-tracker.js start <id>`. If the user already created the target solution, preserve it: move it temporarily if needed, run `add` and `start`, then restore it. Never let the scaffold replace user work. Skip this command when the manifest already says `in-progress`.
 5. Finish the accepted solution at the tracked path, preserve the LeetCode method signature and local Python style, and remove `TODO(roadmap-solution)` if the scaffold contains it.
 6. Run `node scripts/roadmap-tracker.js solve <id> --time "O(...)" --space "O(...)" [--personal-difficulty 1-10]`. The first solve records the current UTC instant in `solvedAt`; another solve is rejected. Never invent or casually replace that timestamp. Define every complexity symbol such as `n`, `k`, or `a`, and distinguish auxiliary space from returned output when useful.
-7. Do not manually edit `SOLUTIONS.md` or generated README marker blocks. Confirm the CLI regenerated the catalog, solved badge, counts, charts, and topic table.
+7. Do not manually edit `SOLUTIONS.md` or generated README marker blocks. Confirm the CLI regenerated the catalog, solved badge, counts, topic table, and all three roadmap charts .
 8. Review links, ordering, counts, filename, final newline, whitespace, and the complete diff. Test representative normal and boundary cases when possible.
 9. Run the full validation suite under [Required pre-commit review](#required-pre-commit-review).
 10. When asked to commit, use the commit skill and the exact subject `solve leetcode #<id>`.
@@ -80,7 +80,7 @@ When a requested company workspace does not exist, run `node scripts/company-tra
 ## Workflow 3: update documentation
 
 1. Determine whether the target is manual or generated documentation.
-2. For roadmap metadata or statistics, update `data/roadmap.json`, then run `node scripts/roadmap-tracker.js`; the shared roadmap automation owns `SOLUTIONS.md` and the generated README roadmap blocks. Update roadmap `snapshotDate` only when NeetCode totals were actually verified, and backfill `solvedAt` only from reliable repository history.
+2. For roadmap metadata or statistics, update `data/roadmap.json`, then run `node scripts/roadmap-tracker.js`; the shared roadmap automation owns `SOLUTIONS.md` and the generated README roadmap blocks. A user-requested rating change on an already solved problem also requires regeneration; do not re-run `solve` or change its `solvedAt`. Update roadmap `snapshotDate` only when NeetCode totals were actually verified, and backfill `solvedAt` only from reliable repository history.
 3. For company progress, update the manifest through tracker commands, then run `node scripts/company-tracker.js`. Company source `snapshotDate` is separate from roadmap `snapshotDate`. Preserve pinned provenance and never hand-edit generated company dashboards.
 4. For prose-only changes, preserve links, headings, and marker comments. Match the file's voice: keep `README.md` and `CONTRIBUTING.md` friendly, informal, concise, and naturally first-person where the maintainer is speaking.
 5. Check internal paths, anchors, code examples, progress counts, and whether documentation still matches actual behavior.

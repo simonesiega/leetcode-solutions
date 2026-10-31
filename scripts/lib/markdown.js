@@ -2,6 +2,11 @@
 
 // Markdown block replacement, escaping, links, and shared chart rendering.
 
+const personalDifficultyColors = [
+  '#1f883d', '#3d9140', '#5c993f', '#7f9e3a', '#a39e32',
+  '#c49225', '#d37a23', '#d76028', '#d5442d', '#d1242f',
+];
+
 /**
  * Replace one marker-delimited generated block while preserving indentation and EOL style.
  * @param {string} content - Complete Markdown document.
@@ -33,22 +38,66 @@ function replaceBlock(content, name, lines) {
 }
 
 /**
+ * Center a Mermaid diagram without preventing GitHub from parsing its fenced Markdown.
+ * @param {string[]} lines - Mermaid source lines, without the code fence.
+ * @returns {string[]}
+ */
+function renderMermaidChart(lines) {
+  return ['<div align="center">', '', '```mermaid', ...lines, '```', '', '</div>'];
+}
+
+/**
  * Render the difficulty pie chart shared by roadmap and company dashboards.
  * @param {{Easy: number, Medium: number, Hard: number}} counts - Solved difficulty totals.
  * @param {number} total - Total solved problems represented by the chart.
  * @returns {string[]}
  */
 function renderDifficultyChart(counts, total) {
-  return [
-    '```mermaid',
+  return renderMermaidChart([
     '%%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%',
     'pie showData',
     `    title Solved Problems by Difficulty (${total} Total)`,
     `    "Easy" : ${counts.Easy}`,
     `    "Medium" : ${counts.Medium}`,
     `    "Hard" : ${counts.Hard}`,
-    '```',
-  ];
+  ]);
+}
+
+/**
+ * Render only used personal ratings in numeric order, excluding unrated problems from the total.
+ * @param {number[]} counts - Ten validated rating counts, from rating 1 through 10.
+ * @returns {string[]}
+ */
+function renderPersonalDifficultyChart(counts) {
+  const ratings = counts.map((count, index) => ({
+    label: `${index + 1}/10`, count, color: personalDifficultyColors[index],
+  })).filter((rating) => rating.count > 0);
+  if (!ratings.length) return ['_No personally rated solved roadmap problems yet._'];
+  const total = ratings.reduce((sum, rating) => sum + rating.count, 0);
+  return renderColoredPieChart(`Solved Problems by Personal Difficulty (${total} Rated)`, ratings);
+}
+
+/**
+ * Render a non-empty pie with explicit slice and legend colors, including beyond Mermaid's palette.
+ * @param {string} title - Chart title.
+ * @param {Array<{label: string, count: number, color: string}>} slices - Ordered, non-zero slices.
+ * @returns {string[]}
+ */
+function renderColoredPieChart(title, slices) {
+  const themeVariables = Object.fromEntries(
+    slices.slice(0, 12).map((slice, index) => [`pie${index + 1}`, slice.color]),
+  );
+  const colorRules = slices.flatMap((slice, index) => [
+    `.pieCircle:nth-of-type(${index + 1}){fill:${slice.color}!important}`,
+    `.legend:nth-of-type(${index + 2}) rect{fill:${slice.color}!important;stroke:${slice.color}!important}`,
+  ]);
+  const config = { themeVariables, themeCSS: colorRules.join('') };
+  return renderMermaidChart([
+    `%%{init: ${JSON.stringify(config)}}%%`,
+    'pie showData',
+    `    title ${title}`,
+    ...slices.map((slice) => `    "${escapeMermaidLabel(slice.label)}" : ${slice.count}`),
+  ]);
 }
 
 /**
@@ -122,6 +171,9 @@ module.exports = {
   escapeTable,
   formatDateOnly,
   pluralize,
+  renderColoredPieChart,
   renderDifficultyChart,
+  renderMermaidChart,
+  renderPersonalDifficultyChart,
   replaceBlock,
 };

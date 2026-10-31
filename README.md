@@ -69,18 +69,9 @@ The roadmap totals are a snapshot of NeetCode All captured on September 14, 2026
 
 The full solved catalog, including complexity and solve dates, is in [SOLUTIONS.md](SOLUTIONS.md).
 
-<!-- difficulty-chart:start -->
-```mermaid
-%%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
-pie showData
-    title Solved Problems by Difficulty (41 Total)
-    "Easy" : 19
-    "Medium" : 18
-    "Hard" : 4
-```
-<!-- difficulty-chart:end -->
-
 <!-- topic-chart:start -->
+<div align="center">
+
 ```mermaid
 %%{init: {"themeVariables":{"pie1":"#277ace","pie2":"#ce2748","pie3":"#27ce35","pie4":"#6727ce"},"themeCSS":".pieCircle:nth-of-type(1){fill:#277ace!important}.legend:nth-of-type(2) rect{fill:#277ace!important;stroke:#277ace!important}.pieCircle:nth-of-type(2){fill:#ce2748!important}.legend:nth-of-type(3) rect{fill:#ce2748!important;stroke:#ce2748!important}.pieCircle:nth-of-type(3){fill:#27ce35!important}.legend:nth-of-type(4) rect{fill:#27ce35!important;stroke:#27ce35!important}.pieCircle:nth-of-type(4){fill:#6727ce!important}.legend:nth-of-type(5) rect{fill:#6727ce!important;stroke:#6727ce!important}"}}%%
 pie showData
@@ -90,7 +81,43 @@ pie showData
     "Sliding Window" : 6
     "Stack" : 6
 ```
+
+</div>
 <!-- topic-chart:end -->
+
+<!-- difficulty-chart:start -->
+<div align="center">
+
+```mermaid
+%%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
+pie showData
+    title Solved Problems by Difficulty (41 Total)
+    "Easy" : 19
+    "Medium" : 18
+    "Hard" : 4
+```
+
+</div>
+<!-- difficulty-chart:end -->
+
+<!-- personal-difficulty-chart:start -->
+<div align="center">
+
+```mermaid
+%%{init: {"themeVariables":{"pie1":"#1f883d","pie2":"#3d9140","pie3":"#5c993f","pie4":"#7f9e3a","pie5":"#a39e32","pie6":"#c49225","pie7":"#d37a23"},"themeCSS":".pieCircle:nth-of-type(1){fill:#1f883d!important}.legend:nth-of-type(2) rect{fill:#1f883d!important;stroke:#1f883d!important}.pieCircle:nth-of-type(2){fill:#3d9140!important}.legend:nth-of-type(3) rect{fill:#3d9140!important;stroke:#3d9140!important}.pieCircle:nth-of-type(3){fill:#5c993f!important}.legend:nth-of-type(4) rect{fill:#5c993f!important;stroke:#5c993f!important}.pieCircle:nth-of-type(4){fill:#7f9e3a!important}.legend:nth-of-type(5) rect{fill:#7f9e3a!important;stroke:#7f9e3a!important}.pieCircle:nth-of-type(5){fill:#a39e32!important}.legend:nth-of-type(6) rect{fill:#a39e32!important;stroke:#a39e32!important}.pieCircle:nth-of-type(6){fill:#c49225!important}.legend:nth-of-type(7) rect{fill:#c49225!important;stroke:#c49225!important}.pieCircle:nth-of-type(7){fill:#d37a23!important}.legend:nth-of-type(8) rect{fill:#d37a23!important;stroke:#d37a23!important}"}}%%
+pie showData
+    title Solved Problems by Personal Difficulty (41 Rated)
+    "1/10" : 8
+    "2/10" : 13
+    "3/10" : 6
+    "4/10" : 7
+    "5/10" : 4
+    "6/10" : 2
+    "7/10" : 1
+```
+
+</div>
+<!-- personal-difficulty-chart:end -->
 
 ### Progress by topic
 
@@ -136,12 +163,16 @@ If I solve the same problem again while preparing for an OA or interview, I keep
 <!-- company-progress:start -->
 Company practice currently contains **2 companies**
 
+<div align="center">
+
 ```mermaid
 pie showData
     title Solved Problems by Company (14 Total)
     "IBM" : 10
     "Roblox" : 4
 ```
+
+</div>
 <!-- company-progress:end -->
 
 ### Companies

@@ -8,13 +8,18 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { afterEach, test } = require('node:test');
 const {
-  buildRawSourceUrl, getSourceCachePath, parseCompanySourceCsv,
+  buildRawSourceUrl, getSourceCachePath, normalizeLeetCodeUrl, parseCompanySourceCsv,
 } = require('./lib/company-source');
 const { parseCsv } = require('./lib/csv');
 const { readJson, writeJson } = require('./lib/json');
-const { escapeLinkDestination, replaceBlock } = require('./lib/markdown');
 const {
-  assertComplexity, assertHttpUrl, assertIsoInstant, validateCanonicalLeetCodeUrl,
+  escapeLinkDestination, renderColoredPieChart, renderMermaidChart, renderPersonalDifficultyChart, replaceBlock,
+} = require('./lib/markdown');
+const { getSolvedPersonalDifficultyCounts } = require('./lib/progress');
+const { createSolutionScaffold } = require('./lib/solutions');
+const {
+  assertComplexity, assertHttpUrl, assertIsoInstant, assertPersonalDifficulty, parseOptionalPersonalDifficulty,
+  validateCanonicalLeetCodeUrl,
   validateProblemId, validateSlug,
 } = require('./lib/validation');
 
@@ -104,8 +109,237 @@ test('roadmap lifecycle records one immutable solvedAt instant', () => {
   const regenerated = readRoadmap(root);
   assert.equal(regenerated.snapshotDate, '2026-09-14');
   assert.equal(regenerated.problems[0].solvedAt, solvedAt);
-  assert.match(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /captured on September 14, 2026/);
+  const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
+  assert.match(readme, /captured on September 14, 2026/);
+  assert.match(readme, /Solved Problems by Personal Difficulty \(1 Rated\)\n    "4\/10" : 1/);
   assert.match(fs.readFileSync(path.join(root, 'SOLUTIONS.md'), 'utf8'), new RegExp(`\\| ${solvedAt.slice(0, 10)} \\|`));
+});
+
+test('roadmap solve preserves a preassigned rating and repeated start preserves uploaded code', () => {
+  const root = createRepository();
+  run(root, 'roadmap-tracker.js', [
+    'add', '5', 'Longest Palindromic Substring', 'arrays-and-hashing', 'Medium',
+    '--url', 'https://leetcode.com/problems/longest-palindromic-substring/', '--personal-difficulty', '10',
+  ]);
+  assert.doesNotMatch(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /"10\/10"/);
+  run(root, 'roadmap-tracker.js', ['start', '5']);
+  const solutionPath = path.join(root, 'neetcode-all/arrays-and-hashing/5.py');
+  const source = '# Longest Palindromic Substring - 5\n\nclass Solution:\n    pass\n';
+  fs.writeFileSync(solutionPath, source);
+  run(root, 'roadmap-tracker.js', ['start', '5']);
+  assert.equal(fs.readFileSync(solutionPath, 'utf8'), source);
+  assert.doesNotMatch(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /"10\/10"/);
+  run(root, 'roadmap-tracker.js', ['solve', '5', '--time', 'O(n²)', '--space', 'O(n)']);
+  assert.equal(readRoadmap(root).problems[0].personalDifficulty, 10);
+  assert.match(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /Solved Problems by Personal Difficulty \(1 Rated\)\n    "10\/10" : 1/);
+  run(root, 'roadmap-tracker.js', ['--check']);
+});
+
+test('scaffolds cannot overwrite a concurrently created solution and propagate other write errors', (t) => {
+  const root = createRepository();
+  const solutionPath = path.join(root, 'solutions/1.py');
+  fs.mkdirSync(path.dirname(solutionPath), { recursive: true });
+  const source = '# Two Sum - 1\n\nclass Solution:\n    pass\n';
+  const writeFile = fs.writeFileSync;
+  t.mock.method(fs, 'writeFileSync', (filePath, content, options) => {
+    // Simulate an upload after any existence check but before the scaffold write.
+    writeFile(filePath, source);
+    return writeFile(filePath, content, options);
+  });
+  createSolutionScaffold(solutionPath, { id: 1, title: 'Two Sum' }, 'roadmap-solution');
+  assert.equal(fs.readFileSync(solutionPath, 'utf8'), source);
+  assert.equal(fs.writeFileSync.mock.calls[0].arguments[2].flag, 'wx');
+
+  t.mock.restoreAll();
+  const denied = Object.assign(new Error('Write denied'), { code: 'EACCES' });
+  t.mock.method(fs, 'writeFileSync', () => { throw denied; });
+  assert.throws(
+    () => createSolutionScaffold(path.join(root, 'solutions/2.py'), { id: 2, title: 'Another' }, 'roadmap-solution'),
+    (error) => error === denied,
+  );
+});
+
+test('personal difficulty counts only solved ratings, including both scale boundaries', () => {
+  const problems = [
+    { status: 'solved', personalDifficulty: 10 },
+    { status: 'solved', personalDifficulty: 1 },
+    { status: 'solved', personalDifficulty: 10 },
+    { status: 'solved', personalDifficulty: null },
+    { status: 'planned', personalDifficulty: 5 },
+    { status: 'in-progress', personalDifficulty: 9 },
+  ];
+  const before = structuredClone(problems);
+  assert.deepEqual(getSolvedPersonalDifficultyCounts(problems), [1, 0, 0, 0, 0, 0, 0, 0, 0, 2]);
+  assert.deepEqual(getSolvedPersonalDifficultyCounts([]), Array(10).fill(0));
+  assert.deepEqual(problems, before);
+});
+
+test('Mermaid charts use a centered container with blank lines around the fenced block', () => {
+  const source = ['pie showData', '    title Test chart', '    "A" : 1'];
+  const before = [...source];
+  assert.deepEqual(renderMermaidChart(source), [
+    '<div align="center">', '', '```mermaid', ...source, '```', '', '</div>',
+  ]);
+  assert.deepEqual(source, before);
+});
+
+test('personal difficulty charts omit unused ratings, sort numerically, and keep stable colors', () => {
+  assert.deepEqual(renderPersonalDifficultyChart(Array(10).fill(0)), [
+    '_No personally rated solved roadmap problems yet._',
+  ]);
+  const sparse = renderPersonalDifficultyChart([1, 0, 0, 0, 0, 0, 0, 0, 0, 2]).slice(2, -2);
+  assert.deepEqual(sparse.slice(3, -1), [
+    '    title Solved Problems by Personal Difficulty (3 Rated)',
+    '    "1/10" : 1',
+    '    "10/10" : 2',
+  ]);
+  const full = renderPersonalDifficultyChart(Array(10).fill(1)).slice(2, -2);
+  assert.deepEqual(full.slice(4, -1), Array.from({ length: 10 }, (_, index) => `    "${index + 1}/10" : 1`));
+  const config = (lines) => JSON.parse(lines[1].match(/^%%\{init: (.*)\}%%$/)[1]);
+  const sparseColors = config(sparse).themeVariables;
+  const fullColors = config(full).themeVariables;
+  assert.equal(sparseColors.pie1, fullColors.pie1);
+  assert.equal(sparseColors.pie2, fullColors.pie10);
+  assert.equal(new Set(Object.values(fullColors)).size, 10);
+  assert.ok(config(sparse).themeCSS.includes(`.pieCircle:nth-of-type(2){fill:${fullColors.pie10}!important}`));
+  assert.ok(config(sparse).themeCSS.includes(`.legend:nth-of-type(3) rect{fill:${fullColors.pie10}!important;stroke:${fullColors.pie10}!important}`));
+});
+
+test('colored pie rendering preserves topic palettes beyond Mermaid’s twelve theme colors', () => {
+  const slices = Array.from({ length: 18 }, (_, index) => ({
+    label: `Topic "${index + 1}"`, count: index + 1, color: `#${index.toString(16).padStart(6, '0')}`,
+  }));
+  const lines = renderColoredPieChart('Test topics', slices).slice(2, -2);
+  const config = JSON.parse(lines[1].match(/^%%\{init: (.*)\}%%$/)[1]);
+  assert.equal(Object.keys(config.themeVariables).length, 12);
+  assert.deepEqual(lines.slice(4, -1), slices.map((slice, index) => `    "Topic #quot;${index + 1}#quot;" : ${slice.count}`));
+  for (const [index, slice] of slices.entries()) {
+    if (index < 12) assert.equal(config.themeVariables[`pie${index + 1}`], slice.color);
+    assert.ok(config.themeCSS.includes(`.pieCircle:nth-of-type(${index + 1}){fill:${slice.color}!important}`));
+    assert.ok(config.themeCSS.includes(`.legend:nth-of-type(${index + 2}) rect{fill:${slice.color}!important;stroke:${slice.color}!important}`));
+  }
+});
+
+test('roadmap charts handle empty and unrated progress, preserve order, and detect personal chart drift', () => {
+  const root = createRepository();
+  const readmePath = path.join(root, 'README.md');
+  const personalBlock = (readme) => readme.split('<!-- personal-difficulty-chart:start -->')[1]
+    .split('<!-- personal-difficulty-chart:end -->')[0];
+  run(root, 'roadmap-tracker.js', []);
+  assert.match(personalBlock(fs.readFileSync(readmePath, 'utf8')), /No personally rated solved roadmap problems yet/);
+
+  const roadmap = readRoadmap(root);
+  roadmap.problems = [
+    { id: 1, status: 'solved', personalDifficulty: 10 },
+    { id: 2, status: 'solved', personalDifficulty: 1 },
+    { id: 3, status: 'solved', personalDifficulty: null },
+    { id: 4, status: 'planned', personalDifficulty: 5 },
+    { id: 5, status: 'in-progress', personalDifficulty: 9 },
+  ].map((problem) => ({
+    ...problem,
+    title: `Task ${problem.id}`,
+    url: `https://leetcode.com/problems/task-${problem.id}/`,
+    topic: 'arrays-and-hashing',
+    difficulty: 'Easy',
+    solvedAt: problem.status === 'solved' ? '2026-09-20T17:14:31.000Z' : null,
+    timeComplexity: problem.status === 'solved' ? 'O(1)' : '',
+    spaceComplexity: problem.status === 'solved' ? 'O(1)' : '',
+  }));
+  const solutions = path.join(root, 'neetcode-all/arrays-and-hashing');
+  fs.mkdirSync(solutions, { recursive: true });
+  for (const problem of roadmap.problems.filter((entry) => entry.status !== 'planned')) {
+    fs.writeFileSync(path.join(solutions, `${problem.id}.py`), `# ${problem.title} - ${problem.id}\n\nclass Solution:\n    pass\n`);
+  }
+  writeJson(path.join(root, 'data/roadmap.json'), roadmap);
+  run(root, 'roadmap-tracker.js', []);
+  const generated = fs.readFileSync(readmePath, 'utf8');
+  assert.match(generated, /Solved Problems by Topic \(3 Total\)/);
+  assert.match(generated, /Solved Problems by Difficulty \(3 Total\)/);
+  assert.match(personalBlock(generated), /Solved Problems by Personal Difficulty \(2 Rated\)\n    "1\/10" : 1\n    "10\/10" : 1/);
+  const markers = ['topic-chart', 'difficulty-chart', 'personal-difficulty-chart', 'topic-table'];
+  for (let index = 1; index < markers.length; index++) {
+    assert.ok(generated.indexOf(`<!-- ${markers[index - 1]}:end -->`) < generated.indexOf(`<!-- ${markers[index]}:start -->`));
+  }
+  run(root, 'roadmap-tracker.js', ['--check']);
+  run(root, 'roadmap-tracker.js', []);
+  assert.equal(fs.readFileSync(readmePath, 'utf8'), generated);
+
+  const stale = generated.replace('"1/10" : 1', '"1/10" : 999');
+  fs.writeFileSync(readmePath, stale);
+  assert.match(run(root, 'roadmap-tracker.js', ['--check'], false).stderr, /Generated roadmap documentation is outdated/);
+  assert.equal(fs.readFileSync(readmePath, 'utf8'), stale);
+  run(root, 'roadmap-tracker.js', []);
+  assert.equal(fs.readFileSync(readmePath, 'utf8'), generated);
+  const missing = generated.replace('<!-- personal-difficulty-chart:start -->', '');
+  fs.writeFileSync(readmePath, missing);
+  assert.match(run(root, 'roadmap-tracker.js', ['--check'], false).stderr, /Missing README.md markers for "personal-difficulty-chart"/);
+  assert.equal(fs.readFileSync(readmePath, 'utf8'), missing);
+
+  for (const problem of roadmap.problems) problem.personalDifficulty = null;
+  writeJson(path.join(root, 'data/roadmap.json'), roadmap);
+  fs.writeFileSync(readmePath, generated);
+  run(root, 'roadmap-tracker.js', []);
+  assert.match(personalBlock(fs.readFileSync(readmePath, 'utf8')), /No personally rated solved roadmap problems yet/);
+  run(root, 'roadmap-tracker.js', ['--check']);
+});
+
+test('all generated README charts are centered once without centering surrounding prose', () => {
+  const root = createSolvedRoadmapRepository();
+  const roadmap = readRoadmap(root);
+  roadmap.problems[0].personalDifficulty = 4;
+  writeJson(path.join(root, 'data/roadmap.json'), roadmap);
+  run(root, 'roadmap-tracker.js', []);
+  run(root, 'company-tracker.js', ['add-company', 'Alpha']);
+  run(root, 'company-tracker.js', ['add-problem', 'alpha', '1', 'Two Sum', 'Easy']);
+  run(root, 'company-tracker.js', ['start', 'alpha', '1']);
+  fs.writeFileSync(path.join(root, 'companies/alpha/solutions/1.py'), '# Two Sum - 1\n\nclass Solution:\n    pass\n');
+  run(root, 'company-tracker.js', ['solve', 'alpha', '1', '--time', 'O(n)', '--space', 'O(n)']);
+  const readmePath = path.join(root, 'README.md');
+  const generated = fs.readFileSync(readmePath, 'utf8');
+  const centeredChart = /<div align="center">\n\n```mermaid\n([\s\S]*?)\n```\n\n<\/div>/g;
+  const charts = [...generated.matchAll(centeredChart)];
+  assert.equal(charts.length, 4);
+  assert.equal((generated.match(/^```mermaid$/gm) || []).length, charts.length);
+  assert.deepEqual(charts.map((chart) => chart[1].match(/title Solved Problems by (.*) \(/)[1]), [
+    'Topic', 'Difficulty', 'Personal Difficulty', 'Company',
+  ]);
+  assert.match(generated, /Company practice currently contains \*\*1 company\*\*\n\n<div align="center">/);
+  const companyReadme = fs.readFileSync(path.join(root, 'companies/alpha/README.md'), 'utf8');
+  assert.equal([...companyReadme.matchAll(centeredChart)].length, 1);
+  assert.match(companyReadme, /<\/div>\n\n\| Rank \| Problem/);
+
+  const watched = ['README.md', 'SOLUTIONS.md', 'data/roadmap.json', 'companies/README.md',
+    'companies/alpha/company.json', 'companies/alpha/README.md'];
+  const before = new Map(watched.map((file) => [file, fs.readFileSync(path.join(root, file), 'utf8')]));
+  for (const script of ['roadmap-tracker.js', 'company-tracker.js']) {
+    run(root, script, []);
+    run(root, script, ['--check']);
+  }
+  for (const [file, content] of before) assert.equal(fs.readFileSync(path.join(root, file), 'utf8'), content);
+
+  const uncentered = generated.replace(centeredChart, '```mermaid\n$1\n```');
+  fs.writeFileSync(readmePath, uncentered);
+  for (const script of ['roadmap-tracker.js', 'company-tracker.js']) {
+    assert.match(run(root, script, ['--check'], false).stderr, /documentation is outdated/);
+    assert.equal(fs.readFileSync(readmePath, 'utf8'), uncentered);
+  }
+  for (const script of ['roadmap-tracker.js', 'company-tracker.js']) run(root, script, []);
+  assert.equal(fs.readFileSync(readmePath, 'utf8'), generated);
+});
+
+test('personal difficulty metadata and CLI values enforce the optional integer 1–10 scale', () => {
+  for (const rating of [null, 1, 10]) assert.doesNotThrow(() => assertPersonalDifficulty(rating, 'Problem'));
+  for (const rating of [undefined, 0, 11, -1, 1.5, '3', NaN, Infinity]) {
+    assert.throws(() => assertPersonalDifficulty(rating, 'Problem'), /null or an integer from 1 to 10/);
+  }
+  assert.equal(parseOptionalPersonalDifficulty({}, null), null);
+  assert.equal(parseOptionalPersonalDifficulty({}, undefined), undefined);
+  for (const rating of ['1', '10']) {
+    assert.equal(parseOptionalPersonalDifficulty({ 'personal-difficulty': rating }, null), Number(rating));
+  }
+  for (const rating of ['0', '11', '-1', '1.5', '01', '1e1', '3x', ' 3', '']) {
+    assert.throws(() => parseOptionalPersonalDifficulty({ 'personal-difficulty': rating }, null), /integer from 1 to 10/);
+  }
 });
 
 test('roadmap validation enforces schema v3 dates and generated-file drift', () => {
@@ -242,6 +476,33 @@ test('company validation rejects unknown fields, bad URLs, invalid source values
   );
 });
 
+test('company manifests are validated before display sorting without writing generated files', () => {
+  const root = createRepository();
+  for (const name of ['Alpha', 'Beta']) run(root, 'company-tracker.js', ['add-company', name]);
+  const manifestPath = path.join(root, 'companies/beta/company.json');
+  const valid = readJson(manifestPath);
+  const watched = ['README.md', 'companies/README.md', 'companies/alpha/README.md', 'companies/beta/README.md'];
+  const before = new Map(watched.map((file) => [file, fs.readFileSync(path.join(root, file), 'utf8')]));
+  const cases = [
+    [null, /companies\/beta\/company\.json must be an object/],
+    [[], /companies\/beta\/company\.json must be an object/],
+    [{}, /companies\/beta\/company\.json is missing required field/],
+    [{ ...valid, name: null }, /companies\/beta\/company\.json name must be non-empty/],
+    [{ ...valid, name: 42 }, /companies\/beta\/company\.json name must be non-empty/],
+  ];
+  for (const [invalid, error] of cases) {
+    writeJson(manifestPath, invalid);
+    const manifestBefore = fs.readFileSync(manifestPath, 'utf8');
+    for (const command of ['--check', 'update']) {
+      const result = run(root, 'company-tracker.js', [command], false);
+      assert.match(result.stderr, error);
+      assert.doesNotMatch(result.stderr, /TypeError|localeCompare/);
+      assert.equal(fs.readFileSync(manifestPath, 'utf8'), manifestBefore);
+      for (const [file, content] of before) assert.equal(fs.readFileSync(path.join(root, file), 'utf8'), content);
+    }
+  }
+});
+
 test('company check mode does not create a missing workspace directory', () => {
   const root = createRepository();
   fs.rmSync(path.join(root, 'companies'), { recursive: true });
@@ -287,6 +548,38 @@ test('company source CSV parsing handles quoting, CRLF, optional topics, and sta
     () => parseCompanySourceCsv('Difficulty,Title,Frequency,Link\nEASY,X,1e2,https:\/\/leetcode.com\/problems\/x\/'),
     /invalid frequency/,
   );
+});
+
+test('source normalization rejects malformed slugs before they can enter the cache', () => {
+  assert.equal(
+    normalizeLeetCodeUrl('http://www.leetcode.com/problems/two-sum?envType=company#details'),
+    'https://leetcode.com/problems/two-sum/',
+  );
+  for (const slug of ['--', '-two-sum', 'two-sum-', 'two--sum']) {
+    const url = `https://leetcode.com/problems/${slug}/`;
+    assert.throws(() => normalizeLeetCodeUrl(url), /must identify a LeetCode problem slug/);
+    assert.throws(() => parseCompanySourceCsv([
+      'Difficulty,Title,Frequency,Link', `EASY,Example,90,${url}`,
+    ].join('\n')), /Company source row 2 Link must identify a LeetCode problem slug/);
+  }
+
+  const root = createRepository();
+  const manifestPath = createSourceCompany(root);
+  run(root, 'company-tracker.js', []);
+  run(root, 'company-tracker.js', ['source-sync', 'source-labs', '--file', 'scripts/fixtures/company-source.csv']);
+  const cacheDirectory = path.join(root, '.cache/company-source/source-labs');
+  const cachePath = path.join(cacheDirectory, fs.readdirSync(cacheDirectory)[0]);
+  const cached = fs.readFileSync(cachePath, 'utf8');
+  const manifest = fs.readFileSync(manifestPath, 'utf8');
+  fs.writeFileSync(path.join(root, 'invalid.csv'), [
+    'Difficulty,Title,Frequency,Link',
+    'EASY,Invalid,90,https://leetcode.com/problems/two--sum/',
+  ].join('\n'));
+  assert.match(run(root, 'company-tracker.js', [
+    'source-sync', 'source-labs', '--file', 'invalid.csv',
+  ], false).stderr, /must identify a LeetCode problem slug/);
+  assert.equal(fs.readFileSync(cachePath, 'utf8'), cached);
+  assert.equal(fs.readFileSync(manifestPath, 'utf8'), manifest);
 });
 
 test('Markdown helpers preserve literal text and safe link destinations', () => {
@@ -531,9 +824,11 @@ function createRepository() {
     '',
     '<!-- company-count:start -->', 'stale', '<!-- company-count:end -->',
     '',
+    '<!-- topic-chart:start -->', 'stale', '<!-- topic-chart:end -->',
+    '',
     '<!-- difficulty-chart:start -->', 'stale', '<!-- difficulty-chart:end -->',
     '',
-    '<!-- topic-chart:start -->', 'stale', '<!-- topic-chart:end -->',
+    '<!-- personal-difficulty-chart:start -->', 'stale', '<!-- personal-difficulty-chart:end -->',
     '',
     '<!-- topic-table:start -->', 'stale', '<!-- topic-table:end -->',
     '',

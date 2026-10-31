@@ -9,7 +9,7 @@ const { findStaleFiles, writeFiles } = require('./generated-files');
 const { readJson, writeJson } = require('./json');
 const {
   encodePath, escapeLinkDestination, escapeMarkdown, escapeMermaidLabel, escapeTable, formatDateOnly, pluralize,
-  renderDifficultyChart, replaceBlock,
+  renderDifficultyChart, renderMermaidChart, replaceBlock,
 } = require('./markdown');
 const { paths, relativePath } = require('./paths');
 const { getProblemCounts, getSolvedDifficultyCounts } = require('./progress');
@@ -202,7 +202,11 @@ function loadCompanies() {
   if (!fs.existsSync(paths.companies)) return [];
   return fs.readdirSync(paths.companies, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
-    .map((entry) => readCompany(entry.name))
+    .map((entry) => {
+      const company = readCompany(entry.name);
+      validateCompany(company);
+      return company;
+    })
     .sort((a, b) => a.data.name.localeCompare(b.data.name, 'en') || compareProblemIds(a.slug, b.slug));
 }
 
@@ -337,7 +341,6 @@ function updateCompanyDocumentation(checkOnly = false) {
   const companies = loadCompanies();
   const expectedFiles = [];
   for (const company of companies) {
-    validateCompany(company);
     expectedFiles.push({
       path: path.join(company.directory, 'README.md'),
       content: renderCompanyReadme(company),
@@ -634,11 +637,11 @@ function renderRootSummary(companies) {
   return [
     summary,
     '',
-    '```mermaid',
-    'pie showData',
-    `    title Solved Problems by Company (${totals.solved} Total)`,
-    ...slices,
-    '```',
+    ...renderMermaidChart([
+      'pie showData',
+      `    title Solved Problems by Company (${totals.solved} Total)`,
+      ...slices,
+    ]),
   ].join('\n');
 }
 

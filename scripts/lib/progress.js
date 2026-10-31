@@ -29,4 +29,19 @@ function getSolvedDifficultyCounts(problems) {
   }, { Easy: 0, Medium: 0, Hard: 0 });
 }
 
-module.exports = { getProblemCounts, getSolvedDifficultyCounts };
+/**
+ * Count rated, solved problems on the personal 1–10 scale.
+ * Metadata validation must run first; index 0 represents rating 1, index 9 rating 10.
+ * @param {Array<{status: string, personalDifficulty: number|null}>} problems - Validated metadata.
+ * @returns {number[]} Ten rating counts in ascending order, including unused ratings.
+ */
+function getSolvedPersonalDifficultyCounts(problems) {
+  return problems.reduce((counts, problem) => {
+    if (problem.status === 'solved' && problem.personalDifficulty !== null) {
+      counts[problem.personalDifficulty - 1]++;
+    }
+    return counts;
+  }, Array(10).fill(0));
+}
+
+module.exports = { getProblemCounts, getSolvedDifficultyCounts, getSolvedPersonalDifficultyCounts };

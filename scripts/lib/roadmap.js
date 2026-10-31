@@ -6,10 +6,10 @@ const path = require('node:path');
 const { findStaleFiles, writeFiles } = require('./generated-files');
 const { readJson } = require('./json');
 const {
-  escapeMermaidLabel, formatDateOnly, renderDifficultyChart, replaceBlock,
+  formatDateOnly, renderColoredPieChart, renderDifficultyChart, renderPersonalDifficultyChart, replaceBlock,
 } = require('./markdown');
 const { paths, relativePath } = require('./paths');
-const { getSolvedDifficultyCounts } = require('./progress');
+const { getSolvedDifficultyCounts, getSolvedPersonalDifficultyCounts } = require('./progress');
 const {
   findPythonSolutions, validateSolutionFileState, validateSolutionHeader, validateSolvedSolution,
 } = require('./solutions');
@@ -211,12 +211,17 @@ function updateRoadmapDocumentation(checkOnly = false) {
   updatedReadme = replaceBlock(updatedReadme, 'roadmap-snapshot', [
     `The roadmap totals are a snapshot of NeetCode All captured on ${formatDateOnly(roadmap.snapshotDate)} and may change as NeetCode adds or reorganizes problems.`,
   ]);
+  updatedReadme = replaceBlock(updatedReadme, 'topic-chart', renderTopicChart(chartTopics, solved.length));
   updatedReadme = replaceBlock(
     updatedReadme,
     'difficulty-chart',
     renderDifficultyChart(difficultyCounts, solved.length),
   );
-  updatedReadme = replaceBlock(updatedReadme, 'topic-chart', renderTopicChart(chartTopics, solved.length));
+  updatedReadme = replaceBlock(
+    updatedReadme,
+    'personal-difficulty-chart',
+    renderPersonalDifficultyChart(getSolvedPersonalDifficultyCounts(roadmap.problems)),
+  );
   updatedReadme = replaceBlock(
     updatedReadme,
     'topic-table',
@@ -296,25 +301,9 @@ function renderSolutions(topics, problems) {
  */
 function renderTopicChart(topics, total) {
   if (!topics.length) return ['_No solved roadmap problems yet._'];
-  const themeVariables = Object.fromEntries(
-    topics.slice(0, 12).map((topic, index) => [`pie${index + 1}`, topicColors[topic.index]]),
-  );
-  const colorRules = topics.flatMap((topic, index) => {
-    const color = topicColors[topic.index];
-    return [
-      `.pieCircle:nth-of-type(${index + 1}){fill:${color}!important}`,
-      `.legend:nth-of-type(${index + 2}) rect{fill:${color}!important;stroke:${color}!important}`,
-    ];
-  });
-  const config = { themeVariables, themeCSS: colorRules.join('') };
-  return [
-    '```mermaid',
-    `%%{init: ${JSON.stringify(config)}}%%`,
-    'pie showData',
-    `    title Solved Problems by Topic (${total} Total)`,
-    ...topics.map((topic) => `    "${escapeMermaidLabel(topic.label)}" : ${topic.count}`),
-    '```',
-  ];
+  return renderColoredPieChart(`Solved Problems by Topic (${total} Total)`, topics.map((topic) => ({
+    label: topic.label, count: topic.count, color: topicColors[topic.index],
+  })));
 }
 
 /**

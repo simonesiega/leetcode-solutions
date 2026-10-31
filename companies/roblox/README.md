@@ -14,6 +14,8 @@
 - **In progress:** 0
 - **Planned:** 0
 
+<div align="center">
+
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
@@ -22,6 +24,8 @@ pie showData
     "Medium" : 2
     "Hard" : 2
 ```
+
+</div>
 
 | Rank | Problem | Frequency | Difficulty | Status | Personal | Solution |
 |---:|---|---:|:---:|:---:|:---:|---|

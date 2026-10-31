@@ -6,7 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { parseCsv } = require('./csv');
 const { paths, relativePath } = require('./paths');
-const { assertHttpUrl, assertNonemptyText } = require('./validation');
+const { assertHttpUrl, assertNonemptyText, isSlug } = require('./validation');
 
 const REQUIRED_COLUMNS = ['Difficulty', 'Title', 'Frequency', 'Link'];
 const SOURCE_FETCH_TIMEOUT_MS = 15_000;
@@ -25,7 +25,7 @@ function normalizeLeetCodeUrl(value, context = 'Source problem Link') {
     throw new Error(`${context} must point to leetcode.com.`);
   }
   const match = url.pathname.match(/^\/problems\/([a-z0-9-]+)\/?$/);
-  if (!match) throw new Error(`${context} must identify a LeetCode problem slug.`);
+  if (!match || !isSlug(match[1])) throw new Error(`${context} must identify a LeetCode problem slug.`);
   return `https://leetcode.com/problems/${match[1]}/`;
 }
 

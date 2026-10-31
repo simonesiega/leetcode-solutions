@@ -58,9 +58,13 @@ function solutionTemplate(problem, marker) {
  * @param {string} marker - Workflow-specific TODO marker.
  */
 function createSolutionScaffold(filePath, problem, marker) {
-  if (fs.existsSync(filePath)) return;
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  fs.writeFileSync(filePath, solutionTemplate(problem, marker));
+  try {
+    // Exclusive creation also preserves files uploaded between checking state and writing.
+    fs.writeFileSync(filePath, solutionTemplate(problem, marker), { flag: 'wx' });
+  } catch (error) {
+    if (error.code !== 'EEXIST') throw error;
+  }
 }
 
 /**
