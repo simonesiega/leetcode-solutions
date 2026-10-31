@@ -156,7 +156,7 @@ scripts/
 
 Keep the CLI entry points small. Shared parsing, validation, file handling, and Markdown logic should live in the narrowest existing `scripts/lib/` module instead of being duplicated.
 
-The goal is simple shared code, not a framework. If you change how a tracker works, update `scripts/automation.test.js` too. I test solutions on LeetCode rather than keeping a separate solution test suite here.
+The goal is simple shared code, not a framework. If you change how a tracker works, update `scripts/automation.test.js` too. Its fixtures and mocked downloads stay offline and don't touch real progress or source caches. I test solutions on LeetCode rather than keeping a separate solution test suite here.
 
 ## Branches and PRs
 

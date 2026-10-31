@@ -10,11 +10,11 @@ The [complexity notes](docs/DATA_MODEL.md#complexity-conventions) explain how I 
 
 <!-- Generated from data/roadmap.json by the roadmap automation. Do not edit directly. -->
 
-**Topics:** [Arrays & Hashing](#arrays-and-hashing) · [Two Pointers](#two-pointers) · [Sliding Window](#sliding-window) · [Stack](#stack) · [Binary Search](#binary-search) · [Linked List](#linked-list) · [Trees](#trees) · [Heap / Priority Queue](#heap-priority-queue) · [Backtracking](#backtracking) · [Tries](#tries) · [Graphs](#graphs) · [Advanced Graphs](#advanced-graphs) · [1-D Dynamic Programming](#1d-dynamic-programming) · [2-D Dynamic Programming](#2d-dynamic-programming) · [Greedy](#greedy) · [Intervals](#intervals) · [Math & Geometry](#math-and-geometry) · [Bit Manipulation](#bit-manipulation)
+**Topics:** [Arrays &amp; Hashing](#arrays-and-hashing) · [Two Pointers](#two-pointers) · [Sliding Window](#sliding-window) · [Stack](#stack) · [Binary Search](#binary-search) · [Linked List](#linked-list) · [Trees](#trees) · [Heap / Priority Queue](#heap-priority-queue) · [Backtracking](#backtracking) · [Tries](#tries) · [Graphs](#graphs) · [Advanced Graphs](#advanced-graphs) · [1-D Dynamic Programming](#1d-dynamic-programming) · [2-D Dynamic Programming](#2d-dynamic-programming) · [Greedy](#greedy) · [Intervals](#intervals) · [Math &amp; Geometry](#math-and-geometry) · [Bit Manipulation](#bit-manipulation)
 
 <a id="arrays-and-hashing"></a>
 
-## Arrays & Hashing
+## Arrays &amp; Hashing
 
 | Problem | Title | Solved | File | Time Complexity | Space Complexity | Difficulty | Personal Difficulty |
 |---:|---|:---:|---|---|---|:---:|:---:|
@@ -156,7 +156,7 @@ _No solved problems in this topic yet._
 
 <a id="math-and-geometry"></a>
 
-## Math & Geometry
+## Math &amp; Geometry
 
 _No solved problems in this topic yet._
 

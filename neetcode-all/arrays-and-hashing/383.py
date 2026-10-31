@@ -16,6 +16,3 @@ class Solution:
             counts[char] -= 1
 
         return True
-
-        # from collections import Counter
-        # return Counter(ransomNote) <= Counter(magazine)

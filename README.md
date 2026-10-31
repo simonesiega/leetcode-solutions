@@ -129,7 +129,7 @@ If you want to see the full topic breakdown, including solved counts and links t
 <!-- topic-table:start -->
 | Topic | Solved | Total | Solutions |
 |---|---:|---:|:---:|
-| Arrays & Hashing | 23 | 175 | [View](SOLUTIONS.md#arrays-and-hashing) |
+| Arrays &amp; Hashing | 23 | 175 | [View](SOLUTIONS.md#arrays-and-hashing) |
 | Two Pointers | 7 | 43 | [View](SOLUTIONS.md#two-pointers) |
 | Sliding Window | 6 | 41 | [View](SOLUTIONS.md#sliding-window) |
 | Stack | 6 | 39 | [View](SOLUTIONS.md#stack) |
@@ -145,7 +145,7 @@ If you want to see the full topic breakdown, including solved counts and links t
 | 2-D Dynamic Programming | 0 | 50 | [View](SOLUTIONS.md#2d-dynamic-programming) |
 | Greedy | 0 | 67 | [View](SOLUTIONS.md#greedy) |
 | Intervals | 0 | 21 | [View](SOLUTIONS.md#intervals) |
-| Math & Geometry | 0 | 63 | [View](SOLUTIONS.md#math-and-geometry) |
+| Math &amp; Geometry | 0 | 63 | [View](SOLUTIONS.md#math-and-geometry) |
 | Bit Manipulation | 0 | 31 | [View](SOLUTIONS.md#bit-manipulation) |
 | **All topics** | <!-- progress-total:start -->**42**<!-- progress-total:end --> | **943** | [Browse all](SOLUTIONS.md) |
 <!-- topic-table:end -->

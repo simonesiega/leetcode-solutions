@@ -6,7 +6,8 @@ const path = require('node:path');
 const { findStaleFiles, writeFiles } = require('./generated-files');
 const { readJson } = require('./json');
 const {
-  formatDateOnly, renderColoredPieChart, renderDifficultyChart, renderPersonalDifficultyChart, replaceBlock,
+  escapeMarkdown, escapeTable, formatDateOnly, renderColoredPieChart, renderDifficultyChart,
+  renderPersonalDifficultyChart, replaceBlock,
 } = require('./markdown');
 const { paths, relativePath } = require('./paths');
 const { getSolvedDifficultyCounts, getSolvedPersonalDifficultyCounts } = require('./progress');
@@ -23,7 +24,6 @@ const {
   assertObject,
   assertPersonalDifficulty,
   assertStatus,
-  assertTableText,
   validateCanonicalLeetCodeUrl,
   validateSlug,
 } = require('./validation');
@@ -84,7 +84,7 @@ function validateRoadmap(roadmap) {
     assertObject(topic, context);
     assertKeys(topic, ['slug', 'label', 'total'], context);
     validateSlug(topic.slug, `${context} slug`);
-    assertTableText(topic.label, `${context} label`);
+    assertNonemptyText(topic.label, `${context} label`);
     if (!Number.isInteger(topic.total) || topic.total < 0) {
       throw new Error(`${context} total must be a non-negative integer.`);
     }
@@ -123,7 +123,7 @@ function validateRoadmap(roadmap) {
     ids.add(problem.id);
     previousId = problem.id;
 
-    assertTableText(problem.title, `Problem ${problem.id} title`);
+    assertNonemptyText(problem.title, `Problem ${problem.id} title`);
     validateCanonicalLeetCodeUrl(problem.url, `Problem ${problem.id}`);
     if (urls.has(problem.url)) throw new Error(`Duplicate roadmap problem URL: ${problem.url}`);
     urls.add(problem.url);
@@ -269,12 +269,12 @@ function renderSolutions(topics, problems) {
     '',
     '<!-- Generated from data/roadmap.json by the roadmap automation. Do not edit directly. -->',
     '',
-    `**Topics:** ${topics.map((topic) => `[${topic.label}](#${topic.slug})`).join(' · ')}`,
+    `**Topics:** ${topics.map((topic) => `[${escapeMarkdown(topic.label)}](#${topic.slug})`).join(' · ')}`,
     '',
   ];
   for (const topic of topics) {
     const topicProblems = problemsByTopic.get(topic.slug);
-    lines.push(`<a id="${topic.slug}"></a>`, '', `## ${topic.label}`, '');
+    lines.push(`<a id="${topic.slug}"></a>`, '', `## ${escapeMarkdown(topic.label)}`, '');
     if (!topicProblems.length) {
       lines.push('_No solved problems in this topic yet._', '');
       continue;
@@ -286,7 +286,7 @@ function renderSolutions(topics, problems) {
     for (const problem of topicProblems) {
       const solutionPath = `neetcode-all/${problem.topic}/${problem.id}.py`;
       const color = difficultyColors[problem.difficulty];
-      lines.push(`| ${problem.id} | [${problem.title}](${problem.url}) | ${problem.solvedAt.slice(0, 10)} | [${problem.id}.py](${solutionPath}) | ${problem.timeComplexity} | ${problem.spaceComplexity} | ![${problem.difficulty}](https://img.shields.io/badge/${problem.difficulty}-${color}?style=flat-square) | ${problem.personalDifficulty ?? 'Not rated'} |`);
+      lines.push(`| ${problem.id} | [${escapeTable(problem.title)}](${problem.url}) | ${problem.solvedAt.slice(0, 10)} | [${problem.id}.py](${solutionPath}) | ${problem.timeComplexity} | ${problem.spaceComplexity} | ![${problem.difficulty}](https://img.shields.io/badge/${problem.difficulty}-${color}?style=flat-square) | ${problem.personalDifficulty ?? 'Not rated'} |`);
     }
     lines.push('');
   }
@@ -318,7 +318,7 @@ function renderTopicTable(topics, counts, solvedTotal, roadmapTotal) {
   return [
     '| Topic | Solved | Total | Solutions |',
     '|---|---:|---:|:---:|',
-    ...topics.map((topic) => `| ${topic.label} | ${counts.get(topic.slug)} | ${topic.total} | [View](SOLUTIONS.md#${topic.slug}) |`),
+    ...topics.map((topic) => `| ${escapeTable(topic.label)} | ${counts.get(topic.slug)} | ${topic.total} | [View](SOLUTIONS.md#${topic.slug}) |`),
     `| **All topics** | <!-- progress-total:start -->**${solvedTotal}**<!-- progress-total:end --> | **${roadmapTotal}** | [Browse all](SOLUTIONS.md) |`,
   ];
 }

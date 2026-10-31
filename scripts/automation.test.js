@@ -13,7 +13,8 @@ const {
 const { parseCsv } = require('./lib/csv');
 const { readJson, writeJson } = require('./lib/json');
 const {
-  escapeLinkDestination, renderColoredPieChart, renderMermaidChart, renderPersonalDifficultyChart, replaceBlock,
+  escapeLinkDestination, escapeMarkdown, escapeTable, renderColoredPieChart, renderDifficultyChart,
+  renderMermaidChart, renderPersonalDifficultyChart, replaceBlock,
 } = require('./lib/markdown');
 const { getSolvedPersonalDifficultyCounts } = require('./lib/progress');
 const { createSolutionScaffold } = require('./lib/solutions');
@@ -749,6 +750,151 @@ test('URL and complexity validation reject normalized-away controls and noncanon
     assert.throws(() => assertHttpUrl(`https://example.com/a${character}b`, 'URL'), /control characters/);
     assert.throws(() => assertComplexity(`O(n)${character}note`, 'Time'), /single-line/);
   }
+});
+
+test('metadata renders as literal text without breaking links, tables, or headers', () => {
+  const title = 'Task [x] | <tag> &amp; *star* _name_ `code` \\ path';
+  const escaped = 'Task \\[x\\] | \\<tag\\> &amp;amp; \\*star\\* \\_name\\_ \\`code\\` \\\\ path';
+  assert.equal(escapeMarkdown(title), escaped);
+  assert.equal(escapeMarkdown('Task # ~~note~~'), 'Task \\# \\~\\~note\\~\\~');
+  for (const eol of ['\n', '\r\n', '\r']) {
+    assert.equal(escapeTable(`${title}${eol}Next line`), `${escaped.replace('|', '\\|')}<br>Next line`);
+  }
+  assert.equal(
+    escapeLinkDestination('https://example.com/a|b\\c`d(e)<f>'),
+    'https://example.com/a%7Cb%5Cc%60d%28e%29%3Cf%3E',
+  );
+
+  const root = createRepository();
+  const roadmapPath = path.join(root, 'data/roadmap.json');
+  const roadmap = readRoadmap(root);
+  roadmap.topics[0].label = title;
+  writeJson(roadmapPath, roadmap);
+  run(root, 'roadmap-tracker.js', [
+    'add', '1', title, 'arrays-and-hashing', 'Easy', '--url', 'https://leetcode.com/problems/task/',
+  ]);
+  run(root, 'roadmap-tracker.js', ['start', '1']);
+  const solution = `# ${title} - 1\n\nclass Solution:\n    pass\n`;
+  fs.writeFileSync(path.join(root, 'neetcode-all/arrays-and-hashing/1.py'), solution);
+  run(root, 'roadmap-tracker.js', ['solve', '1', '--time', '`O(1)`', '--space', '`O(1)`']);
+  const catalog = fs.readFileSync(path.join(root, 'SOLUTIONS.md'), 'utf8');
+  assert.ok(catalog.includes(`## ${escaped}\n`));
+  assert.ok(catalog.includes(`[${escapeTable(title)}](https://leetcode.com/problems/task/)`));
+  assert.ok(catalog.includes('| `O(1)` | `O(1)` |'));
+  assert.equal(readRoadmap(root).problems[0].title, title);
+
+  run(root, 'company-tracker.js', ['add-company', 'Literal']);
+  run(root, 'company-tracker.js', [
+    'add-problem', 'literal', 'task', title, 'Easy',
+    '--url', 'https://example.com/a|b', '--notes', '<img> **note**\nNext line',
+  ]);
+  const dashboard = fs.readFileSync(path.join(root, 'companies/literal/README.md'), 'utf8');
+  assert.ok(dashboard.includes(`[${escapeTable(title)}](https://example.com/a%7Cb)`));
+  assert.ok(dashboard.includes('\\<img\\> \\*\\*note\\*\\*<br>Next line'));
+  for (const script of ['roadmap-tracker.js', 'company-tracker.js']) run(root, script, ['--check']);
+});
+
+test('empty difficulty charts use prose instead of a zero-total pie', () => {
+  assert.deepEqual(renderDifficultyChart({ Easy: 0, Medium: 0, Hard: 0 }, 0), ['_No solved problems yet._']);
+  const root = createRepository();
+  run(root, 'roadmap-tracker.js', []);
+  run(root, 'company-tracker.js', ['add-company', 'Empty']);
+  for (const file of ['README.md', 'companies/empty/README.md']) {
+    const content = fs.readFileSync(path.join(root, file), 'utf8');
+    assert.ok(content.includes('_No solved problems yet._'));
+    assert.doesNotMatch(content, /```mermaid/);
+  }
+});
+
+test('both lifecycles reject unfinished solutions without changing metadata or dashboards', () => {
+  const root = createRepository();
+  run(root, 'roadmap-tracker.js', [
+    'add', '1', 'Two Sum', 'arrays-and-hashing', 'Easy', '--url', 'https://leetcode.com/problems/two-sum/',
+  ]);
+  run(root, 'company-tracker.js', ['add-company', 'Example']);
+  run(root, 'company-tracker.js', ['add-problem', 'example', '1', 'Two Sum', 'Easy']);
+  const workflows = [
+    ['roadmap-tracker.js', ['1'], 'neetcode-all/arrays-and-hashing/1.py', 'roadmap-solution'],
+    ['company-tracker.js', ['example', '1'], 'companies/example/solutions/1.py', 'company-solution'],
+  ];
+  for (const [script, args, file, marker] of workflows) {
+    assert.match(run(root, script, ['solve', ...args, '--time', 'O(n)', '--space', 'O(n)'], false).stderr, /Run the start command first/);
+    run(root, script, ['start', ...args]);
+    const watched = ['README.md', 'SOLUTIONS.md', 'data/roadmap.json', 'companies/README.md',
+      'companies/example/company.json', 'companies/example/README.md'];
+    const before = new Map(watched.map((name) => [name, fs.readFileSync(path.join(root, name), 'utf8')]));
+    const cases = [
+      [`# Two Sum - 1\n\n# TODO(${marker}): unfinished\n`, /TODO/],
+      ['# Two Sum - 1\n\n# comments only\n', /does not contain a Python solution/],
+      ['# Wrong header\n\nclass Solution:\n    pass\n', /must begin with/],
+    ];
+    for (const [source, error] of cases) {
+      fs.writeFileSync(path.join(root, file), source);
+      assert.match(run(root, script, ['solve', ...args, '--time', 'O(n)', '--space', 'O(n)'], false).stderr, error);
+      assert.equal(fs.readFileSync(path.join(root, file), 'utf8'), source);
+      for (const [name, content] of before) assert.equal(fs.readFileSync(path.join(root, name), 'utf8'), content);
+    }
+    fs.writeFileSync(path.join(root, file), '# Two Sum - 1\n\nclass Solution:\n    pass\n');
+  }
+});
+
+test('invalid CLI options fail before writing either source of truth', () => {
+  const root = createRepository();
+  run(root, 'roadmap-tracker.js', []);
+  run(root, 'company-tracker.js', ['add-company', 'Example']);
+  const watched = ['README.md', 'SOLUTIONS.md', 'data/roadmap.json', 'companies/README.md',
+    'companies/example/company.json', 'companies/example/README.md'];
+  const before = new Map(watched.map((name) => [name, fs.readFileSync(path.join(root, name), 'utf8')]));
+  const commands = [
+    ['roadmap-tracker.js', ['add', '1', 'Two Sum', 'arrays-and-hashing', 'Easy']],
+    ['company-tracker.js', ['add-problem', 'example', '1', 'Two Sum', 'Easy']],
+  ];
+  for (const [script, args] of commands) {
+    for (const [options, error] of [
+      [['--url'], /requires a value/],
+      [['--url', 'https://leetcode.com/problems/two-sum/', '--url', 'other'], /more than once/],
+      [['--typo', 'value'], /Unknown option/],
+      [['--url', 'https://leetcode.com/problems/two-sum/', '--personal-difficulty', '11'], /integer from 1 to 10/],
+    ]) {
+      assert.match(run(root, script, [...args, ...options], false).stderr, error);
+    }
+    assert.match(run(root, script, ['--check', 'extra'], false).stderr, /Usage/);
+  }
+  for (const [name, content] of before) assert.equal(fs.readFileSync(path.join(root, name), 'utf8'), content);
+});
+
+test('pinned downloads enforce timeout and size limits and preserve a good cache on failure', async (t) => {
+  const root = createRepository();
+  const { getSourceCachePath: cachePathFor, syncCompanySource } = require(path.join(root, 'scripts/lib/company-source.js'));
+  const company = { slug: 'example', data: { source: sourceMetadata('Example/5. All.csv') } };
+  const csv = fs.readFileSync(path.join(__dirname, 'fixtures/company-source.csv'), 'utf8');
+  const cachePath = cachePathFor(company);
+  t.mock.method(globalThis, 'fetch', async (url, options) => {
+    assert.equal(url, buildRawSourceUrl(company.data.source));
+    assert.ok(options.signal instanceof AbortSignal);
+    assert.equal(options.signal.aborted, false);
+    return new Response(csv);
+  });
+  const result = await syncCompanySource(company);
+  assert.equal(result.problems.length, 3);
+  assert.equal(fs.readFileSync(cachePath, 'utf8'), csv);
+
+  for (const [response, error] of [
+    [() => { throw new Error('offline'); }, /Could not fetch company source: offline/],
+    [() => new Response('missing', { status: 404 }), /Could not fetch company source \(404/],
+    [() => new Response(csv, { headers: { 'content-length': String(11 * 1024 * 1024) } }), /byte limit/],
+    [() => new Response(new Uint8Array(10 * 1024 * 1024 + 1)), /byte limit/],
+    [() => new Response('not a CSV'), /missing required column/],
+  ]) {
+    globalThis.fetch.mock.mockImplementation(async () => response());
+    await assert.rejects(syncCompanySource(company), error);
+    assert.equal(fs.readFileSync(cachePath, 'utf8'), csv);
+  }
+  const oversized = path.join(root, 'oversized.csv');
+  fs.writeFileSync(oversized, '');
+  fs.truncateSync(oversized, 10 * 1024 * 1024 + 1);
+  await assert.rejects(syncCompanySource(company, oversized), /byte limit/);
+  assert.equal(fs.readFileSync(cachePath, 'utf8'), csv);
 });
 
 function createSolvedRoadmapRepository() {

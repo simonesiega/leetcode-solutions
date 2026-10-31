@@ -14,10 +14,9 @@ const {
 } = require('./lib/roadmap');
 const { createSolutionScaffold, validateSolutionForSolve } = require('./lib/solutions');
 const {
-  VALID_DIFFICULTIES,
   assertComplexity,
-  assertTableText,
-  getCurrentIsoInstant,
+  assertDifficulty,
+  assertNonemptyText,
   parseOptionalPersonalDifficulty,
   parsePositiveIntegerId,
   validateCanonicalLeetCodeUrl,
@@ -70,9 +69,9 @@ function addProblem(args) {
   const [rawId, rawTitle, topic, difficulty] = positionals;
   const id = parsePositiveIntegerId(rawId);
   const title = rawTitle.trim();
-  assertTableText(title, `Problem ${id} title`);
+  assertNonemptyText(title, `Problem ${id} title`);
   validateCanonicalLeetCodeUrl(options.url, `Problem ${id}`);
-  if (!VALID_DIFFICULTIES.has(difficulty)) throw new Error('Difficulty must be Easy, Medium, or Hard.');
+  assertDifficulty(difficulty, `Problem ${id}`, true);
   const personalDifficulty = parseOptionalPersonalDifficulty(options, null);
 
   const roadmap = readRoadmap();
@@ -159,7 +158,7 @@ function solveProblem(args) {
   validateSolutionForSolve(source, problem, relativePath(solutionPath), 'roadmap-solution');
 
   problem.status = 'solved';
-  problem.solvedAt = getCurrentIsoInstant();
+  problem.solvedAt = new Date().toISOString();
   problem.timeComplexity = options.time;
   problem.spaceComplexity = options.space;
   if (personalDifficulty !== undefined) problem.personalDifficulty = personalDifficulty;

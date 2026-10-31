@@ -53,6 +53,7 @@ function renderMermaidChart(lines) {
  * @returns {string[]}
  */
 function renderDifficultyChart(counts, total) {
+  if (!total) return ['_No solved problems yet._'];
   return renderMermaidChart([
     '%%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%',
     'pie showData',
@@ -110,12 +111,12 @@ function escapeMermaidLabel(value) {
 }
 
 /**
- * Escape Markdown characters used by generated links and tables.
+ * Keep metadata literal in Markdown text, link labels, and table cells.
  * @param {unknown} value - Value rendered as text.
  * @returns {string}
  */
 function escapeMarkdown(value) {
-  return String(value).replace(/([\\[\]])/g, '\\$1');
+  return String(value).replace(/&/g, '&amp;').replace(/([\\`*_[\]<>#~])/g, '\\$1');
 }
 
 /**
@@ -124,13 +125,13 @@ function escapeMarkdown(value) {
  * @returns {string}
  */
 function escapeTable(value) {
-  return escapeMarkdown(value).replace(/\|/g, '\\|').replace(/\r?\n/g, '<br>');
+  return escapeMarkdown(value).replace(/\|/g, '\\|').replace(/\r\n?|\n/g, '<br>');
 }
 
-/** Encode URL characters that would otherwise terminate a Markdown link destination. */
+/** Encode URL characters that would otherwise break a Markdown link or table cell. */
 function escapeLinkDestination(value) {
-  const encoded = { '(': '%28', ')': '%29', '<': '%3C', '>': '%3E' };
-  return String(value).replace(/[()<>]/g, (character) => encoded[character]);
+  const encoded = { '(': '%28', ')': '%29', '<': '%3C', '>': '%3E', '|': '%7C', '\\': '%5C', '`': '%60' };
+  return String(value).replace(/[()<>|\\`]/g, (character) => encoded[character]);
 }
 
 /**

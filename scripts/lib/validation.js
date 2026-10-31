@@ -45,18 +45,6 @@ function assertNonemptyText(value, context) {
 }
 
 /**
- * Require non-empty text that can be rendered safely in the roadmap table.
- * @param {unknown} value - Candidate value.
- * @param {string} context - Human-readable field name.
- */
-function assertTableText(value, context) {
-  assertNonemptyText(value, context);
-  if (/[|\[\]\r\n]/.test(value)) {
-    throw new Error(`${context} contains characters that cannot be rendered safely in the catalog.`);
-  }
-}
-
-/**
  * Require an unrated value or a personal difficulty from 1 through 10.
  * @param {unknown} value - Candidate rating.
  * @param {string} context - Human-readable problem identifier.
@@ -96,11 +84,6 @@ function assertIsoInstant(value, context) {
   if (Number.isNaN(date.getTime()) || date.toISOString() !== value || value.startsWith('0000-')) {
     throw new Error(`${context} must be a valid UTC ISO timestamp.`);
   }
-}
-
-/** Return the current instant in canonical UTC ISO format. */
-function getCurrentIsoInstant() {
-  return new Date().toISOString();
 }
 
 /**
@@ -272,8 +255,6 @@ function parsePositiveIntegerId(value) {
 }
 
 module.exports = {
-  VALID_DIFFICULTIES,
-  VALID_STATUSES,
   assertComplexity,
   assertDateOnly,
   assertDifficulty,
@@ -284,8 +265,6 @@ module.exports = {
   assertObject,
   assertPersonalDifficulty,
   assertStatus,
-  assertTableText,
-  getCurrentIsoInstant,
   isSlug,
   parseOptionalPersonalDifficulty,
   parsePositiveIntegerId,
