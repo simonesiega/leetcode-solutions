@@ -14,7 +14,7 @@
   <p>
     <img src="https://img.shields.io/badge/Python-3.10%2B-blue" alt="Python 3.10 or newer" />
     <!-- solved-count:start -->
-    <img src="https://img.shields.io/badge/NeetCode%20Solved-42-brightgreen" alt="NeetCode solved problems: 42" />
+    <img src="https://img.shields.io/badge/NeetCode%20Solved-43-brightgreen" alt="NeetCode solved problems: 43" />
     <!-- solved-count:end -->
     <!-- company-count:start -->
     <img src="https://img.shields.io/badge/Companies-2-blue" alt="Companies covered: 2" />
@@ -75,9 +75,9 @@ The full solved catalog, including complexity and solve dates, is in [SOLUTIONS.
 ```mermaid
 %%{init: {"themeVariables":{"pie1":"#277ace","pie2":"#ce2748","pie3":"#27ce35","pie4":"#6727ce"},"themeCSS":".pieCircle:nth-of-type(1){fill:#277ace!important}.legend:nth-of-type(2) rect{fill:#277ace!important;stroke:#277ace!important}.pieCircle:nth-of-type(2){fill:#ce2748!important}.legend:nth-of-type(3) rect{fill:#ce2748!important;stroke:#ce2748!important}.pieCircle:nth-of-type(3){fill:#27ce35!important}.legend:nth-of-type(4) rect{fill:#27ce35!important;stroke:#27ce35!important}.pieCircle:nth-of-type(4){fill:#6727ce!important}.legend:nth-of-type(5) rect{fill:#6727ce!important;stroke:#6727ce!important}"}}%%
 pie showData
-    title Solved Problems by Topic (42 Total)
+    title Solved Problems by Topic (43 Total)
     "Arrays & Hashing" : 23
-    "Two Pointers" : 7
+    "Two Pointers" : 8
     "Sliding Window" : 6
     "Stack" : 6
 ```
@@ -91,8 +91,8 @@ pie showData
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (42 Total)
-    "Easy" : 20
+    title Solved Problems by Difficulty (43 Total)
+    "Easy" : 21
     "Medium" : 18
     "Hard" : 4
 ```
@@ -106,9 +106,9 @@ pie showData
 ```mermaid
 %%{init: {"themeVariables":{"pie1":"#1f883d","pie2":"#3d9140","pie3":"#5c993f","pie4":"#7f9e3a","pie5":"#a39e32","pie6":"#c49225","pie7":"#d37a23"},"themeCSS":".pieCircle:nth-of-type(1){fill:#1f883d!important}.legend:nth-of-type(2) rect{fill:#1f883d!important;stroke:#1f883d!important}.pieCircle:nth-of-type(2){fill:#3d9140!important}.legend:nth-of-type(3) rect{fill:#3d9140!important;stroke:#3d9140!important}.pieCircle:nth-of-type(3){fill:#5c993f!important}.legend:nth-of-type(4) rect{fill:#5c993f!important;stroke:#5c993f!important}.pieCircle:nth-of-type(4){fill:#7f9e3a!important}.legend:nth-of-type(5) rect{fill:#7f9e3a!important;stroke:#7f9e3a!important}.pieCircle:nth-of-type(5){fill:#a39e32!important}.legend:nth-of-type(6) rect{fill:#a39e32!important;stroke:#a39e32!important}.pieCircle:nth-of-type(6){fill:#c49225!important}.legend:nth-of-type(7) rect{fill:#c49225!important;stroke:#c49225!important}.pieCircle:nth-of-type(7){fill:#d37a23!important}.legend:nth-of-type(8) rect{fill:#d37a23!important;stroke:#d37a23!important}"}}%%
 pie showData
-    title Solved Problems by Personal Difficulty (42 Rated)
+    title Solved Problems by Personal Difficulty (43 Rated)
     "1/10" : 9
-    "2/10" : 13
+    "2/10" : 14
     "3/10" : 6
     "4/10" : 7
     "5/10" : 4
@@ -130,7 +130,7 @@ If you want to see the full topic breakdown, including solved counts and links t
 | Topic | Solved | Total | Solutions |
 |---|---:|---:|:---:|
 | Arrays &amp; Hashing | 23 | 175 | [View](SOLUTIONS.md#arrays-and-hashing) |
-| Two Pointers | 7 | 43 | [View](SOLUTIONS.md#two-pointers) |
+| Two Pointers | 8 | 43 | [View](SOLUTIONS.md#two-pointers) |
 | Sliding Window | 6 | 41 | [View](SOLUTIONS.md#sliding-window) |
 | Stack | 6 | 39 | [View](SOLUTIONS.md#stack) |
 | Binary Search | 0 | 43 | [View](SOLUTIONS.md#binary-search) |
@@ -147,7 +147,7 @@ If you want to see the full topic breakdown, including solved counts and links t
 | Intervals | 0 | 21 | [View](SOLUTIONS.md#intervals) |
 | Math &amp; Geometry | 0 | 63 | [View](SOLUTIONS.md#math-and-geometry) |
 | Bit Manipulation | 0 | 31 | [View](SOLUTIONS.md#bit-manipulation) |
-| **All topics** | <!-- progress-total:start -->**42**<!-- progress-total:end --> | **943** | [Browse all](SOLUTIONS.md) |
+| **All topics** | <!-- progress-total:start -->**43**<!-- progress-total:end --> | **943** | [Browse all](SOLUTIONS.md) |
 <!-- topic-table:end -->
 
 </details>

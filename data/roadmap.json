@@ -169,6 +169,18 @@
       "spaceComplexity": "`O(n)` in the worst case when every bracket is an opening bracket."
     },
     {
+      "id": 26,
+      "title": "Remove Duplicates from Sorted Array",
+      "url": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/",
+      "topic": "two-pointers",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-10-31T17:34:11.151Z",
+      "timeComplexity": "`O(n)`, where `n = len(nums)`; each element after the first is inspected once and each new distinct value is written once.",
+      "spaceComplexity": "`O(1)` auxiliary space; distinct values are compacted in place using two indices."
+    },
+    {
       "id": 36,
       "title": "Valid Sudoku",
       "url": "https://leetcode.com/problems/valid-sudoku/",
