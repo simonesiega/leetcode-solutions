@@ -565,6 +565,18 @@
       "spaceComplexity": "`O(n)` for the sorted `(position, speed)` pairs and fleet-time stack."
     },
     {
+      "id": 977,
+      "title": "Squares of a Sorted Array",
+      "url": "https://leetcode.com/problems/squares-of-a-sorted-array/",
+      "topic": "two-pointers",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-10-31T17:53:48.223Z",
+      "timeComplexity": "`O(n)`, where `n = len(nums)`; the result is filled once from right to left, moving one input pointer per iteration.",
+      "spaceComplexity": "`O(1)` auxiliary space excluding the required `O(n)` returned array, where `n = len(nums)`."
+    },
+    {
       "id": 1299,
       "title": "Replace Elements with Greatest Element on Right Side",
       "url": "https://leetcode.com/problems/replace-elements-with-greatest-element-on-right-side/",
