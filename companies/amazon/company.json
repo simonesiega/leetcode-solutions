@@ -17,6 +17,17 @@
       "notes": "n and m = number of nodes in the two input lists; reuses existing nodes"
     },
     {
+      "id": "141",
+      "title": "Linked List Cycle",
+      "url": "https://leetcode.com/problems/linked-list-cycle/",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "time": "O(n)",
+      "space": "O(1) auxiliary space",
+      "notes": "n = number of distinct nodes reachable from head; uses Floyd's slow and fast pointers"
+    },
+    {
       "id": "206",
       "title": "Reverse Linked List",
       "url": "https://leetcode.com/problems/reverse-linked-list/",
