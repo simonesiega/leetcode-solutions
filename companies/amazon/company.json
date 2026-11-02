@@ -6,6 +6,17 @@
   "source": null,
   "problems": [
     {
+      "id": "21",
+      "title": "Merge Two Sorted Lists",
+      "url": "https://leetcode.com/problems/merge-two-sorted-lists/",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "time": "O(n + m)",
+      "space": "O(1) auxiliary space",
+      "notes": "n and m = number of nodes in the two input lists; reuses existing nodes"
+    },
+    {
       "id": "206",
       "title": "Reverse Linked List",
       "url": "https://leetcode.com/problems/reverse-linked-list/",

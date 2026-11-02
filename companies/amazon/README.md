@@ -8,7 +8,7 @@
 
 ## Progress
 
-- **Solved:** 1 / 1
+- **Solved:** 2 / 2
 - **In progress:** 0
 - **Planned:** 0
 
@@ -17,8 +17,8 @@
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (1 Total)
-    "Easy" : 1
+    title Solved Problems by Difficulty (2 Total)
+    "Easy" : 2
     "Medium" : 0
     "Hard" : 0
 ```
@@ -27,6 +27,7 @@ pie showData
 
 | Rank | Problem | Frequency | Difficulty | Status | Personal | Solution |
 |---:|---|---:|:---:|:---:|:---:|---|
+| Manual | [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/) | Not sourced | Easy | Solved | 2 | [21.py](solutions/21.py) |
 | Manual | [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/) | Not sourced | Easy | Solved | 2 | [206.py](solutions/206.py) |
 
 ## Attempt details
@@ -35,6 +36,7 @@ The [complexity notes](../../docs/DATA_MODEL.md#complexity-conventions) explain 
 
 | ID | Time | Space | Notes |
 |---|---|---|---|
+| 21 | O(n + m) | O(1) auxiliary space | n and m = number of nodes in the two input lists; reuses existing nodes |
 | 206 | O(n) | O(1) auxiliary space | n = number of nodes in the linked list; reverses the list in place |
 
 ## Commands
