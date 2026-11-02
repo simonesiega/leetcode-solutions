@@ -28,6 +28,17 @@
       "notes": "n = number of distinct nodes reachable from head; uses Floyd's slow and fast pointers"
     },
     {
+      "id": "143",
+      "title": "Reorder List",
+      "url": "https://leetcode.com/problems/reorder-list/",
+      "difficulty": "Medium",
+      "personalDifficulty": 4,
+      "status": "solved",
+      "time": "O(n)",
+      "space": "O(1) auxiliary space",
+      "notes": "n = number of nodes in the linked list; splits the list, reverses the second half, and interleaves existing nodes"
+    },
+    {
       "id": "206",
       "title": "Reverse Linked List",
       "url": "https://leetcode.com/problems/reverse-linked-list/",

@@ -8,7 +8,7 @@
 
 ## Progress
 
-- **Solved:** 3 / 3
+- **Solved:** 4 / 4
 - **In progress:** 0
 - **Planned:** 0
 
@@ -17,9 +17,9 @@
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (3 Total)
+    title Solved Problems by Difficulty (4 Total)
     "Easy" : 3
-    "Medium" : 0
+    "Medium" : 1
     "Hard" : 0
 ```
 
@@ -29,6 +29,7 @@ pie showData
 |---:|---|---:|:---:|:---:|:---:|---|
 | Manual | [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/) | Not sourced | Easy | Solved | 2 | [21.py](solutions/21.py) |
 | Manual | [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/) | Not sourced | Easy | Solved | 2 | [141.py](solutions/141.py) |
+| Manual | [Reorder List](https://leetcode.com/problems/reorder-list/) | Not sourced | Medium | Solved | 4 | [143.py](solutions/143.py) |
 | Manual | [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/) | Not sourced | Easy | Solved | 2 | [206.py](solutions/206.py) |
 
 ## Attempt details
@@ -39,6 +40,7 @@ The [complexity notes](../../docs/DATA_MODEL.md#complexity-conventions) explain 
 |---|---|---|---|
 | 21 | O(n + m) | O(1) auxiliary space | n and m = number of nodes in the two input lists; reuses existing nodes |
 | 141 | O(n) | O(1) auxiliary space | n = number of distinct nodes reachable from head; uses Floyd's slow and fast pointers |
+| 143 | O(n) | O(1) auxiliary space | n = number of nodes in the linked list; splits the list, reverses the second half, and interleaves existing nodes |
 | 206 | O(n) | O(1) auxiliary space | n = number of nodes in the linked list; reverses the list in place |
 
 ## Commands
