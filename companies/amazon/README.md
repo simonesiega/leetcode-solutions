@@ -8,7 +8,7 @@
 
 ## Progress
 
-- **Solved:** 8 / 8
+- **Solved:** 9 / 9
 - **In progress:** 0
 - **Planned:** 0
 
@@ -17,9 +17,9 @@
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (8 Total)
+    title Solved Problems by Difficulty (9 Total)
     "Easy" : 4
-    "Medium" : 4
+    "Medium" : 5
     "Hard" : 0
 ```
 
@@ -32,6 +32,7 @@ pie showData
 | Manual | [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/) | Not sourced | Easy | Solved | 2 | [141.py](solutions/141.py) |
 | Manual | [Reorder List](https://leetcode.com/problems/reorder-list/) | Not sourced | Medium | Solved | 4 | [143.py](solutions/143.py) |
 | Manual | [LRU Cache](https://leetcode.com/problems/lru-cache/) | Not sourced | Medium | Solved | 4 | [146.py](solutions/146.py) |
+| Manual | [Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/) | Not sourced | Medium | Solved | 3 | [153.py](solutions/153.py) |
 | Manual | [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/) | Not sourced | Easy | Solved | 2 | [206.py](solutions/206.py) |
 | Manual | [Binary Search](https://leetcode.com/problems/binary-search/) | Not sourced | Easy | Solved | 2 | [704.py](solutions/704.py) |
 | Manual | [Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/) | Not sourced | Medium | Solved | 4 | [875.py](solutions/875.py) |
@@ -47,6 +48,7 @@ The [complexity notes](../../docs/DATA_MODEL.md#complexity-conventions) explain 
 | 141 | O(n) | O(1) auxiliary space | n = number of distinct nodes reachable from head; uses Floyd's slow and fast pointers |
 | 143 | O(n) | O(1) auxiliary space | n = number of nodes in the linked list; splits the list, reverses the second half, and interleaves existing nodes |
 | 146 | Expected O(1) per get; expected amortized O(1) per put; O(1) initialization | O(c) for the hash map and doubly linked list | c = cache capacity; at most c cached entries remain after each operation, plus two sentinel nodes. A new put can temporarily hold c + 1 entries before eviction; hash-map resizing is amortized |
+| 153 | O(log n) | O(1) auxiliary space | n = number of elements in the nonempty rotated sorted array; values are distinct |
 | 206 | O(n) | O(1) auxiliary space | n = number of nodes in the linked list; reverses the list in place |
 | 704 | O(log n) | O(1) auxiliary space | n = number of elements in the sorted input list |
 | 875 | O(n log M), or O(n) when M = 1 | O(1) auxiliary space | n = number of piles; M = largest pile size; each binary-search step sums required hours using a generator without storing per-pile results |

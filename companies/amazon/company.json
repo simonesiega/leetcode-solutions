@@ -61,6 +61,17 @@
       "notes": "c = cache capacity; at most c cached entries remain after each operation, plus two sentinel nodes. A new put can temporarily hold c + 1 entries before eviction; hash-map resizing is amortized"
     },
     {
+      "id": "153",
+      "title": "Find Minimum in Rotated Sorted Array",
+      "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
+      "difficulty": "Medium",
+      "personalDifficulty": 3,
+      "status": "solved",
+      "time": "O(log n)",
+      "space": "O(1) auxiliary space",
+      "notes": "n = number of elements in the nonempty rotated sorted array; values are distinct"
+    },
+    {
       "id": "206",
       "title": "Reverse Linked List",
       "url": "https://leetcode.com/problems/reverse-linked-list/",
