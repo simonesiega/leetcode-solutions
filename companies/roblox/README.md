@@ -40,9 +40,9 @@ The [complexity notes](../../docs/DATA_MODEL.md#complexity-conventions) explain 
 
 | ID | Time | Space | Notes |
 |---|---|---|---|
-| 723 | O((k + 1)mn), worst-case O((mn)^2) | O(1) auxiliary; the input board is modified and returned | m = number of board rows; n = number of columns; k = number of crush rounds. Each round removes at least three candies, so k = O(mn); the quadratic expression is an upper bound |
+| 723 | O((k + 1)mn), worst-case O((mn)^2) | O(1) auxiliary; the input board is modified and returned | m = number of board rows; n = number of columns; k = number of crush rounds. The +1 includes the final stable-board scan. Each crush round removes at least three candies, so k = O(mn); the quadratic expression is an upper bound |
 | 767 | O(n + k log k) | O(n + k) auxiliary for counts, sorted keys, and the character list; O(n) returned string | n = length of s; k = number of distinct characters (at most 26 here), so constrained time and space are O(n) |
-| 1434 | O(Hp2^p) | O(H2^p + Hp) | H = 40 possible hats; p = number of people; space includes memoization and the hat-to-people mapping |
+| 1434 | O(Hp2^p) | O(H2^p + Hp) auxiliary space | H = 40 possible hats; p = number of people (at most 10). Time includes up to p assignment checks per memoized state; space includes O(H2^p) memoization, O(Hp) hat-to-people storage, and an O(H) recursion stack |
 | 68 | O(nw) | O(w) | n = number of characters in the returned output; w = maxWidth. Repeated string concatenation in list slots can copy O(w) characters per added space, giving O(nw) worst-case time; O(w) auxiliary space excludes the O(n) returned output |
 
 ## Commands

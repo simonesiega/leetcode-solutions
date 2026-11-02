@@ -8,7 +8,7 @@
 
 ## Progress
 
-- **Solved:** 7 / 7
+- **Solved:** 8 / 8
 - **In progress:** 0
 - **Planned:** 0
 
@@ -17,9 +17,9 @@
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (7 Total)
+    title Solved Problems by Difficulty (8 Total)
     "Easy" : 4
-    "Medium" : 3
+    "Medium" : 4
     "Hard" : 0
 ```
 
@@ -34,6 +34,7 @@ pie showData
 | Manual | [LRU Cache](https://leetcode.com/problems/lru-cache/) | Not sourced | Medium | Solved | 4 | [146.py](solutions/146.py) |
 | Manual | [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/) | Not sourced | Easy | Solved | 2 | [206.py](solutions/206.py) |
 | Manual | [Binary Search](https://leetcode.com/problems/binary-search/) | Not sourced | Easy | Solved | 2 | [704.py](solutions/704.py) |
+| Manual | [Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/) | Not sourced | Medium | Solved | 4 | [875.py](solutions/875.py) |
 
 ## Attempt details
 
@@ -45,9 +46,10 @@ The [complexity notes](../../docs/DATA_MODEL.md#complexity-conventions) explain 
 | 74 | O(log(m \* n)) | O(1) auxiliary space | m = number of rows; n = number of columns; binary search treats the nonempty sorted matrix as a flat sequence without copying it |
 | 141 | O(n) | O(1) auxiliary space | n = number of distinct nodes reachable from head; uses Floyd's slow and fast pointers |
 | 143 | O(n) | O(1) auxiliary space | n = number of nodes in the linked list; splits the list, reverses the second half, and interleaves existing nodes |
-| 146 | O(1) average per get or put; O(1) initialization | O(c) | c = cache capacity; stores at most c entries in a hash map and doubly linked list |
+| 146 | Expected O(1) per get; expected amortized O(1) per put; O(1) initialization | O(c) for the hash map and doubly linked list | c = cache capacity; at most c cached entries remain after each operation, plus two sentinel nodes. A new put can temporarily hold c + 1 entries before eviction; hash-map resizing is amortized |
 | 206 | O(n) | O(1) auxiliary space | n = number of nodes in the linked list; reverses the list in place |
 | 704 | O(log n) | O(1) auxiliary space | n = number of elements in the sorted input list |
+| 875 | O(n log M), or O(n) when M = 1 | O(1) auxiliary space | n = number of piles; M = largest pile size; each binary-search step sums required hours using a generator without storing per-pile results |
 
 ## Commands
 

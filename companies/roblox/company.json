@@ -23,7 +23,7 @@
       "status": "solved",
       "time": "O((k + 1)mn), worst-case O((mn)^2)",
       "space": "O(1) auxiliary; the input board is modified and returned",
-      "notes": "m = number of board rows; n = number of columns; k = number of crush rounds. Each round removes at least three candies, so k = O(mn); the quadratic expression is an upper bound"
+      "notes": "m = number of board rows; n = number of columns; k = number of crush rounds. The +1 includes the final stable-board scan. Each crush round removes at least three candies, so k = O(mn); the quadratic expression is an upper bound"
     },
     {
       "id": "767",
@@ -50,8 +50,8 @@
       "personalDifficulty": 8,
       "status": "solved",
       "time": "O(Hp2^p)",
-      "space": "O(H2^p + Hp)",
-      "notes": "H = 40 possible hats; p = number of people; space includes memoization and the hat-to-people mapping"
+      "space": "O(H2^p + Hp) auxiliary space",
+      "notes": "H = 40 possible hats; p = number of people (at most 10). Time includes up to p assignment checks per memoized state; space includes O(H2^p) memoization, O(Hp) hat-to-people storage, and an O(H) recursion stack"
     },
     {
       "id": "68",

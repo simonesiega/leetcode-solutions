@@ -238,7 +238,7 @@
       "status": "solved",
       "solvedAt": "2026-08-12T16:55:59.000Z",
       "timeComplexity": "`O(m + n)`, where `m = len(s)` and `n = len(t)`; each pointer crosses `s` at most once after `t` is counted.",
-      "spaceComplexity": "`O(a)` for the two count dictionaries, where `a` is the number of distinct characters across `s` and `t`. The returned substring uses `O(ℓ)` for its length `ℓ`."
+      "spaceComplexity": "`O(a)` auxiliary space for the two count dictionaries, where `a` is the number of distinct characters across `s` and `t`; `a ≤ 52` for English letters of both cases, so constrained auxiliary space is `O(1)`. The returned substring uses `O(ℓ)` for its length `ℓ`."
     },
     {
       "id": 84,
@@ -394,7 +394,7 @@
       "status": "solved",
       "solvedAt": "2026-07-01T14:01:22.000Z",
       "timeComplexity": "`O(m + n)`, where `m = len(s)` and `n = len(t)`; when the lengths match, both strings are counted in one lockstep pass.",
-      "spaceComplexity": "`O(a)`, where `a` is the number of distinct characters across `s` and `t`."
+      "spaceComplexity": "`O(a)` auxiliary space for the two count dictionaries, where `a` is the number of distinct characters across `s` and `t`; `a ≤ 26` for lowercase English letters, so constrained space is `O(1)`."
     },
     {
       "id": 271,
@@ -406,7 +406,7 @@
       "status": "solved",
       "solvedAt": "2026-07-03T16:36:21.000Z",
       "timeComplexity": "Encode: `O(p²)` worst case because repeated `+=` may copy the growing immutable string. Decode: `O(p)`. Here `p` is the encoded string length, including characters, length-prefix digits, and delimiters.",
-      "spaceComplexity": "Encode: `O(p)` peak space for the encoded string. Decode: `O(C + w)` for the returned list and copied strings, where `C` is the decoded character count and `w` is the number of strings."
+      "spaceComplexity": "Encode: `O(p)` peak extra space, including the returned string and concatenation temporaries. Decode: `O(d)` auxiliary space for a copied length prefix of at most `d` digits, plus `O(C + w)` for the returned list and copied strings, where `C` is the decoded character count and `w` is the number of strings."
     },
     {
       "id": 283,
@@ -502,7 +502,7 @@
       "status": "solved",
       "solvedAt": "2026-08-07T09:52:12.000Z",
       "timeComplexity": "`O(n)`, where `n` is the length of `s`; each character enters once and leaves the window at most once.",
-      "spaceComplexity": "`O(a)` for character counts, where `a ≤ 26` for the uppercase-English input constraint, so constrained space is `O(1)`."
+      "spaceComplexity": "`O(a)` auxiliary space for character counts, where `a` is the number of distinct characters in `s`; `a ≤ 26` for uppercase English letters, so constrained space is `O(1)`."
     },
     {
       "id": 560,
@@ -525,7 +525,7 @@
       "personalDifficulty": 4,
       "status": "solved",
       "solvedAt": "2026-08-07T10:08:54.000Z",
-      "timeComplexity": "`O(m + n × a)`, where `m = len(s1)`, `n = len(s2)`, and `a` is the number of dictionary keys compared per window. Since `a ≤ 26` for lowercase English letters, this reduces to `O(m + n)`.",
+      "timeComplexity": "`O(m + n × a)`, where `m = len(s1)`, `n = len(s2)`, and `a` is the maximum number of distinct characters stored in either count dictionary; each window comparison can inspect `O(a)` keys. Since `a ≤ 26` for lowercase English letters, this reduces to `O(m + n)`.",
       "spaceComplexity": "`O(a)` for the `need` and `window` dictionaries; `a ≤ 26`, so constrained space is `O(1)`."
     },
     {

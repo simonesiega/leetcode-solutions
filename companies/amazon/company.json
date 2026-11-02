@@ -56,9 +56,9 @@
       "difficulty": "Medium",
       "personalDifficulty": 4,
       "status": "solved",
-      "time": "O(1) average per get or put; O(1) initialization",
-      "space": "O(c)",
-      "notes": "c = cache capacity; stores at most c entries in a hash map and doubly linked list"
+      "time": "Expected O(1) per get; expected amortized O(1) per put; O(1) initialization",
+      "space": "O(c) for the hash map and doubly linked list",
+      "notes": "c = cache capacity; at most c cached entries remain after each operation, plus two sentinel nodes. A new put can temporarily hold c + 1 entries before eviction; hash-map resizing is amortized"
     },
     {
       "id": "206",
@@ -81,6 +81,17 @@
       "time": "O(log n)",
       "space": "O(1) auxiliary space",
       "notes": "n = number of elements in the sorted input list"
+    },
+    {
+      "id": "875",
+      "title": "Koko Eating Bananas",
+      "url": "https://leetcode.com/problems/koko-eating-bananas/",
+      "difficulty": "Medium",
+      "personalDifficulty": 4,
+      "status": "solved",
+      "time": "O(n log M), or O(n) when M = 1",
+      "space": "O(1) auxiliary space",
+      "notes": "n = number of piles; M = largest pile size; each binary-search step sums required hours using a generator without storing per-pile results"
     }
   ]
 }
