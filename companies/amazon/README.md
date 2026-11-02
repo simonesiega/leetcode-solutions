@@ -8,7 +8,7 @@
 
 ## Progress
 
-- **Solved:** 6 / 6
+- **Solved:** 7 / 7
 - **In progress:** 0
 - **Planned:** 0
 
@@ -17,9 +17,9 @@
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (6 Total)
+    title Solved Problems by Difficulty (7 Total)
     "Easy" : 4
-    "Medium" : 2
+    "Medium" : 3
     "Hard" : 0
 ```
 
@@ -28,6 +28,7 @@ pie showData
 | Rank | Problem | Frequency | Difficulty | Status | Personal | Solution |
 |---:|---|---:|:---:|:---:|:---:|---|
 | Manual | [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/) | Not sourced | Easy | Solved | 2 | [21.py](solutions/21.py) |
+| Manual | [Search a 2D Matrix](https://leetcode.com/problems/search-a-2d-matrix/) | Not sourced | Medium | Solved | 2 | [74.py](solutions/74.py) |
 | Manual | [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/) | Not sourced | Easy | Solved | 2 | [141.py](solutions/141.py) |
 | Manual | [Reorder List](https://leetcode.com/problems/reorder-list/) | Not sourced | Medium | Solved | 4 | [143.py](solutions/143.py) |
 | Manual | [LRU Cache](https://leetcode.com/problems/lru-cache/) | Not sourced | Medium | Solved | 4 | [146.py](solutions/146.py) |
@@ -41,6 +42,7 @@ The [complexity notes](../../docs/DATA_MODEL.md#complexity-conventions) explain 
 | ID | Time | Space | Notes |
 |---|---|---|---|
 | 21 | O(n + m) | O(1) auxiliary space | n and m = number of nodes in the two input lists; reuses existing nodes |
+| 74 | O(log(m \* n)) | O(1) auxiliary space | m = number of rows; n = number of columns; binary search treats the nonempty sorted matrix as a flat sequence without copying it |
 | 141 | O(n) | O(1) auxiliary space | n = number of distinct nodes reachable from head; uses Floyd's slow and fast pointers |
 | 143 | O(n) | O(1) auxiliary space | n = number of nodes in the linked list; splits the list, reverses the second half, and interleaves existing nodes |
 | 146 | O(1) average per get or put; O(1) initialization | O(c) | c = cache capacity; stores at most c entries in a hash map and doubly linked list |

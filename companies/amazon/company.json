@@ -17,6 +17,17 @@
       "notes": "n and m = number of nodes in the two input lists; reuses existing nodes"
     },
     {
+      "id": "74",
+      "title": "Search a 2D Matrix",
+      "url": "https://leetcode.com/problems/search-a-2d-matrix/",
+      "difficulty": "Medium",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "time": "O(log(m * n))",
+      "space": "O(1) auxiliary space",
+      "notes": "m = number of rows; n = number of columns; binary search treats the nonempty sorted matrix as a flat sequence without copying it"
+    },
+    {
       "id": "141",
       "title": "Linked List Cycle",
       "url": "https://leetcode.com/problems/linked-list-cycle/",
