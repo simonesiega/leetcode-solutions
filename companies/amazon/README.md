@@ -8,7 +8,7 @@
 
 ## Progress
 
-- **Solved:** 5 / 5
+- **Solved:** 6 / 6
 - **In progress:** 0
 - **Planned:** 0
 
@@ -17,8 +17,8 @@
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (5 Total)
-    "Easy" : 3
+    title Solved Problems by Difficulty (6 Total)
+    "Easy" : 4
     "Medium" : 2
     "Hard" : 0
 ```
@@ -32,6 +32,7 @@ pie showData
 | Manual | [Reorder List](https://leetcode.com/problems/reorder-list/) | Not sourced | Medium | Solved | 4 | [143.py](solutions/143.py) |
 | Manual | [LRU Cache](https://leetcode.com/problems/lru-cache/) | Not sourced | Medium | Solved | 4 | [146.py](solutions/146.py) |
 | Manual | [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/) | Not sourced | Easy | Solved | 2 | [206.py](solutions/206.py) |
+| Manual | [Binary Search](https://leetcode.com/problems/binary-search/) | Not sourced | Easy | Solved | 2 | [704.py](solutions/704.py) |
 
 ## Attempt details
 
@@ -44,6 +45,7 @@ The [complexity notes](../../docs/DATA_MODEL.md#complexity-conventions) explain 
 | 143 | O(n) | O(1) auxiliary space | n = number of nodes in the linked list; splits the list, reverses the second half, and interleaves existing nodes |
 | 146 | O(1) average per get or put; O(1) initialization | O(c) | c = cache capacity; stores at most c entries in a hash map and doubly linked list |
 | 206 | O(n) | O(1) auxiliary space | n = number of nodes in the linked list; reverses the list in place |
+| 704 | O(log n) | O(1) auxiliary space | n = number of elements in the sorted input list |
 
 ## Commands
 

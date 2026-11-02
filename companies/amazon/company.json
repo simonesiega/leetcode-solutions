@@ -59,6 +59,17 @@
       "time": "O(n)",
       "space": "O(1) auxiliary space",
       "notes": "n = number of nodes in the linked list; reverses the list in place"
+    },
+    {
+      "id": "704",
+      "title": "Binary Search",
+      "url": "https://leetcode.com/problems/binary-search/",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "time": "O(log n)",
+      "space": "O(1) auxiliary space",
+      "notes": "n = number of elements in the sorted input list"
     }
   ]
 }

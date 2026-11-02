@@ -12,11 +12,11 @@ I only add a problem here when I actually decide to practice it, so `company.jso
 
 | Company | Solved | In progress | Planned |
 |---|---:|---:|---:|
-| [Amazon](amazon/README.md) | 5 / 5 | 0 | 0 |
+| [Amazon](amazon/README.md) | 6 / 6 | 0 | 0 |
 | [IBM](ibm/README.md) | 10 / 10 | 0 | 0 |
 | [Roblox](roblox/README.md) | 4 / 4 | 0 | 0 |
 
-**Total:** 19 solved, 0 in progress, and 0 planned across 3 companies.
+**Total:** 20 solved, 0 in progress, and 0 planned across 3 companies.
 
 ## Picking the next problem
 
