@@ -17,7 +17,7 @@
     <img src="https://img.shields.io/badge/NeetCode%20Solved-44-brightgreen" alt="NeetCode solved problems: 44" />
     <!-- solved-count:end -->
     <!-- company-count:start -->
-    <img src="https://img.shields.io/badge/Companies-2-blue" alt="Companies covered: 2" />
+    <img src="https://img.shields.io/badge/Companies-3-blue" alt="Companies covered: 3" />
     <!-- company-count:end -->
     <img src="https://img.shields.io/badge/Roadmap-NeetCode%20All-purple" alt="Roadmap: NeetCode All" />
   </p>
@@ -161,13 +161,14 @@ For company-specific practice, I often use [liquidslr/leetcode-company-wise-prob
 If I solve the same problem again while preparing for an OA or interview, I keep that attempt separate. I like being able to see how I approached the same problem at different times.
 
 <!-- company-progress:start -->
-Company practice currently contains **2 companies**
+Company practice currently contains **3 companies**
 
 <div align="center">
 
 ```mermaid
 pie showData
-    title Solved Problems by Company (14 Total)
+    title Solved Problems by Company (15 Total)
+    "Amazon" : 1
     "IBM" : 10
     "Roblox" : 4
 ```
@@ -180,6 +181,7 @@ pie showData
 <!-- company-list:start -->
 | Company | Folder |
 |---|---|
+| Amazon | [`companies/amazon/`](companies/amazon/) |
 | IBM | [`companies/ibm/`](companies/ibm/) |
 | Roblox | [`companies/roblox/`](companies/roblox/) |
 <!-- company-list:end -->

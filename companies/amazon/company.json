@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 3,
+  "name": "Amazon",
+  "focus": "",
+  "website": "",
+  "source": null,
+  "problems": [
+    {
+      "id": "206",
+      "title": "Reverse Linked List",
+      "url": "https://leetcode.com/problems/reverse-linked-list/",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "time": "O(n)",
+      "space": "O(1) auxiliary space",
+      "notes": "n = number of nodes in the linked list; reverses the list in place"
+    }
+  ]
+}
