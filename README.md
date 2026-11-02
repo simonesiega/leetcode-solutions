@@ -167,8 +167,8 @@ Company practice currently contains **3 companies**
 
 ```mermaid
 pie showData
-    title Solved Problems by Company (18 Total)
-    "Amazon" : 4
+    title Solved Problems by Company (19 Total)
+    "Amazon" : 5
     "IBM" : 10
     "Roblox" : 4
 ```

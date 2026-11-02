@@ -39,6 +39,17 @@
       "notes": "n = number of nodes in the linked list; splits the list, reverses the second half, and interleaves existing nodes"
     },
     {
+      "id": "146",
+      "title": "LRU Cache",
+      "url": "https://leetcode.com/problems/lru-cache/",
+      "difficulty": "Medium",
+      "personalDifficulty": 4,
+      "status": "solved",
+      "time": "O(1) average per get or put; O(1) initialization",
+      "space": "O(c)",
+      "notes": "c = cache capacity; stores at most c entries in a hash map and doubly linked list"
+    },
+    {
       "id": "206",
       "title": "Reverse Linked List",
       "url": "https://leetcode.com/problems/reverse-linked-list/",
