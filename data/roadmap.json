@@ -133,6 +133,30 @@
       "spaceComplexity": "`O(1)`; only two pointers and scalar values are stored."
     },
     {
+      "id": 12,
+      "title": "Integer to Roman",
+      "url": "https://leetcode.com/problems/integer-to-roman/",
+      "topic": "math-and-geometry",
+      "difficulty": "Medium",
+      "personalDifficulty": 3,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:29.289Z",
+      "timeComplexity": "`O(1)` because the input is bounded by 3999 and the Roman numeral symbol table and maximum output length are fixed.",
+      "spaceComplexity": "`O(1)` auxiliary space; the returned numeral also has bounded length."
+    },
+    {
+      "id": 13,
+      "title": "Roman to Integer",
+      "url": "https://leetcode.com/problems/roman-to-integer/",
+      "topic": "math-and-geometry",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:29.540Z",
+      "timeComplexity": "`O(n)`, where `n = len(s)`; each Roman numeral character is inspected once.",
+      "spaceComplexity": "`O(1)` auxiliary space for the fixed symbol table and running total."
+    },
+    {
       "id": 14,
       "title": "Longest Common Prefix",
       "url": "https://leetcode.com/problems/longest-common-prefix/",
@@ -167,6 +191,18 @@
       "solvedAt": "2026-08-05T20:40:55.000Z",
       "timeComplexity": "`O(n)`, where `n` is the number of brackets in `s`; each bracket is processed once.",
       "spaceComplexity": "`O(n)` in the worst case when every bracket is an opening bracket."
+    },
+    {
+      "id": 21,
+      "title": "Merge Two Sorted Lists",
+      "url": "https://leetcode.com/problems/merge-two-sorted-lists/",
+      "topic": "linked-list",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:29.801Z",
+      "timeComplexity": "`O(n + m)`, where `n` and `m` are the numbers of nodes in the two input lists.",
+      "spaceComplexity": "`O(1)` auxiliary space; the merged list reuses existing nodes."
     },
     {
       "id": 26,
@@ -217,6 +253,18 @@
       "spaceComplexity": "`O(w)` for signatures, dictionary entries, and grouped string references; the input strings themselves are not copied."
     },
     {
+      "id": 56,
+      "title": "Merge Intervals",
+      "url": "https://leetcode.com/problems/merge-intervals/",
+      "topic": "intervals",
+      "difficulty": "Medium",
+      "personalDifficulty": 3,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:30.067Z",
+      "timeComplexity": "`O(n log n)`, where `n` is the number of intervals; sorting dominates the linear merge pass.",
+      "spaceComplexity": "`O(n)` worst-case auxiliary space for Python's in-place sort and the `intervals[1:]` slice; `O(n)` for the returned list of interval references."
+    },
+    {
       "id": 58,
       "title": "Length of Last Word",
       "url": "https://leetcode.com/problems/length-of-last-word/",
@@ -227,6 +275,30 @@
       "solvedAt": "2026-10-25T11:45:18.113Z",
       "timeComplexity": "`O(n)`, where `n = len(s)`; splitting the string takes linear time.",
       "spaceComplexity": "`O(n)` auxiliary space for the split substrings and word list."
+    },
+    {
+      "id": 68,
+      "title": "Text Justification",
+      "url": "https://leetcode.com/problems/text-justification/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Hard",
+      "personalDifficulty": 5,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:30.351Z",
+      "timeComplexity": "`O(nw)` worst case, where `n` is the number of characters in the returned output and `w = maxWidth`; repeated string concatenation in list slots can copy `O(w)` characters per added space.",
+      "spaceComplexity": "`O(w)` auxiliary space for the current line, excluding the `O(n)` returned output."
+    },
+    {
+      "id": 74,
+      "title": "Search a 2D Matrix",
+      "url": "https://leetcode.com/problems/search-a-2d-matrix/",
+      "topic": "binary-search",
+      "difficulty": "Medium",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:30.618Z",
+      "timeComplexity": "`O(log(m * n))`, where `m` is the number of rows and `n` is the number of columns; binary search treats the nonempty sorted matrix as a flat sequence.",
+      "spaceComplexity": "`O(1)` auxiliary space; the matrix is not copied."
     },
     {
       "id": 76,
@@ -289,6 +361,42 @@
       "spaceComplexity": "`O(n)` for the set of input values."
     },
     {
+      "id": 141,
+      "title": "Linked List Cycle",
+      "url": "https://leetcode.com/problems/linked-list-cycle/",
+      "topic": "linked-list",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:30.896Z",
+      "timeComplexity": "`O(n)`, where `n` is the number of distinct nodes reachable from `head`; uses Floyd's slow and fast pointers.",
+      "spaceComplexity": "`O(1)` auxiliary space for the two pointers."
+    },
+    {
+      "id": 143,
+      "title": "Reorder List",
+      "url": "https://leetcode.com/problems/reorder-list/",
+      "topic": "linked-list",
+      "difficulty": "Medium",
+      "personalDifficulty": 4,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:31.209Z",
+      "timeComplexity": "`O(n)`, where `n` is the number of nodes; finding the midpoint, reversing the second half, and interleaving the halves each take linear time.",
+      "spaceComplexity": "`O(1)` auxiliary space; existing nodes are reordered in place."
+    },
+    {
+      "id": 146,
+      "title": "LRU Cache",
+      "url": "https://leetcode.com/problems/lru-cache/",
+      "topic": "linked-list",
+      "difficulty": "Medium",
+      "personalDifficulty": 4,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:31.692Z",
+      "timeComplexity": "Expected `O(1)` per `get`, expected amortized `O(1)` per `put`, and `O(1)` initialization; hash-map resizing is amortized.",
+      "spaceComplexity": "`O(c)` for the hash map and doubly linked list, where `c` is the cache capacity; a new `put` can temporarily hold `c + 1` entries before eviction, plus two sentinel nodes."
+    },
+    {
       "id": 150,
       "title": "Evaluate Reverse Polish Notation",
       "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/",
@@ -299,6 +407,18 @@
       "solvedAt": "2026-08-06T16:07:41.000Z",
       "timeComplexity": "`O(n)`, where `n` is the number of tokens; every token is processed once.",
       "spaceComplexity": "`O(n)` for the operand stack in the worst case."
+    },
+    {
+      "id": 153,
+      "title": "Find Minimum in Rotated Sorted Array",
+      "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
+      "topic": "binary-search",
+      "difficulty": "Medium",
+      "personalDifficulty": 3,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:32.061Z",
+      "timeComplexity": "`O(log n)`, where `n = len(nums)`; binary search halves the nonempty rotated sorted array with distinct values.",
+      "spaceComplexity": "`O(1)` auxiliary space for the search indices."
     },
     {
       "id": 155,
@@ -347,6 +467,18 @@
       "solvedAt": "2026-10-25T16:08:03.961Z",
       "timeComplexity": "Expected `O(n)`, where `n = len(s) = len(t)` under the equal-length input constraint; sets of characters and zipped character pairs are constructed.",
       "spaceComplexity": "`O(min(n, a²))` auxiliary space in the worst case, where `a` is the number of distinct characters across both strings; non-isomorphic inputs can create quadratically many distinct pairs in `a`. Under the fixed ASCII alphabet constraint, this is `O(1)`."
+    },
+    {
+      "id": 206,
+      "title": "Reverse Linked List",
+      "url": "https://leetcode.com/problems/reverse-linked-list/",
+      "topic": "linked-list",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:32.456Z",
+      "timeComplexity": "`O(n)`, where `n` is the number of nodes; each link is reversed once.",
+      "spaceComplexity": "`O(1)` auxiliary space; the list is reversed in place."
     },
     {
       "id": 217,
@@ -529,6 +661,30 @@
       "spaceComplexity": "`O(a)` for the `need` and `window` dictionaries; `a ≤ 26`, so constrained space is `O(1)`."
     },
     {
+      "id": 704,
+      "title": "Binary Search",
+      "url": "https://leetcode.com/problems/binary-search/",
+      "topic": "binary-search",
+      "difficulty": "Easy",
+      "personalDifficulty": 2,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:32.996Z",
+      "timeComplexity": "`O(log n)`, where `n = len(nums)`; binary search halves the sorted input range each iteration.",
+      "spaceComplexity": "`O(1)` auxiliary space for the search indices."
+    },
+    {
+      "id": 723,
+      "title": "Candy Crush",
+      "url": "https://leetcode.com/problems/candy-crush/",
+      "topic": "arrays-and-hashing",
+      "difficulty": "Medium",
+      "personalDifficulty": 6,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:33.272Z",
+      "timeComplexity": "`O((k + 1)mn)`, where `m` is the number of board rows, `n` is the number of columns, and `k` is the number of crush rounds; the extra scan checks the stable board. Each crush removes at least three candies, so `k = O(mn)`, giving an `O((mn)^2)` upper bound.",
+      "spaceComplexity": "`O(1)` auxiliary space; the input board is modified and returned."
+    },
+    {
       "id": 724,
       "title": "Find Pivot Index",
       "url": "https://leetcode.com/problems/find-pivot-index/",
@@ -553,6 +709,18 @@
       "spaceComplexity": "`O(n)` auxiliary space for the monotonic stack; the returned array also uses `O(n)`."
     },
     {
+      "id": 767,
+      "title": "Reorganize String",
+      "url": "https://leetcode.com/problems/reorganize-string/",
+      "topic": "heap-priority-queue",
+      "difficulty": "Medium",
+      "personalDifficulty": 4,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:33.547Z",
+      "timeComplexity": "`O(n + k log k)`, where `n = len(s)` and `k` is the number of distinct characters; `k <= 26` here, so constrained time is `O(n)`.",
+      "spaceComplexity": "`O(n + k)` auxiliary space for counts, sorted keys, and the character list; `O(n)` for the returned string."
+    },
+    {
       "id": 853,
       "title": "Car Fleet",
       "url": "https://leetcode.com/problems/car-fleet/",
@@ -563,6 +731,18 @@
       "solvedAt": "2026-08-06T17:40:38.000Z",
       "timeComplexity": "`O(n log n)`, where `n` is the number of cars, due to sorting; the subsequent stack pass is `O(n)`.",
       "spaceComplexity": "`O(n)` for the sorted `(position, speed)` pairs and fleet-time stack."
+    },
+    {
+      "id": 875,
+      "title": "Koko Eating Bananas",
+      "url": "https://leetcode.com/problems/koko-eating-bananas/",
+      "topic": "binary-search",
+      "difficulty": "Medium",
+      "personalDifficulty": 4,
+      "status": "solved",
+      "solvedAt": "2026-11-03T20:00:33.820Z",
+      "timeComplexity": "`O(n log M)`, or `O(n)` when `M = 1`, where `n` is the number of piles and `M` is the largest pile size; each binary-search step sums the required hours.",
+      "spaceComplexity": "`O(1)` auxiliary space; a generator sums hours without storing per-pile results."
     },
     {
       "id": 977,

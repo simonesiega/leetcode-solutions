@@ -23,6 +23,7 @@ The [complexity notes](docs/DATA_MODEL.md#complexity-conventions) explain how I 
 | 36 | [Valid Sudoku](https://leetcode.com/problems/valid-sudoku/) | 2026-07-15 | [36.py](neetcode-all/arrays-and-hashing/36.py) | `O(9 × 9) = O(1)` because the implementation inspects at most the board's fixed 81 cells. | `O(27 × 9) = O(1)` because the 27 row, column, and box sets each hold at most 9 digits. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 4 |
 | 49 | [Group Anagrams](https://leetcode.com/problems/group-anagrams/) | 2026-07-02 | [49.py](neetcode-all/arrays-and-hashing/49.py) | `O(C + 26w) = O(C + w)`, where `w` is the number of words and `C` is their total character count; each word also creates a fixed 26-count signature. | `O(w)` for signatures, dictionary entries, and grouped string references; the input strings themselves are not copied. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 3 |
 | 58 | [Length of Last Word](https://leetcode.com/problems/length-of-last-word/) | 2026-10-25 | [58.py](neetcode-all/arrays-and-hashing/58.py) | `O(n)`, where `n = len(s)`; splitting the string takes linear time. | `O(n)` auxiliary space for the split substrings and word list. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 1 |
+| 68 | [Text Justification](https://leetcode.com/problems/text-justification/) | 2026-11-03 | [68.py](neetcode-all/arrays-and-hashing/68.py) | `O(nw)` worst case, where `n` is the number of characters in the returned output and `w = maxWidth`; repeated string concatenation in list slots can copy `O(w)` characters per added space. | `O(w)` auxiliary space for the current line, excluding the `O(n)` returned output. | ![Hard](https://img.shields.io/badge/Hard-d1242f?style=flat-square) | 5 |
 | 128 | [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/) | 2026-07-15 | [128.py](neetcode-all/arrays-and-hashing/128.py) | Expected `O(n)`, where `n` is the number of values; each unique value participates in at most one sequence scan. | `O(n)` for the set of input values. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 3 |
 | 169 | [Majority Element](https://leetcode.com/problems/majority-element/) | 2026-10-29 | [169.py](neetcode-all/arrays-and-hashing/169.py) | Expected `O(n)`, where `n = len(nums)`; each value is counted once using dictionary lookups while tracking the most frequent value. | `O(k)` auxiliary space for the frequency dictionary, where `k` is the number of distinct values in `nums`; `k <= n`, where `n = len(nums)`. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 2 |
 | 205 | [Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/) | 2026-10-25 | [205.py](neetcode-all/arrays-and-hashing/205.py) | Expected `O(n)`, where `n = len(s) = len(t)` under the equal-length input constraint; sets of characters and zipped character pairs are constructed. | `O(min(n, a²))` auxiliary space in the worst case, where `a` is the number of distinct characters across both strings; non-isomorphic inputs can create quadratically many distinct pairs in `a`. Under the fixed ASCII alphabet constraint, this is `O(1)`. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 2 |
@@ -36,6 +37,7 @@ The [complexity notes](docs/DATA_MODEL.md#complexity-conventions) explain how I 
 | 387 | [First Unique Character in a String](https://leetcode.com/problems/first-unique-character-in-a-string/) | 2026-10-25 | [387.py](neetcode-all/arrays-and-hashing/387.py) | `O(n)`, where `n = len(s)`; one pass counts characters and a second pass finds the first unique character. | `O(1)` auxiliary space for a fixed array of 26 lowercase-English character counts. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 2 |
 | 392 | [Is Subsequence](https://leetcode.com/problems/is-subsequence/) | 2026-09-16 | [392.py](neetcode-all/arrays-and-hashing/392.py) | `O(n)`, where `n = len(t)`; the implementation scans `t` once. | `O(1)`; only the current index in `s` is stored. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 2 |
 | 560 | [Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/) | 2026-10-30 | [560.py](neetcode-all/arrays-and-hashing/560.py) | Expected `O(n)`, where `n = len(nums)`; each value updates the prefix sum and performs a constant number of dictionary operations. | `O(n)` auxiliary space for frequencies of at most `n + 1` distinct prefix sums, where `n = len(nums)`. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 4 |
+| 723 | [Candy Crush](https://leetcode.com/problems/candy-crush/) | 2026-11-03 | [723.py](neetcode-all/arrays-and-hashing/723.py) | `O((k + 1)mn)`, where `m` is the number of board rows, `n` is the number of columns, and `k` is the number of crush rounds; the extra scan checks the stable board. Each crush removes at least three candies, so `k = O(mn)`, giving an `O((mn)^2)` upper bound. | `O(1)` auxiliary space; the input board is modified and returned. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 6 |
 | 724 | [Find Pivot Index](https://leetcode.com/problems/find-pivot-index/) | 2026-10-27 | [724.py](neetcode-all/arrays-and-hashing/724.py) | `O(n)`, where `n = len(nums)`; computing the total and scanning for the leftmost pivot each take linear time. | `O(1)` auxiliary space; only the index and running sums are stored. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 2 |
 | 1299 | [Replace Elements with Greatest Element on Right Side](https://leetcode.com/problems/replace-elements-with-greatest-element-on-right-side/) | 2026-09-16 | [1299.py](neetcode-all/arrays-and-hashing/1299.py) | `O(n)`, where `n` is the number of values in `arr`; the array is scanned once from right to left. | `O(1)` auxiliary space because the input array is updated in place and returned. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 2 |
 | 1929 | [Concatenation of Array](https://leetcode.com/problems/concatenation-of-array/) | 2026-09-16 | [1929.py](neetcode-all/arrays-and-hashing/1929.py) | `O(n)`, where `n` is the number of values in `nums`; each value is copied twice. | `O(1)` auxiliary space beyond the required `O(n)` returned array. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 1 |
@@ -88,13 +90,24 @@ The [complexity notes](docs/DATA_MODEL.md#complexity-conventions) explain how I 
 
 ## Binary Search
 
-_No solved problems in this topic yet._
+| Problem | Title | Solved | File | Time Complexity | Space Complexity | Difficulty | Personal Difficulty |
+|---:|---|:---:|---|---|---|:---:|:---:|
+| 74 | [Search a 2D Matrix](https://leetcode.com/problems/search-a-2d-matrix/) | 2026-11-03 | [74.py](neetcode-all/binary-search/74.py) | `O(log(m * n))`, where `m` is the number of rows and `n` is the number of columns; binary search treats the nonempty sorted matrix as a flat sequence. | `O(1)` auxiliary space; the matrix is not copied. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 2 |
+| 153 | [Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/) | 2026-11-03 | [153.py](neetcode-all/binary-search/153.py) | `O(log n)`, where `n = len(nums)`; binary search halves the nonempty rotated sorted array with distinct values. | `O(1)` auxiliary space for the search indices. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 3 |
+| 704 | [Binary Search](https://leetcode.com/problems/binary-search/) | 2026-11-03 | [704.py](neetcode-all/binary-search/704.py) | `O(log n)`, where `n = len(nums)`; binary search halves the sorted input range each iteration. | `O(1)` auxiliary space for the search indices. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 2 |
+| 875 | [Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/) | 2026-11-03 | [875.py](neetcode-all/binary-search/875.py) | `O(n log M)`, or `O(n)` when `M = 1`, where `n` is the number of piles and `M` is the largest pile size; each binary-search step sums the required hours. | `O(1)` auxiliary space; a generator sums hours without storing per-pile results. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 4 |
 
 <a id="linked-list"></a>
 
 ## Linked List
 
-_No solved problems in this topic yet._
+| Problem | Title | Solved | File | Time Complexity | Space Complexity | Difficulty | Personal Difficulty |
+|---:|---|:---:|---|---|---|:---:|:---:|
+| 21 | [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/) | 2026-11-03 | [21.py](neetcode-all/linked-list/21.py) | `O(n + m)`, where `n` and `m` are the numbers of nodes in the two input lists. | `O(1)` auxiliary space; the merged list reuses existing nodes. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 2 |
+| 141 | [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/) | 2026-11-03 | [141.py](neetcode-all/linked-list/141.py) | `O(n)`, where `n` is the number of distinct nodes reachable from `head`; uses Floyd's slow and fast pointers. | `O(1)` auxiliary space for the two pointers. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 2 |
+| 143 | [Reorder List](https://leetcode.com/problems/reorder-list/) | 2026-11-03 | [143.py](neetcode-all/linked-list/143.py) | `O(n)`, where `n` is the number of nodes; finding the midpoint, reversing the second half, and interleaving the halves each take linear time. | `O(1)` auxiliary space; existing nodes are reordered in place. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 4 |
+| 146 | [LRU Cache](https://leetcode.com/problems/lru-cache/) | 2026-11-03 | [146.py](neetcode-all/linked-list/146.py) | Expected `O(1)` per `get`, expected amortized `O(1)` per `put`, and `O(1)` initialization; hash-map resizing is amortized. | `O(c)` for the hash map and doubly linked list, where `c` is the cache capacity; a new `put` can temporarily hold `c + 1` entries before eviction, plus two sentinel nodes. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 4 |
+| 206 | [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/) | 2026-11-03 | [206.py](neetcode-all/linked-list/206.py) | `O(n)`, where `n` is the number of nodes; each link is reversed once. | `O(1)` auxiliary space; the list is reversed in place. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 2 |
 
 <a id="trees"></a>
 
@@ -106,7 +119,9 @@ _No solved problems in this topic yet._
 
 ## Heap / Priority Queue
 
-_No solved problems in this topic yet._
+| Problem | Title | Solved | File | Time Complexity | Space Complexity | Difficulty | Personal Difficulty |
+|---:|---|:---:|---|---|---|:---:|:---:|
+| 767 | [Reorganize String](https://leetcode.com/problems/reorganize-string/) | 2026-11-03 | [767.py](neetcode-all/heap-priority-queue/767.py) | `O(n + k log k)`, where `n = len(s)` and `k` is the number of distinct characters; `k <= 26` here, so constrained time is `O(n)`. | `O(n + k)` auxiliary space for counts, sorted keys, and the character list; `O(n)` for the returned string. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 4 |
 
 <a id="backtracking"></a>
 
@@ -154,13 +169,18 @@ _No solved problems in this topic yet._
 
 ## Intervals
 
-_No solved problems in this topic yet._
+| Problem | Title | Solved | File | Time Complexity | Space Complexity | Difficulty | Personal Difficulty |
+|---:|---|:---:|---|---|---|:---:|:---:|
+| 56 | [Merge Intervals](https://leetcode.com/problems/merge-intervals/) | 2026-11-03 | [56.py](neetcode-all/intervals/56.py) | `O(n log n)`, where `n` is the number of intervals; sorting dominates the linear merge pass. | `O(n)` worst-case auxiliary space for Python's in-place sort and the `intervals[1:]` slice; `O(n)` for the returned list of interval references. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 3 |
 
 <a id="math-and-geometry"></a>
 
 ## Math &amp; Geometry
 
-_No solved problems in this topic yet._
+| Problem | Title | Solved | File | Time Complexity | Space Complexity | Difficulty | Personal Difficulty |
+|---:|---|:---:|---|---|---|:---:|:---:|
+| 12 | [Integer to Roman](https://leetcode.com/problems/integer-to-roman/) | 2026-11-03 | [12.py](neetcode-all/math-and-geometry/12.py) | `O(1)` because the input is bounded by 3999 and the Roman numeral symbol table and maximum output length are fixed. | `O(1)` auxiliary space; the returned numeral also has bounded length. | ![Medium](https://img.shields.io/badge/Medium-d29922?style=flat-square) | 3 |
+| 13 | [Roman to Integer](https://leetcode.com/problems/roman-to-integer/) | 2026-11-03 | [13.py](neetcode-all/math-and-geometry/13.py) | `O(n)`, where `n = len(s)`; each Roman numeral character is inspected once. | `O(1)` auxiliary space for the fixed symbol table and running total. | ![Easy](https://img.shields.io/badge/Easy-1f883d?style=flat-square) | 2 |
 
 <a id="bit-manipulation"></a>
 

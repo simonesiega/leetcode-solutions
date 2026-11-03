@@ -14,7 +14,7 @@
   <p>
     <img src="https://img.shields.io/badge/Python-3.10%2B-blue" alt="Python 3.10 or newer" />
     <!-- solved-count:start -->
-    <img src="https://img.shields.io/badge/NeetCode%20Solved-44-brightgreen" alt="NeetCode solved problems: 44" />
+    <img src="https://img.shields.io/badge/NeetCode%20Solved-59-brightgreen" alt="NeetCode solved problems: 59" />
     <!-- solved-count:end -->
     <!-- company-count:start -->
     <img src="https://img.shields.io/badge/Companies-3-blue" alt="Companies covered: 3" />
@@ -73,13 +73,18 @@ The full solved catalog, including complexity and solve dates, is in [SOLUTIONS.
 <div align="center">
 
 ```mermaid
-%%{init: {"themeVariables":{"pie1":"#277ace","pie2":"#ce2748","pie3":"#27ce35","pie4":"#6727ce"},"themeCSS":".pieCircle:nth-of-type(1){fill:#277ace!important}.legend:nth-of-type(2) rect{fill:#277ace!important;stroke:#277ace!important}.pieCircle:nth-of-type(2){fill:#ce2748!important}.legend:nth-of-type(3) rect{fill:#ce2748!important;stroke:#ce2748!important}.pieCircle:nth-of-type(3){fill:#27ce35!important}.legend:nth-of-type(4) rect{fill:#27ce35!important;stroke:#27ce35!important}.pieCircle:nth-of-type(4){fill:#6727ce!important}.legend:nth-of-type(5) rect{fill:#6727ce!important;stroke:#6727ce!important}"}}%%
+%%{init: {"themeVariables":{"pie1":"#277ace","pie2":"#ce2748","pie3":"#27ce35","pie4":"#6727ce","pie5":"#ce9627","pie6":"#27cec8","pie7":"#72ce27","pie8":"#3bce27","pie9":"#4327ce"},"themeCSS":".pieCircle:nth-of-type(1){fill:#277ace!important}.legend:nth-of-type(2) rect{fill:#277ace!important;stroke:#277ace!important}.pieCircle:nth-of-type(2){fill:#ce2748!important}.legend:nth-of-type(3) rect{fill:#ce2748!important;stroke:#ce2748!important}.pieCircle:nth-of-type(3){fill:#27ce35!important}.legend:nth-of-type(4) rect{fill:#27ce35!important;stroke:#27ce35!important}.pieCircle:nth-of-type(4){fill:#6727ce!important}.legend:nth-of-type(5) rect{fill:#6727ce!important;stroke:#6727ce!important}.pieCircle:nth-of-type(5){fill:#ce9627!important}.legend:nth-of-type(6) rect{fill:#ce9627!important;stroke:#ce9627!important}.pieCircle:nth-of-type(6){fill:#27cec8!important}.legend:nth-of-type(7) rect{fill:#27cec8!important;stroke:#27cec8!important}.pieCircle:nth-of-type(7){fill:#72ce27!important}.legend:nth-of-type(8) rect{fill:#72ce27!important;stroke:#72ce27!important}.pieCircle:nth-of-type(8){fill:#3bce27!important}.legend:nth-of-type(9) rect{fill:#3bce27!important;stroke:#3bce27!important}.pieCircle:nth-of-type(9){fill:#4327ce!important}.legend:nth-of-type(10) rect{fill:#4327ce!important;stroke:#4327ce!important}"}}%%
 pie showData
-    title Solved Problems by Topic (44 Total)
-    "Arrays & Hashing" : 23
+    title Solved Problems by Topic (59 Total)
+    "Arrays & Hashing" : 25
     "Two Pointers" : 9
     "Sliding Window" : 6
     "Stack" : 6
+    "Binary Search" : 4
+    "Linked List" : 5
+    "Heap / Priority Queue" : 1
+    "Intervals" : 1
+    "Math & Geometry" : 2
 ```
 
 </div>
@@ -91,10 +96,10 @@ pie showData
 ```mermaid
 %%{init: {"themeVariables": {"pie1": "#1f883d", "pie2": "#d29922", "pie3": "#d1242f"}}}%%
 pie showData
-    title Solved Problems by Difficulty (44 Total)
-    "Easy" : 22
-    "Medium" : 18
-    "Hard" : 4
+    title Solved Problems by Difficulty (59 Total)
+    "Easy" : 27
+    "Medium" : 27
+    "Hard" : 5
 ```
 
 </div>
@@ -106,13 +111,13 @@ pie showData
 ```mermaid
 %%{init: {"themeVariables":{"pie1":"#1f883d","pie2":"#3d9140","pie3":"#5c993f","pie4":"#7f9e3a","pie5":"#a39e32","pie6":"#c49225","pie7":"#d37a23"},"themeCSS":".pieCircle:nth-of-type(1){fill:#1f883d!important}.legend:nth-of-type(2) rect{fill:#1f883d!important;stroke:#1f883d!important}.pieCircle:nth-of-type(2){fill:#3d9140!important}.legend:nth-of-type(3) rect{fill:#3d9140!important;stroke:#3d9140!important}.pieCircle:nth-of-type(3){fill:#5c993f!important}.legend:nth-of-type(4) rect{fill:#5c993f!important;stroke:#5c993f!important}.pieCircle:nth-of-type(4){fill:#7f9e3a!important}.legend:nth-of-type(5) rect{fill:#7f9e3a!important;stroke:#7f9e3a!important}.pieCircle:nth-of-type(5){fill:#a39e32!important}.legend:nth-of-type(6) rect{fill:#a39e32!important;stroke:#a39e32!important}.pieCircle:nth-of-type(6){fill:#c49225!important}.legend:nth-of-type(7) rect{fill:#c49225!important;stroke:#c49225!important}.pieCircle:nth-of-type(7){fill:#d37a23!important}.legend:nth-of-type(8) rect{fill:#d37a23!important;stroke:#d37a23!important}"}}%%
 pie showData
-    title Solved Problems by Personal Difficulty (44 Rated)
+    title Solved Problems by Personal Difficulty (59 Rated)
     "1/10" : 9
-    "2/10" : 15
-    "3/10" : 6
-    "4/10" : 7
-    "5/10" : 4
-    "6/10" : 2
+    "2/10" : 21
+    "3/10" : 9
+    "4/10" : 11
+    "5/10" : 5
+    "6/10" : 3
     "7/10" : 1
 ```
 
@@ -129,14 +134,14 @@ If you want to see the full topic breakdown, including solved counts and links t
 <!-- topic-table:start -->
 | Topic | Solved | Total | Solutions |
 |---|---:|---:|:---:|
-| Arrays &amp; Hashing | 23 | 175 | [View](SOLUTIONS.md#arrays-and-hashing) |
+| Arrays &amp; Hashing | 25 | 175 | [View](SOLUTIONS.md#arrays-and-hashing) |
 | Two Pointers | 9 | 43 | [View](SOLUTIONS.md#two-pointers) |
 | Sliding Window | 6 | 41 | [View](SOLUTIONS.md#sliding-window) |
 | Stack | 6 | 39 | [View](SOLUTIONS.md#stack) |
-| Binary Search | 0 | 43 | [View](SOLUTIONS.md#binary-search) |
-| Linked List | 0 | 40 | [View](SOLUTIONS.md#linked-list) |
+| Binary Search | 4 | 43 | [View](SOLUTIONS.md#binary-search) |
+| Linked List | 5 | 40 | [View](SOLUTIONS.md#linked-list) |
 | Trees | 0 | 93 | [View](SOLUTIONS.md#trees) |
-| Heap / Priority Queue | 0 | 33 | [View](SOLUTIONS.md#heap-priority-queue) |
+| Heap / Priority Queue | 1 | 33 | [View](SOLUTIONS.md#heap-priority-queue) |
 | Backtracking | 0 | 36 | [View](SOLUTIONS.md#backtracking) |
 | Tries | 0 | 12 | [View](SOLUTIONS.md#tries) |
 | Graphs | 0 | 71 | [View](SOLUTIONS.md#graphs) |
@@ -144,10 +149,10 @@ If you want to see the full topic breakdown, including solved counts and links t
 | 1-D Dynamic Programming | 0 | 55 | [View](SOLUTIONS.md#1d-dynamic-programming) |
 | 2-D Dynamic Programming | 0 | 50 | [View](SOLUTIONS.md#2d-dynamic-programming) |
 | Greedy | 0 | 67 | [View](SOLUTIONS.md#greedy) |
-| Intervals | 0 | 21 | [View](SOLUTIONS.md#intervals) |
-| Math &amp; Geometry | 0 | 63 | [View](SOLUTIONS.md#math-and-geometry) |
+| Intervals | 1 | 21 | [View](SOLUTIONS.md#intervals) |
+| Math &amp; Geometry | 2 | 63 | [View](SOLUTIONS.md#math-and-geometry) |
 | Bit Manipulation | 0 | 31 | [View](SOLUTIONS.md#bit-manipulation) |
-| **All topics** | <!-- progress-total:start -->**44**<!-- progress-total:end --> | **943** | [Browse all](SOLUTIONS.md) |
+| **All topics** | <!-- progress-total:start -->**59**<!-- progress-total:end --> | **943** | [Browse all](SOLUTIONS.md) |
 <!-- topic-table:end -->
 
 </details>
